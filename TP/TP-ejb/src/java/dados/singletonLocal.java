@@ -18,7 +18,7 @@ public class singletonLocal implements singletonLocalLocal {
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @EJB
-    AviaoFacadeLocal avion;
+    AviaoFacadeLocal avion; 
     
     @Override
     public String showOla(){
