@@ -5,6 +5,7 @@
  */
 package dados;
 
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
 /**
@@ -16,6 +17,8 @@ public class singletonLocal implements singletonLocalLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    @EJB
+    AviaoFacadeLocal avion;
     
     @Override
     public String showOla(){
