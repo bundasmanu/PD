@@ -12,7 +12,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -38,7 +37,7 @@ public class AgenciaViagens implements Serializable {
     @Basic(optional = false)
     @Column(name = "nome_agencia")
     private String nomeAgencia;
-    @ManyToMany(mappedBy = "agenciaViagensCollection")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAgencia")
     private Collection<Companhia> companhiaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAgencia")
     private Collection<Operador> operadorCollection;

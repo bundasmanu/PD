@@ -13,8 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -40,13 +39,11 @@ public class Companhia implements Serializable {
     @Basic(optional = false)
     @Column(name = "nome_companhia")
     private String nomeCompanhia;
-    @JoinTable(name = "trabalha", joinColumns = {
-        @JoinColumn(name = "id_companhia", referencedColumnName = "id_companhia")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_agencia", referencedColumnName = "id_agencia")})
-    @ManyToMany
-    private Collection<AgenciaViagens> agenciaViagensCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCompanhia")
     private Collection<Aviao> aviaoCollection;
+    @JoinColumn(name = "id_agencia", referencedColumnName = "id_agencia")
+    @ManyToOne(optional = false)
+    private AgenciaViagens idAgencia;
 
     public Companhia() {
     }
@@ -76,20 +73,20 @@ public class Companhia implements Serializable {
         this.nomeCompanhia = nomeCompanhia;
     }
 
-    public Collection<AgenciaViagens> getAgenciaViagensCollection() {
-        return agenciaViagensCollection;
-    }
-
-    public void setAgenciaViagensCollection(Collection<AgenciaViagens> agenciaViagensCollection) {
-        this.agenciaViagensCollection = agenciaViagensCollection;
-    }
-
     public Collection<Aviao> getAviaoCollection() {
         return aviaoCollection;
     }
 
     public void setAviaoCollection(Collection<Aviao> aviaoCollection) {
         this.aviaoCollection = aviaoCollection;
+    }
+
+    public AgenciaViagens getIdAgencia() {
+        return idAgencia;
+    }
+
+    public void setIdAgencia(AgenciaViagens idAgencia) {
+        this.idAgencia = idAgencia;
     }
 
     @Override
