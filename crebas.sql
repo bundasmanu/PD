@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     18/12/2018 20:11:43                          */
+/* Created on:     20/12/2018 17:11:33                          */
 /*==============================================================*/
 
 
@@ -34,6 +34,8 @@ drop index CLIENTE_PK;
 
 drop table CLIENTE;
 
+drop index TRABALHA_FK;
+
 drop index COMPANHIA_PK;
 
 drop table COMPANHIA;
@@ -51,14 +53,6 @@ drop table OPERADOR;
 drop index PARTIDAS_PK;
 
 drop table PARTIDAS;
-
-drop index TRABALHA2_FK;
-
-drop index TRABALHA_FK;
-
-drop index TRABALHA_PK;
-
-drop table TRABALHA;
 
 drop index FAZ_FK;
 
@@ -198,6 +192,7 @@ ID_CLIENTE
 /*==============================================================*/
 create table COMPANHIA (
    ID_COMPANHIA         INT4                 not null,
+   ID_AGENCIA           INT4                 not null,
    NOME_COMPANHIA       VARCHAR(50)          not null,
    constraint PK_COMPANHIA primary key (ID_COMPANHIA)
 );
@@ -207,6 +202,13 @@ create table COMPANHIA (
 /*==============================================================*/
 create unique index COMPANHIA_PK on COMPANHIA (
 ID_COMPANHIA
+);
+
+/*==============================================================*/
+/* Index: TRABALHA_FK                                           */
+/*==============================================================*/
+create  index TRABALHA_FK on COMPANHIA (
+ID_AGENCIA
 );
 
 /*==============================================================*/
@@ -268,44 +270,13 @@ ID_PARTIDA
 );
 
 /*==============================================================*/
-/* Table: TRABALHA                                              */
-/*==============================================================*/
-create table TRABALHA (
-   ID_AGENCIA           INT4                 not null,
-   ID_COMPANHIA         INT4                 not null,
-   constraint PK_TRABALHA primary key (ID_AGENCIA, ID_COMPANHIA)
-);
-
-/*==============================================================*/
-/* Index: TRABALHA_PK                                           */
-/*==============================================================*/
-create unique index TRABALHA_PK on TRABALHA (
-ID_AGENCIA,
-ID_COMPANHIA
-);
-
-/*==============================================================*/
-/* Index: TRABALHA_FK                                           */
-/*==============================================================*/
-create  index TRABALHA_FK on TRABALHA (
-ID_AGENCIA
-);
-
-/*==============================================================*/
-/* Index: TRABALHA2_FK                                          */
-/*==============================================================*/
-create  index TRABALHA2_FK on TRABALHA (
-ID_COMPANHIA
-);
-
-/*==============================================================*/
 /* Table: VIAGENS                                               */
 /*==============================================================*/
 create table VIAGENS (
    ID_VIAGENS           INT4                 not null,
    ID_AVIAO             INT4                 not null,
-   ID_PARTIDA           INT4                 not null,
    ID_DESTINO           INT4                 not null,
+   ID_PARTIDA           INT4                 not null,
    NUM_LUGARES          INT4                 not null,
    HORA_PARTIDA         DATE                 not null,
    HORA_CHEGADA         DATE                 not null,
@@ -365,19 +336,14 @@ alter table BILHETE
       references VIAGENS (ID_VIAGENS)
       on delete restrict on update restrict;
 
+alter table COMPANHIA
+   add constraint FK_COMPANHI_TRABALHA_AGENCIA_ foreign key (ID_AGENCIA)
+      references AGENCIA_VIAGENS (ID_AGENCIA)
+      on delete restrict on update restrict;
+
 alter table OPERADOR
    add constraint FK_OPERADOR_GERE_AGENCIA_ foreign key (ID_AGENCIA)
       references AGENCIA_VIAGENS (ID_AGENCIA)
-      on delete restrict on update restrict;
-
-alter table TRABALHA
-   add constraint FK_TRABALHA_TRABALHA_AGENCIA_ foreign key (ID_AGENCIA)
-      references AGENCIA_VIAGENS (ID_AGENCIA)
-      on delete restrict on update restrict;
-
-alter table TRABALHA
-   add constraint FK_TRABALHA_TRABALHA2_COMPANHI foreign key (ID_COMPANHIA)
-      references COMPANHIA (ID_COMPANHIA)
       on delete restrict on update restrict;
 
 alter table VIAGENS
