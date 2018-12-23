@@ -45,8 +45,6 @@ public class Aviao implements Serializable {
     private int numLugares;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAviao")
     private Collection<Viagens> viagensCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAviao")
-    private Collection<Bagagens> bagagensCollection;
     @JoinColumn(name = "id_companhia", referencedColumnName = "id_companhia")
     @ManyToOne(optional = false)
     private Companhia idCompanhia;
@@ -94,14 +92,6 @@ public class Aviao implements Serializable {
 
     public void setViagensCollection(Collection<Viagens> viagensCollection) {
         this.viagensCollection = viagensCollection;
-    }
-
-    public Collection<Bagagens> getBagagensCollection() {
-        return bagagensCollection;
-    }
-
-    public void setBagagensCollection(Collection<Bagagens> bagagensCollection) {
-        this.bagagensCollection = bagagensCollection;
     }
 
     public Companhia getIdCompanhia() {

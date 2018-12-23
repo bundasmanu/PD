@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -39,6 +40,8 @@ public class Companhia implements Serializable {
     @Basic(optional = false)
     @Column(name = "nome_companhia")
     private String nomeCompanhia;
+    @ManyToMany(mappedBy = "companhiaCollection")
+    private Collection<Pontuacao> pontuacaoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCompanhia")
     private Collection<Aviao> aviaoCollection;
     @JoinColumn(name = "id_agencia", referencedColumnName = "id_agencia")
@@ -71,6 +74,14 @@ public class Companhia implements Serializable {
 
     public void setNomeCompanhia(String nomeCompanhia) {
         this.nomeCompanhia = nomeCompanhia;
+    }
+
+    public Collection<Pontuacao> getPontuacaoCollection() {
+        return pontuacaoCollection;
+    }
+
+    public void setPontuacaoCollection(Collection<Pontuacao> pontuacaoCollection) {
+        this.pontuacaoCollection = pontuacaoCollection;
     }
 
     public Collection<Aviao> getAviaoCollection() {

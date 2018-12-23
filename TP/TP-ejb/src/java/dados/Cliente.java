@@ -46,6 +46,8 @@ public class Cliente implements Serializable {
     @Column(name = "email_cliente")
     private String emailCliente;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
+    private Collection<Pontuacao> pontuacaoCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
     private Collection<Bilhete> bilheteCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
     private Collection<Bagagens> bagagensCollection;
@@ -94,6 +96,14 @@ public class Cliente implements Serializable {
 
     public void setEmailCliente(String emailCliente) {
         this.emailCliente = emailCliente;
+    }
+
+    public Collection<Pontuacao> getPontuacaoCollection() {
+        return pontuacaoCollection;
+    }
+
+    public void setPontuacaoCollection(Collection<Pontuacao> pontuacaoCollection) {
+        this.pontuacaoCollection = pontuacaoCollection;
     }
 
     public Collection<Bilhete> getBilheteCollection() {

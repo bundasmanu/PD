@@ -12,6 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -37,6 +38,8 @@ public class Destinos implements Serializable {
     @Basic(optional = false)
     @Column(name = "cidade_destino")
     private String cidadeDestino;
+    @ManyToMany(mappedBy = "destinosCollection")
+    private Collection<Pontuacao> pontuacaoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDestino")
     private Collection<Viagens> viagensCollection;
 
@@ -66,6 +69,14 @@ public class Destinos implements Serializable {
 
     public void setCidadeDestino(String cidadeDestino) {
         this.cidadeDestino = cidadeDestino;
+    }
+
+    public Collection<Pontuacao> getPontuacaoCollection() {
+        return pontuacaoCollection;
+    }
+
+    public void setPontuacaoCollection(Collection<Pontuacao> pontuacaoCollection) {
+        this.pontuacaoCollection = pontuacaoCollection;
     }
 
     public Collection<Viagens> getViagensCollection() {

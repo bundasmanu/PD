@@ -36,9 +36,6 @@ public class Bagagens implements Serializable {
     @Basic(optional = false)
     @Column(name = "peso_bagagens")
     private int pesoBagagens;
-    @JoinColumn(name = "id_aviao", referencedColumnName = "id_aviao")
-    @ManyToOne(optional = false)
-    private Aviao idAviao;
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     @ManyToOne(optional = false)
     private Cliente idCliente;
@@ -69,14 +66,6 @@ public class Bagagens implements Serializable {
 
     public void setPesoBagagens(int pesoBagagens) {
         this.pesoBagagens = pesoBagagens;
-    }
-
-    public Aviao getIdAviao() {
-        return idAviao;
-    }
-
-    public void setIdAviao(Aviao idAviao) {
-        this.idAviao = idAviao;
     }
 
     public Cliente getIdCliente() {
