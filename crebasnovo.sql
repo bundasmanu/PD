@@ -52,13 +52,15 @@ drop index PARTIDAS_PK;
 
 drop table PARTIDAS;
 
-drop index AGREGA_FK;
+/*drop index AGREGA_FK;*/
+drop table pont_dest;
 
-drop index TEM_FK;
+drop table pont_part;
+/*drop index TEM_FK;*/
 
 drop index ATRIBUI_FK;
 
-drop index APRESENTA_FK;
+/*drop index APRESENTA_FK;*/
 
 drop index PONTUACAO_PK;
 
@@ -261,6 +263,7 @@ ID_AGENCIA
 create table PARTIDAS (
    ID_PARTIDA           INT4                 not null,
    CIDADE_PARTIDA       VARCHAR(50)          not null,
+   pontuacao_med        float4               not null,
    constraint PK_PARTIDAS primary key (ID_PARTIDA)
 );
 
@@ -276,10 +279,7 @@ ID_PARTIDA
 /*==============================================================*/
 create table PONTUACAO (
    ID_PONTUACAO         INT4                 not null,
-   ID_DESTINO           INT4                 not null,
-   ID_COMPANHIA         INT4                 not null,
    ID_CLIENTE           INT4                 not null,
-   ID_PARTIDA           INT4                 not null,
    VALOR                INT4                 not null,
    constraint PK_PONTUACAO primary key (ID_PONTUACAO)
 );
@@ -292,31 +292,10 @@ ID_PONTUACAO
 );
 
 /*==============================================================*/
-/* Index: APRESENTA_FK                                          */
-/*==============================================================*/
-create  index APRESENTA_FK on PONTUACAO (
-ID_COMPANHIA
-);
-
-/*==============================================================*/
 /* Index: ATRIBUI_FK                                            */
 /*==============================================================*/
 create  index ATRIBUI_FK on PONTUACAO (
 ID_CLIENTE
-);
-
-/*==============================================================*/
-/* Index: TEM_FK                                                */
-/*==============================================================*/
-create  index TEM_FK on PONTUACAO (
-ID_PARTIDA
-);
-
-/*==============================================================*/
-/* Index: AGREGA_FK                                             */
-/*==============================================================*/
-create  index AGREGA_FK on PONTUACAO (
-ID_DESTINO
 );
 
 /*==============================================================*/
@@ -361,6 +340,42 @@ create  index FAZ_FK on VIAGENS (
 ID_AVIAO
 );
 
+/*==============================================================*/
+/* Table: PONT_PART                                             */
+/*==============================================================*/
+
+create table pont_part(
+    id_pont int4    not null,
+    id_part  int4    not null,
+    constraint fk1 foreign key(id_pont) references pontuacao(id_pontuacao),
+    constraint fk2 foreign key(id_part) references partidas(id_partida)
+
+);
+
+/*==============================================================*/
+/* Table: PONT_DEST                                             */
+/*==============================================================*/
+
+create table pont_dest(
+    id_pont int4    not null,
+    id_dest  int4    not null,
+    constraint fk1 foreign key(id_pont) references pontuacao(id_pontuacao),
+    constraint fk2 foreign key(id_dest) references destinos(id_destino)
+
+);
+
+/*==============================================================*/
+/* Table: PONT_COMP                                             */
+/*==============================================================*/
+
+create table pont_comp(
+    id_pont int4    not null,
+    id_comp  int4    not null,
+    constraint fk1 foreign key(id_pont) references pontuacao(id_pontuacao),
+    constraint fk2 foreign key(id_comp) references companhia(id_companhia)
+
+);
+
 alter table AVIAO
    add constraint FK_AVIAO_CONTEM_COMPANHI foreign key (ID_COMPANHIA)
       references COMPANHIA (ID_COMPANHIA)
@@ -392,23 +407,8 @@ alter table OPERADOR
       on delete restrict on update restrict;
 
 alter table PONTUACAO
-   add constraint FK_PONTUACA_AGREGA_DESTINOS foreign key (ID_DESTINO)
-      references DESTINOS (ID_DESTINO)
-      on delete restrict on update restrict;
-
-alter table PONTUACAO
-   add constraint FK_PONTUACA_APRESENTA_COMPANHI foreign key (ID_COMPANHIA)
-      references COMPANHIA (ID_COMPANHIA)
-      on delete restrict on update restrict;
-
-alter table PONTUACAO
    add constraint FK_PONTUACA_ATRIBUI_CLIENTE foreign key (ID_CLIENTE)
       references CLIENTE (ID_CLIENTE)
-      on delete restrict on update restrict;
-
-alter table PONTUACAO
-   add constraint FK_PONTUACA_TEM_PARTIDAS foreign key (ID_PARTIDA)
-      references PARTIDAS (ID_PARTIDA)
       on delete restrict on update restrict;
 
 alter table VIAGENS
@@ -425,4 +425,3 @@ alter table VIAGENS
    add constraint FK_VIAGENS_PARTE_PARTIDAS foreign key (ID_PARTIDA)
       references PARTIDAS (ID_PARTIDA)
       on delete restrict on update restrict;
-
