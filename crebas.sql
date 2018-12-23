@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     20/12/2018 17:11:33                          */
+/* Created on:     23/12/2018 15:36:55                          */
 /*==============================================================*/
 
 
@@ -13,8 +13,6 @@ drop index CONTEM_FK;
 drop index AVIAO_PK;
 
 drop table AVIAO;
-
-drop index ARMAZENA_FK;
 
 drop index POSSUI_FK;
 
@@ -110,7 +108,6 @@ ID_COMPANHIA
 /*==============================================================*/
 create table BAGAGENS (
    ID_BAGAGENS          INT4                 not null,
-   ID_AVIAO             INT4                 not null,
    ID_CLIENTE           INT4                 not null,
    PESO_BAGAGENS        INT4                 not null,
    constraint PK_BAGAGENS primary key (ID_BAGAGENS)
@@ -128,13 +125,6 @@ ID_BAGAGENS
 /*==============================================================*/
 create  index POSSUI_FK on BAGAGENS (
 ID_CLIENTE
-);
-
-/*==============================================================*/
-/* Index: ARMAZENA_FK                                           */
-/*==============================================================*/
-create  index ARMAZENA_FK on BAGAGENS (
-ID_AVIAO
 );
 
 /*==============================================================*/
@@ -314,11 +304,6 @@ ID_AVIAO
 alter table AVIAO
    add constraint FK_AVIAO_CONTEM_COMPANHI foreign key (ID_COMPANHIA)
       references COMPANHIA (ID_COMPANHIA)
-      on delete restrict on update restrict;
-
-alter table BAGAGENS
-   add constraint FK_BAGAGENS_ARMAZENA_AVIAO foreign key (ID_AVIAO)
-      references AVIAO (ID_AVIAO)
       on delete restrict on update restrict;
 
 alter table BAGAGENS
