@@ -1,12 +1,20 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     23/12/2018 15:36:55                          */
+/* Created on:     23/12/2018 17:42:06                          */
 /*==============================================================*/
 
 
 drop index AGENCIA_VIAGENS_PK;
 
 drop table AGENCIA_VIAGENS;
+
+drop index AGREGA2_FK;
+
+drop index AGREGA_FK;
+
+drop index AGREGA_PK;
+
+drop table AGREGA;
 
 drop index CONTEM_FK;
 
@@ -52,6 +60,26 @@ drop index PARTIDAS_PK;
 
 drop table PARTIDAS;
 
+drop index PONTUACAO_PK;
+
+drop table PONTUACAO;
+
+drop index RELATIONSHIP_11_FK;
+
+drop index RELATIONSHIP_10_FK;
+
+drop index RELATIONSHIP_10_PK;
+
+drop table RELATIONSHIP_10;
+
+drop index TEM2_FK;
+
+drop index TEM_FK;
+
+drop index TEM_PK;
+
+drop table TEM;
+
 drop index FAZ_FK;
 
 drop index RELATIONSHIP_2_FK;
@@ -76,6 +104,37 @@ create table AGENCIA_VIAGENS (
 /*==============================================================*/
 create unique index AGENCIA_VIAGENS_PK on AGENCIA_VIAGENS (
 ID_AGENCIA
+);
+
+/*==============================================================*/
+/* Table: AGREGA                                                */
+/*==============================================================*/
+create table AGREGA (
+   ID_DESTINO           INT4                 not null,
+   ID_PONTUACAO         INT4                 not null,
+   constraint PK_AGREGA primary key (ID_DESTINO, ID_PONTUACAO)
+);
+
+/*==============================================================*/
+/* Index: AGREGA_PK                                             */
+/*==============================================================*/
+create unique index AGREGA_PK on AGREGA (
+ID_DESTINO,
+ID_PONTUACAO
+);
+
+/*==============================================================*/
+/* Index: AGREGA_FK                                             */
+/*==============================================================*/
+create  index AGREGA_FK on AGREGA (
+ID_DESTINO
+);
+
+/*==============================================================*/
+/* Index: AGREGA2_FK                                            */
+/*==============================================================*/
+create  index AGREGA2_FK on AGREGA (
+ID_PONTUACAO
 );
 
 /*==============================================================*/
@@ -260,6 +319,85 @@ ID_PARTIDA
 );
 
 /*==============================================================*/
+/* Table: PONTUACAO                                             */
+/*==============================================================*/
+create table PONTUACAO (
+   ID_PONTUACAO         INT4                 not null,
+   ID_CLIENTE           INT4                 not null,
+   VALOR                INT4                 not null,
+   constraint PK_PONTUACAO primary key (ID_PONTUACAO)
+);
+
+/*==============================================================*/
+/* Index: PONTUACAO_PK                                          */
+/*==============================================================*/
+create unique index PONTUACAO_PK on PONTUACAO (
+ID_PONTUACAO
+);
+
+/*==============================================================*/
+/* Table: RELATIONSHIP_10                                       */
+/*==============================================================*/
+create table RELATIONSHIP_10 (
+   ID_COMPANHIA         INT4                 not null,
+   ID_PONTUACAO         INT4                 not null,
+   constraint PK_RELATIONSHIP_10 primary key (ID_COMPANHIA, ID_PONTUACAO)
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_10_PK                                    */
+/*==============================================================*/
+create unique index RELATIONSHIP_10_PK on RELATIONSHIP_10 (
+ID_COMPANHIA,
+ID_PONTUACAO
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_10_FK                                    */
+/*==============================================================*/
+create  index RELATIONSHIP_10_FK on RELATIONSHIP_10 (
+ID_COMPANHIA
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_11_FK                                    */
+/*==============================================================*/
+create  index RELATIONSHIP_11_FK on RELATIONSHIP_10 (
+ID_PONTUACAO
+);
+
+/*==============================================================*/
+/* Table: TEM                                                   */
+/*==============================================================*/
+create table TEM (
+   ID_PARTIDA           INT4                 not null,
+   ID_PONTUACAO         INT4                 not null,
+   constraint PK_TEM primary key (ID_PARTIDA, ID_PONTUACAO)
+);
+
+/*==============================================================*/
+/* Index: TEM_PK                                                */
+/*==============================================================*/
+create unique index TEM_PK on TEM (
+ID_PARTIDA,
+ID_PONTUACAO
+);
+
+/*==============================================================*/
+/* Index: TEM_FK                                                */
+/*==============================================================*/
+create  index TEM_FK on TEM (
+ID_PARTIDA
+);
+
+/*==============================================================*/
+/* Index: TEM2_FK                                               */
+/*==============================================================*/
+create  index TEM2_FK on TEM (
+ID_PONTUACAO
+);
+
+/*==============================================================*/
 /* Table: VIAGENS                                               */
 /*==============================================================*/
 create table VIAGENS (
@@ -301,6 +439,16 @@ create  index FAZ_FK on VIAGENS (
 ID_AVIAO
 );
 
+alter table AGREGA
+   add constraint FK_AGREGA_AGREGA_DESTINOS foreign key (ID_DESTINO)
+      references DESTINOS (ID_DESTINO)
+      on delete restrict on update restrict;
+
+alter table AGREGA
+   add constraint FK_AGREGA_AGREGA2_PONTUACA foreign key (ID_PONTUACAO)
+      references PONTUACAO (ID_PONTUACAO)
+      on delete restrict on update restrict;
+
 alter table AVIAO
    add constraint FK_AVIAO_CONTEM_COMPANHI foreign key (ID_COMPANHIA)
       references COMPANHIA (ID_COMPANHIA)
@@ -329,6 +477,31 @@ alter table COMPANHIA
 alter table OPERADOR
    add constraint FK_OPERADOR_GERE_AGENCIA_ foreign key (ID_AGENCIA)
       references AGENCIA_VIAGENS (ID_AGENCIA)
+      on delete restrict on update restrict;
+
+alter table PONTUACAO
+   add constraint FK_PONTUACA_ATRIBUI_CLIENTE foreign key (ID_CLIENTE)
+      references CLIENTE (ID_CLIENTE)
+      on delete restrict on update restrict;
+
+alter table RELATIONSHIP_10
+   add constraint FK_RELATION_RELATIONS_COMPANHI foreign key (ID_COMPANHIA)
+      references COMPANHIA (ID_COMPANHIA)
+      on delete restrict on update restrict;
+
+alter table RELATIONSHIP_10
+   add constraint FK_RELATION_RELATIONS_PONTUACA foreign key (ID_PONTUACAO)
+      references PONTUACAO (ID_PONTUACAO)
+      on delete restrict on update restrict;
+
+alter table TEM
+   add constraint FK_TEM_TEM_PARTIDAS foreign key (ID_PARTIDA)
+      references PARTIDAS (ID_PARTIDA)
+      on delete restrict on update restrict;
+
+alter table TEM
+   add constraint FK_TEM_TEM2_PONTUACA foreign key (ID_PONTUACAO)
+      references PONTUACAO (ID_PONTUACAO)
       on delete restrict on update restrict;
 
 alter table VIAGENS
