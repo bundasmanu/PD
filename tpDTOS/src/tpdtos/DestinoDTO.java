@@ -15,11 +15,13 @@ import java.util.List;
 public class DestinoDTO {
     
     String cidade;
+    float pontuacao_media;
     List<ViagemDTO> viagens;
     List<PontuacaoDTO> pontuacoes;
     
     public DestinoDTO(String city){
         this.cidade=city;
+        this.pontuacao_media=0;
         this.viagens=new ArrayList<ViagemDTO>();
         this.pontuacoes=new ArrayList<PontuacaoDTO>();
     }
@@ -46,6 +48,14 @@ public class DestinoDTO {
 
     public void setPontuacoes(List<PontuacaoDTO> pontuacoes) {
         this.pontuacoes = pontuacoes;
+    }
+
+    public float getPontuacao_media() {
+        return pontuacao_media;
+    }
+
+    public void setPontuacao_media(float pontuacao_media) {
+        this.pontuacao_media = pontuacao_media;
     }
     
     @Override

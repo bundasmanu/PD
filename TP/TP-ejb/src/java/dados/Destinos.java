@@ -12,6 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,7 +29,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Destinos.findAll", query = "SELECT d FROM Destinos d")
     , @NamedQuery(name = "Destinos.findByIdDestino", query = "SELECT d FROM Destinos d WHERE d.idDestino = :idDestino")
-    , @NamedQuery(name = "Destinos.findByCidadeDestino", query = "SELECT d FROM Destinos d WHERE d.cidadeDestino = :cidadeDestino")})
+    , @NamedQuery(name = "Destinos.findByCidadeDestino", query = "SELECT d FROM Destinos d WHERE d.cidadeDestino = :cidadeDestino")
+    , @NamedQuery(name = "Destinos.findByPontuacaoMedia", query = "SELECT d FROM Destinos d WHERE d.pontuacaoMedia = :pontuacaoMedia")})
 public class Destinos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,7 +41,13 @@ public class Destinos implements Serializable {
     @Basic(optional = false)
     @Column(name = "cidade_destino")
     private String cidadeDestino;
-    @ManyToMany(mappedBy = "destinosCollection")
+    @Basic(optional = false)
+    @Column(name = "pontuacao_media")
+    private float pontuacaoMedia;
+    @JoinTable(name = "pont_destino", joinColumns = {
+        @JoinColumn(name = "id_destino", referencedColumnName = "id_destino")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_pontuacao", referencedColumnName = "id_pontuacao")})
+    @ManyToMany
     private Collection<Pontuacao> pontuacaoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDestino")
     private Collection<Viagens> viagensCollection;
@@ -50,9 +59,10 @@ public class Destinos implements Serializable {
         this.idDestino = idDestino;
     }
 
-    public Destinos(Integer idDestino, String cidadeDestino) {
+    public Destinos(Integer idDestino, String cidadeDestino, float pontuacaoMedia) {
         this.idDestino = idDestino;
         this.cidadeDestino = cidadeDestino;
+        this.pontuacaoMedia = pontuacaoMedia;
     }
 
     public Integer getIdDestino() {
@@ -69,6 +79,14 @@ public class Destinos implements Serializable {
 
     public void setCidadeDestino(String cidadeDestino) {
         this.cidadeDestino = cidadeDestino;
+    }
+
+    public float getPontuacaoMedia() {
+        return pontuacaoMedia;
+    }
+
+    public void setPontuacaoMedia(float pontuacaoMedia) {
+        this.pontuacaoMedia = pontuacaoMedia;
     }
 
     public Collection<Pontuacao> getPontuacaoCollection() {

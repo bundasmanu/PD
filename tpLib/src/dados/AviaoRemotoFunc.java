@@ -5,16 +5,12 @@
  */
 package dados;
 
-import javax.ejb.Remote;
-
 /**
  *
  * @author gustavo
  */
-@Remote
-public interface BeanRemotoRemote extends AviaoRemotoFunc{
+public interface AviaoRemotoFunc {
     
-    @Override
-    public String mostraOla();
+     public String mostraOla();
     
 }

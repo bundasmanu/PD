@@ -39,6 +39,9 @@ public class Bagagens implements Serializable {
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     @ManyToOne(optional = false)
     private Cliente idCliente;
+    @JoinColumn(name = "id_viagens", referencedColumnName = "id_viagens")
+    @ManyToOne(optional = false)
+    private Viagens idViagens;
 
     public Bagagens() {
     }
@@ -74,6 +77,14 @@ public class Bagagens implements Serializable {
 
     public void setIdCliente(Cliente idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public Viagens getIdViagens() {
+        return idViagens;
+    }
+
+    public void setIdViagens(Viagens idViagens) {
+        this.idViagens = idViagens;
     }
 
     @Override

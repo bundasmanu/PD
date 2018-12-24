@@ -12,6 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,7 +29,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Partidas.findAll", query = "SELECT p FROM Partidas p")
     , @NamedQuery(name = "Partidas.findByIdPartida", query = "SELECT p FROM Partidas p WHERE p.idPartida = :idPartida")
-    , @NamedQuery(name = "Partidas.findByCidadePartida", query = "SELECT p FROM Partidas p WHERE p.cidadePartida = :cidadePartida")})
+    , @NamedQuery(name = "Partidas.findByCidadePartida", query = "SELECT p FROM Partidas p WHERE p.cidadePartida = :cidadePartida")
+    , @NamedQuery(name = "Partidas.findByPontMedia", query = "SELECT p FROM Partidas p WHERE p.pontMedia = :pontMedia")})
 public class Partidas implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,7 +41,13 @@ public class Partidas implements Serializable {
     @Basic(optional = false)
     @Column(name = "cidade_partida")
     private String cidadePartida;
-    @ManyToMany(mappedBy = "partidasCollection")
+    @Basic(optional = false)
+    @Column(name = "pont_media")
+    private float pontMedia;
+    @JoinTable(name = "pont_partida", joinColumns = {
+        @JoinColumn(name = "id_partida", referencedColumnName = "id_partida")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_pontuacao", referencedColumnName = "id_pontuacao")})
+    @ManyToMany
     private Collection<Pontuacao> pontuacaoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPartida")
     private Collection<Viagens> viagensCollection;
@@ -50,9 +59,10 @@ public class Partidas implements Serializable {
         this.idPartida = idPartida;
     }
 
-    public Partidas(Integer idPartida, String cidadePartida) {
+    public Partidas(Integer idPartida, String cidadePartida, float pontMedia) {
         this.idPartida = idPartida;
         this.cidadePartida = cidadePartida;
+        this.pontMedia = pontMedia;
     }
 
     public Integer getIdPartida() {
@@ -69,6 +79,14 @@ public class Partidas implements Serializable {
 
     public void setCidadePartida(String cidadePartida) {
         this.cidadePartida = cidadePartida;
+    }
+
+    public float getPontMedia() {
+        return pontMedia;
+    }
+
+    public void setPontMedia(float pontMedia) {
+        this.pontMedia = pontMedia;
     }
 
     public Collection<Pontuacao> getPontuacaoCollection() {

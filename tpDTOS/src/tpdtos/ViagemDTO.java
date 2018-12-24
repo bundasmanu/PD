@@ -21,6 +21,7 @@ public class ViagemDTO {
     Date hora_cheg;
     AviaoDTO aviao;
     List<BilheteDTO> bilhetes;
+    List<BagagemDTO> bagagens;
     PartidaDTO part;
     DestinoDTO dest;
     
@@ -32,6 +33,7 @@ public class ViagemDTO {
         this.dest=new DestinoDTO(cidade_dest);
         this.aviao=new AviaoDTO(id_aviao);
         this.bilhetes=new ArrayList<BilheteDTO>();
+        this.bagagens=new ArrayList<BagagemDTO>();
     }
     
     public ViagemDTO(int id){  /*USO POR CAUSA DOS BILHETES*/
@@ -93,7 +95,23 @@ public class ViagemDTO {
     public void setDest(DestinoDTO dest) {
         this.dest = dest;
     }
-    
+
+    public List<BagagemDTO> getBagagens() {
+        return bagagens;
+    }
+
+    public void setBagagens(List<BagagemDTO> bagagens) {
+        this.bagagens = bagagens;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+ 
     @Override
     public String toString(){
         

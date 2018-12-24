@@ -12,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -39,21 +38,12 @@ public class Pontuacao implements Serializable {
     @Basic(optional = false)
     @Column(name = "valor")
     private int valor;
-    @JoinTable(name = "pont_dest", joinColumns = {
-        @JoinColumn(name = "id_pont", referencedColumnName = "id_pontuacao")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_dest", referencedColumnName = "id_destino")})
-    @ManyToMany
-    private Collection<Destinos> destinosCollection;
-    @JoinTable(name = "pont_part", joinColumns = {
-        @JoinColumn(name = "id_pont", referencedColumnName = "id_pontuacao")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_part", referencedColumnName = "id_partida")})
-    @ManyToMany
+    @ManyToMany(mappedBy = "pontuacaoCollection")
     private Collection<Partidas> partidasCollection;
-    @JoinTable(name = "pont_comp", joinColumns = {
-        @JoinColumn(name = "id_pont", referencedColumnName = "id_pontuacao")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_comp", referencedColumnName = "id_companhia")})
-    @ManyToMany
+    @ManyToMany(mappedBy = "pontuacaoCollection")
     private Collection<Companhia> companhiaCollection;
+    @ManyToMany(mappedBy = "pontuacaoCollection")
+    private Collection<Destinos> destinosCollection;
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     @ManyToOne(optional = false)
     private Cliente idCliente;
@@ -86,14 +76,6 @@ public class Pontuacao implements Serializable {
         this.valor = valor;
     }
 
-    public Collection<Destinos> getDestinosCollection() {
-        return destinosCollection;
-    }
-
-    public void setDestinosCollection(Collection<Destinos> destinosCollection) {
-        this.destinosCollection = destinosCollection;
-    }
-
     public Collection<Partidas> getPartidasCollection() {
         return partidasCollection;
     }
@@ -108,6 +90,14 @@ public class Pontuacao implements Serializable {
 
     public void setCompanhiaCollection(Collection<Companhia> companhiaCollection) {
         this.companhiaCollection = companhiaCollection;
+    }
+
+    public Collection<Destinos> getDestinosCollection() {
+        return destinosCollection;
+    }
+
+    public void setDestinosCollection(Collection<Destinos> destinosCollection) {
+        this.destinosCollection = destinosCollection;
     }
 
     public Cliente getIdCliente() {

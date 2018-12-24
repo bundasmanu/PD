@@ -13,10 +13,12 @@ public class BagagemDTO {
     
     int peso_bagagem;
     ClienteDTO cli;
+    ViagemDTO viagem;
     
-    public BagagemDTO(int peso, String nome_cli, String email){
+    public BagagemDTO(int peso, String nome_cli, String email, int idViagem){
         this.peso_bagagem=peso;
         this.cli=new ClienteDTO(nome_cli,email);
+        this.viagem=new ViagemDTO(idViagem);
     }
 
     public int getPeso_bagagem() {
@@ -33,6 +35,14 @@ public class BagagemDTO {
 
     public void setCli(ClienteDTO cli) {
         this.cli = cli;
+    }
+
+    public ViagemDTO getViagem() {
+        return viagem;
+    }
+
+    public void setViagem(ViagemDTO viagem) {
+        this.viagem = viagem;
     }
     
     @Override

@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -29,7 +30,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Companhia.findAll", query = "SELECT c FROM Companhia c")
     , @NamedQuery(name = "Companhia.findByIdCompanhia", query = "SELECT c FROM Companhia c WHERE c.idCompanhia = :idCompanhia")
-    , @NamedQuery(name = "Companhia.findByNomeCompanhia", query = "SELECT c FROM Companhia c WHERE c.nomeCompanhia = :nomeCompanhia")})
+    , @NamedQuery(name = "Companhia.findByNomeCompanhia", query = "SELECT c FROM Companhia c WHERE c.nomeCompanhia = :nomeCompanhia")
+    , @NamedQuery(name = "Companhia.findByPontuacaoMedia", query = "SELECT c FROM Companhia c WHERE c.pontuacaoMedia = :pontuacaoMedia")})
 public class Companhia implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,7 +42,13 @@ public class Companhia implements Serializable {
     @Basic(optional = false)
     @Column(name = "nome_companhia")
     private String nomeCompanhia;
-    @ManyToMany(mappedBy = "companhiaCollection")
+    @Basic(optional = false)
+    @Column(name = "pontuacao_media")
+    private float pontuacaoMedia;
+    @JoinTable(name = "pont_companhia", joinColumns = {
+        @JoinColumn(name = "id_companhia", referencedColumnName = "id_companhia")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_pontuacao", referencedColumnName = "id_pontuacao")})
+    @ManyToMany
     private Collection<Pontuacao> pontuacaoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCompanhia")
     private Collection<Aviao> aviaoCollection;
@@ -55,9 +63,10 @@ public class Companhia implements Serializable {
         this.idCompanhia = idCompanhia;
     }
 
-    public Companhia(Integer idCompanhia, String nomeCompanhia) {
+    public Companhia(Integer idCompanhia, String nomeCompanhia, float pontuacaoMedia) {
         this.idCompanhia = idCompanhia;
         this.nomeCompanhia = nomeCompanhia;
+        this.pontuacaoMedia = pontuacaoMedia;
     }
 
     public Integer getIdCompanhia() {
@@ -74,6 +83,14 @@ public class Companhia implements Serializable {
 
     public void setNomeCompanhia(String nomeCompanhia) {
         this.nomeCompanhia = nomeCompanhia;
+    }
+
+    public float getPontuacaoMedia() {
+        return pontuacaoMedia;
+    }
+
+    public void setPontuacaoMedia(float pontuacaoMedia) {
+        this.pontuacaoMedia = pontuacaoMedia;
     }
 
     public Collection<Pontuacao> getPontuacaoCollection() {

@@ -63,6 +63,8 @@ public class Viagens implements Serializable {
     @JoinColumn(name = "id_partida", referencedColumnName = "id_partida")
     @ManyToOne(optional = false)
     private Partidas idPartida;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idViagens")
+    private Collection<Bagagens> bagagensCollection;
 
     public Viagens() {
     }
@@ -140,6 +142,14 @@ public class Viagens implements Serializable {
 
     public void setIdPartida(Partidas idPartida) {
         this.idPartida = idPartida;
+    }
+
+    public Collection<Bagagens> getBagagensCollection() {
+        return bagagensCollection;
+    }
+
+    public void setBagagensCollection(Collection<Bagagens> bagagensCollection) {
+        this.bagagensCollection = bagagensCollection;
     }
 
     @Override

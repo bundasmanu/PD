@@ -16,11 +16,13 @@ public class CompanhiaDTO {
     
     String nome;
     AgenciaDTO ag;
+    float pontuacao_media;
     List<AviaoDTO> avioes_companhia;
     List<PontuacaoDTO> pontuacoes;
     
     public CompanhiaDTO(String name, int id_agencia){
         this.nome=name;
+        this.pontuacao_media=0;
         this.ag=new AgenciaDTO(id_agencia);
         this.avioes_companhia=new ArrayList<AviaoDTO>();
         this.pontuacoes=new ArrayList<PontuacaoDTO>();
@@ -56,6 +58,14 @@ public class CompanhiaDTO {
 
     public List<PontuacaoDTO> getPontuacoes() {
         return pontuacoes;
+    }
+
+    public float getPontuacao_media() {
+        return pontuacao_media;
+    }
+
+    public void setPontuacao_media(float pontuacao_media) {
+        this.pontuacao_media = pontuacao_media;
     }
     
     @Override
