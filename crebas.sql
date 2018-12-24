@@ -224,7 +224,7 @@ create table COMPANHIA (
    ID_COMPANHIA         INT4                 not null,
    ID_AGENCIA           INT4                 not null,
    NOME_COMPANHIA       VARCHAR(50)          not null,
-   PONTUACAO_MEDIA      INT4                 not null,
+   PONTUACAO_MEDIA      FLOAT4                not null,
    constraint PK_COMPANHIA primary key (ID_COMPANHIA)
 );
 
@@ -248,7 +248,7 @@ ID_AGENCIA
 create table DESTINOS (
    ID_DESTINO           INT4                 not null,
    CIDADE_DESTINO       VARCHAR(50)          not null,
-   PONTUACAO_MEDIA      INT4                 not null,
+   PONTUACAO_MEDIA      FLOAT4                 not null,
    constraint PK_DESTINOS primary key (ID_DESTINO)
 );
 
@@ -291,7 +291,7 @@ ID_AGENCIA
 create table PARTIDAS (
    ID_PARTIDA           INT4                 not null,
    CIDADE_PARTIDA       VARCHAR(50)          not null,
-   PONTUACAO_MEDIA      INT4                 not null,
+   PONT_MEDIA           FLOAT4                 not null,
    constraint PK_PARTIDAS primary key (ID_PARTIDA)
 );
 
@@ -545,4 +545,3 @@ alter table VIAGENS
    add constraint FK_VIAGENS_PARTE_PARTIDAS foreign key (ID_PARTIDA)
       references PARTIDAS (ID_PARTIDA)
       on delete restrict on update restrict;
-
