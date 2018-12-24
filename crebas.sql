@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     23/12/2018 17:42:06                          */
+/* Created on:     24/12/2018 12:10:22                          */
 /*==============================================================*/
 
 
@@ -21,6 +21,8 @@ drop index CONTEM_FK;
 drop index AVIAO_PK;
 
 drop table AVIAO;
+
+drop index TERA_FK;
 
 drop index POSSUI_FK;
 
@@ -59,6 +61,8 @@ drop table OPERADOR;
 drop index PARTIDAS_PK;
 
 drop table PARTIDAS;
+
+drop index ATRIBUI_FK;
 
 drop index PONTUACAO_PK;
 
@@ -168,6 +172,7 @@ ID_COMPANHIA
 create table BAGAGENS (
    ID_BAGAGENS          INT4                 not null,
    ID_CLIENTE           INT4                 not null,
+   ID_VIAGENS           INT4                 not null,
    PESO_BAGAGENS        INT4                 not null,
    constraint PK_BAGAGENS primary key (ID_BAGAGENS)
 );
@@ -184,6 +189,13 @@ ID_BAGAGENS
 /*==============================================================*/
 create  index POSSUI_FK on BAGAGENS (
 ID_CLIENTE
+);
+
+/*==============================================================*/
+/* Index: TERA_FK                                               */
+/*==============================================================*/
+create  index TERA_FK on BAGAGENS (
+ID_VIAGENS
 );
 
 /*==============================================================*/
@@ -243,6 +255,7 @@ create table COMPANHIA (
    ID_COMPANHIA         INT4                 not null,
    ID_AGENCIA           INT4                 not null,
    NOME_COMPANHIA       VARCHAR(50)          not null,
+   PONTUACAO_MEDIA      INT4                 not null,
    constraint PK_COMPANHIA primary key (ID_COMPANHIA)
 );
 
@@ -266,6 +279,7 @@ ID_AGENCIA
 create table DESTINOS (
    ID_DESTINO           INT4                 not null,
    CIDADE_DESTINO       VARCHAR(50)          not null,
+   PONTUACAO_MEDIA      INT4                 not null,
    constraint PK_DESTINOS primary key (ID_DESTINO)
 );
 
@@ -308,6 +322,7 @@ ID_AGENCIA
 create table PARTIDAS (
    ID_PARTIDA           INT4                 not null,
    CIDADE_PARTIDA       VARCHAR(50)          not null,
+   PONTUACAO_MEDIA      INT4                 not null,
    constraint PK_PARTIDAS primary key (ID_PARTIDA)
 );
 
@@ -333,6 +348,13 @@ create table PONTUACAO (
 /*==============================================================*/
 create unique index PONTUACAO_PK on PONTUACAO (
 ID_PONTUACAO
+);
+
+/*==============================================================*/
+/* Index: ATRIBUI_FK                                            */
+/*==============================================================*/
+create  index ATRIBUI_FK on PONTUACAO (
+ID_CLIENTE
 );
 
 /*==============================================================*/
@@ -402,9 +424,9 @@ ID_PONTUACAO
 /*==============================================================*/
 create table VIAGENS (
    ID_VIAGENS           INT4                 not null,
-   ID_AVIAO             INT4                 not null,
-   ID_DESTINO           INT4                 not null,
    ID_PARTIDA           INT4                 not null,
+   ID_DESTINO           INT4                 not null,
+   ID_AVIAO             INT4                 not null,
    NUM_LUGARES          INT4                 not null,
    HORA_PARTIDA         DATE                 not null,
    HORA_CHEGADA         DATE                 not null,
@@ -457,6 +479,11 @@ alter table AVIAO
 alter table BAGAGENS
    add constraint FK_BAGAGENS_POSSUI_CLIENTE foreign key (ID_CLIENTE)
       references CLIENTE (ID_CLIENTE)
+      on delete restrict on update restrict;
+
+alter table BAGAGENS
+   add constraint FK_BAGAGENS_TERA_VIAGENS foreign key (ID_VIAGENS)
+      references VIAGENS (ID_VIAGENS)
       on delete restrict on update restrict;
 
 alter table BILHETE
