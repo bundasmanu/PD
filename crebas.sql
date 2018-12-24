@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     24/12/2018 12:10:22                          */
+/* Created on:     24/12/2018 12:21:13                          */
 /*==============================================================*/
 
 
@@ -48,6 +48,14 @@ drop index COMPANHIA_PK;
 
 drop table COMPANHIA;
 
+drop index CONTAM2_FK;
+
+drop index CONTAM_FK;
+
+drop index CONTAM_PK;
+
+drop table CONTAM;
+
 drop index DESTINOS_PK;
 
 drop table DESTINOS;
@@ -76,19 +84,11 @@ drop index RELATIONSHIP_10_PK;
 
 drop table RELATIONSHIP_10;
 
-drop index TEM2_FK;
-
-drop index TEM_FK;
-
-drop index TEM_PK;
-
-drop table TEM;
-
 drop index FAZ_FK;
 
-drop index RELATIONSHIP_2_FK;
+drop index CHEGA_FK;
 
-drop index RELATIONSHIP_1_FK;
+drop index PARTE_FK;
 
 drop index VIAGENS_PK;
 
@@ -274,6 +274,37 @@ ID_AGENCIA
 );
 
 /*==============================================================*/
+/* Table: CONTAM                                                */
+/*==============================================================*/
+create table CONTAM (
+   ID_PARTIDA           INT4                 not null,
+   ID_PONTUACAO         INT4                 not null,
+   constraint PK_CONTAM primary key (ID_PARTIDA, ID_PONTUACAO)
+);
+
+/*==============================================================*/
+/* Index: CONTAM_PK                                             */
+/*==============================================================*/
+create unique index CONTAM_PK on CONTAM (
+ID_PARTIDA,
+ID_PONTUACAO
+);
+
+/*==============================================================*/
+/* Index: CONTAM_FK                                             */
+/*==============================================================*/
+create  index CONTAM_FK on CONTAM (
+ID_PARTIDA
+);
+
+/*==============================================================*/
+/* Index: CONTAM2_FK                                            */
+/*==============================================================*/
+create  index CONTAM2_FK on CONTAM (
+ID_PONTUACAO
+);
+
+/*==============================================================*/
 /* Table: DESTINOS                                              */
 /*==============================================================*/
 create table DESTINOS (
@@ -389,37 +420,6 @@ ID_PONTUACAO
 );
 
 /*==============================================================*/
-/* Table: TEM                                                   */
-/*==============================================================*/
-create table TEM (
-   ID_PARTIDA           INT4                 not null,
-   ID_PONTUACAO         INT4                 not null,
-   constraint PK_TEM primary key (ID_PARTIDA, ID_PONTUACAO)
-);
-
-/*==============================================================*/
-/* Index: TEM_PK                                                */
-/*==============================================================*/
-create unique index TEM_PK on TEM (
-ID_PARTIDA,
-ID_PONTUACAO
-);
-
-/*==============================================================*/
-/* Index: TEM_FK                                                */
-/*==============================================================*/
-create  index TEM_FK on TEM (
-ID_PARTIDA
-);
-
-/*==============================================================*/
-/* Index: TEM2_FK                                               */
-/*==============================================================*/
-create  index TEM2_FK on TEM (
-ID_PONTUACAO
-);
-
-/*==============================================================*/
 /* Table: VIAGENS                                               */
 /*==============================================================*/
 create table VIAGENS (
@@ -441,16 +441,16 @@ ID_VIAGENS
 );
 
 /*==============================================================*/
-/* Index: RELATIONSHIP_1_FK                                     */
+/* Index: PARTE_FK                                              */
 /*==============================================================*/
-create  index RELATIONSHIP_1_FK on VIAGENS (
+create  index PARTE_FK on VIAGENS (
 ID_PARTIDA
 );
 
 /*==============================================================*/
-/* Index: RELATIONSHIP_2_FK                                     */
+/* Index: CHEGA_FK                                              */
 /*==============================================================*/
-create  index RELATIONSHIP_2_FK on VIAGENS (
+create  index CHEGA_FK on VIAGENS (
 ID_DESTINO
 );
 
@@ -501,6 +501,16 @@ alter table COMPANHIA
       references AGENCIA_VIAGENS (ID_AGENCIA)
       on delete restrict on update restrict;
 
+alter table CONTAM
+   add constraint FK_CONTAM_CONTAM_PARTIDAS foreign key (ID_PARTIDA)
+      references PARTIDAS (ID_PARTIDA)
+      on delete restrict on update restrict;
+
+alter table CONTAM
+   add constraint FK_CONTAM_CONTAM2_PONTUACA foreign key (ID_PONTUACAO)
+      references PONTUACAO (ID_PONTUACAO)
+      on delete restrict on update restrict;
+
 alter table OPERADOR
    add constraint FK_OPERADOR_GERE_AGENCIA_ foreign key (ID_AGENCIA)
       references AGENCIA_VIAGENS (ID_AGENCIA)
@@ -521,14 +531,9 @@ alter table RELATIONSHIP_10
       references PONTUACAO (ID_PONTUACAO)
       on delete restrict on update restrict;
 
-alter table TEM
-   add constraint FK_TEM_TEM_PARTIDAS foreign key (ID_PARTIDA)
-      references PARTIDAS (ID_PARTIDA)
-      on delete restrict on update restrict;
-
-alter table TEM
-   add constraint FK_TEM_TEM2_PONTUACA foreign key (ID_PONTUACAO)
-      references PONTUACAO (ID_PONTUACAO)
+alter table VIAGENS
+   add constraint FK_VIAGENS_CHEGA_DESTINOS foreign key (ID_DESTINO)
+      references DESTINOS (ID_DESTINO)
       on delete restrict on update restrict;
 
 alter table VIAGENS
@@ -537,12 +542,7 @@ alter table VIAGENS
       on delete restrict on update restrict;
 
 alter table VIAGENS
-   add constraint FK_VIAGENS_RELATIONS_PARTIDAS foreign key (ID_PARTIDA)
+   add constraint FK_VIAGENS_PARTE_PARTIDAS foreign key (ID_PARTIDA)
       references PARTIDAS (ID_PARTIDA)
-      on delete restrict on update restrict;
-
-alter table VIAGENS
-   add constraint FK_VIAGENS_RELATIONS_DESTINOS foreign key (ID_DESTINO)
-      references DESTINOS (ID_DESTINO)
       on delete restrict on update restrict;
 
