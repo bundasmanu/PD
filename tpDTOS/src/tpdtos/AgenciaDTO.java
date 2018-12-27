@@ -21,6 +21,7 @@ public class AgenciaDTO {
  
     public AgenciaDTO(String name){
         this.nomeAgencia=name;
+        this.id=1;
         this.companhias=new ArrayList<CompanhiaDTO>();
         this.operadores=new ArrayList<OperadorDTO>();
     }
@@ -54,7 +55,15 @@ public class AgenciaDTO {
     public void setOperadores(List<OperadorDTO> operadores) {
         this.operadores = operadores;
     }
- 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString(){
         

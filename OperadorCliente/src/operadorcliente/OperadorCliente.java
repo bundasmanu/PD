@@ -10,6 +10,8 @@ import java.util.Properties;
 import java.util.Scanner;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import tpdtos.AgenciaDTO;
+import tpdtos.OperadorDTO;
 
 /**
  *
@@ -66,12 +68,152 @@ String rsfull_class_name = "java:global/TP/TP-ejb/BeanRemoto!dados.BeanRemotoRem
       System.out.println(e.getMessage());
    }
  }
+ 
+  public static void interface_inicial(){
+     
+    char c;
+    String option;
+     
+    System.out.println("(Q)uit, (C)ompanhia, (A)viao, (O)perador\n");
+    option=sc.next().toUpperCase();
+     
+    if(option.length() >= 1){
+        c = option.charAt(0);
+    }else{
+        c = ' ';
+    }
+    
+    switch(c){
+        
+        case 'C':
+            interface_Companhia();
+            break;  
+        case 'A':
+            interface_aviao();
+            break;
+        case 'O':
+            interface_Operador();
+            break;
+        case 'Q':
+            sair=true;
+            break;
+        default:
+            break;
+    }
+    
+     
+ }
+    
+ public static void interface_Companhia(){
+     
+    char c;
+    String option;
+     
+    System.out.println("(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect Loja\n");
+    option=sc.next().toUpperCase();
+     
+    if(option.length() >= 1){
+        c = option.charAt(0);
+    }else{
+        c = ' ';
+    }
+    
+    switch(c){
+        
+        case 'I':
+
+            break;  
+        case 'U':
+
+            break;
+        case 'D':
+
+            break;  
+        case 'S':
+
+            break;
+        case 'Q':
+            sair=true;
+            break;
+        default:
+            break;
+    }
+
+ }
+ 
+  public static void interface_Operador(){
+     
+    char c;
+    String option;
+    String user; 
+    
+    System.out.println("(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect Empregado\n");
+    option=sc.next().toUpperCase();
+     
+    if(option.length() >= 1){
+        c = option.charAt(0);
+    }else{
+        c = ' ';
+    }
+    
+    switch(c){
+        
+        case 'I':
+
+            break;  
+        case 'U':
+
+            break;
+        case 'D':
+
+            break;
+        case 'S':
+
+            break;
+        case 'Q':
+            sair=true;
+            break;
+        default:
+            break;
+    }
+
+ }
+  
+  public static void interface_aviao(){
+      
+    char c;
+    String option;
+    String user; 
+    
+    System.out.println("(Q)uit, (I)nsert\n");
+    option=sc.next().toUpperCase();
+     
+    if(option.length() >= 1){
+        c = option.charAt(0);
+    }else{
+        c = ' ';
+    }
+    
+    switch (c) {
+        case 'I':
+
+        break;
+        default:
+            break;
+    }
+      
+  }
     
     
     public static void main(String[] args) {
         // TODO code application logic here
         
         getRemoteReferences();
+        AgenciaDTO agencia=new AgenciaDTO("JJAJA");
+        OperadorDTO op=new OperadorDTO("JOAO","SGGSDGAMI.COM",agencia.getId());
+        op.setAgencia(agencia);
+        agencia.getOperadores().add(op);
+        System.out.println(agencia.toString());
         System.out.println(rf.mostraOla());
         
     }
