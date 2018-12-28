@@ -8,6 +8,7 @@ package dados;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -24,6 +25,16 @@ public class CompanhiaFacade extends AbstractFacade<Companhia> implements Compan
         return em;
     }
 
+    @Override
+    public Companhia findbyName(String nome){
+        
+        Query qu=this.em.createNamedQuery("Companhia.findByNomeCompanhia");
+        qu.setParameter("nomeCompanhia", nome);
+        Companhia x= (Companhia)qu.getSingleResult();
+        
+        return x;
+    }
+    
     public CompanhiaFacade() {
         super(Companhia.class);
     }

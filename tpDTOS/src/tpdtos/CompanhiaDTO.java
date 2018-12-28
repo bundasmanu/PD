@@ -1,10 +1,11 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package tpdtos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,20 +13,22 @@ import java.util.List;
  *
  * @author gustavo
  */
-public class CompanhiaDTO {
+public class CompanhiaDTO implements Serializable{
     
     String nome;
-    AgenciaDTO ag;
     float pontuacao_media;
     List<AviaoDTO> avioes_companhia;
     List<PontuacaoDTO> pontuacoes;
     
-    public CompanhiaDTO(String name, int id_agencia){
+    public CompanhiaDTO(String name){
         this.nome=name;
         this.pontuacao_media=0;
-        this.ag=new AgenciaDTO(id_agencia);
         this.avioes_companhia=new ArrayList<AviaoDTO>();
         this.pontuacoes=new ArrayList<PontuacaoDTO>();
+    }
+    
+    public CompanhiaDTO(int id_agencia){
+        
     }
     
     public String getNome(){
@@ -34,14 +37,6 @@ public class CompanhiaDTO {
     
     public void setNome(String name){
         this.nome=name;
-    }
-    
-    public AgenciaDTO getAgencia(){
-        return this.ag;
-    }
-    
-    public void setAgencia(AgenciaDTO agdt){
-        this.ag=agdt;
     }
     
     public List<AviaoDTO> getAvioes(){
@@ -71,9 +66,8 @@ public class CompanhiaDTO {
     @Override
     public String toString(){
         
-        String info_companhia="";
-        
-        info_companhia+=this.getNome()+"\tTrabalha com a agencia\n"+this.ag.getNomeAgencia();
+        String info_companhia="Nome: "+this.getNome();
+
         info_companhia+="\nAvioes:\n";
         for(AviaoDTO x : this.avioes_companhia){
             info_companhia+=x.toString()+"\n";

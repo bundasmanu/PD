@@ -6,7 +6,6 @@
 package dados;
 
 import java.util.List;
-import javax.ejb.Local;
 import tpdtos.AviaoDTO;
 import tpdtos.CompanhiaDTO;
 
@@ -14,13 +13,11 @@ import tpdtos.CompanhiaDTO;
  *
  * @author gustavo
  */
-@Local
-public interface singletonLocalLocal {
+public interface CompanhiaRemotoFunc {
     
-    public String showOla();
     public boolean insertCompanhia(CompanhiaDTO d);
-    public boolean atualizaCompanhia(String nomeComp, String novoNome);
-    public boolean apagaCompanhia(CompanhiaDTO d);
-    public List<CompanhiaDTO> selectAll();
+    public boolean deleteCompanhia(CompanhiaDTO d);
+    public boolean updateCompanhia(String nomeComp, String novoNome);
+    public List<CompanhiaDTO> selectList();
     public List<AviaoDTO> selectAvioes(String nome_c);
 }

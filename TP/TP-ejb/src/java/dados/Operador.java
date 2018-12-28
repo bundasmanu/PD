@@ -44,9 +44,6 @@ public class Operador implements Serializable {
     @Basic(optional = false)
     @Column(name = "pass_operador")
     private String passOperador;
-    @JoinColumn(name = "id_agencia", referencedColumnName = "id_agencia")
-    @ManyToOne(optional = false)
-    private AgenciaViagens idAgencia;
 
     public Operador() {
     }
@@ -92,14 +89,6 @@ public class Operador implements Serializable {
 
     public void setPassOperador(String passOperador) {
         this.passOperador = passOperador;
-    }
-
-    public AgenciaViagens getIdAgencia() {
-        return idAgencia;
-    }
-
-    public void setIdAgencia(AgenciaViagens idAgencia) {
-        this.idAgencia = idAgencia;
     }
 
     @Override

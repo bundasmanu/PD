@@ -17,13 +17,13 @@ public class AviaoDTO {
     int id;
     String nomeAviao;
     int num_lugares;
-    CompanhiaDTO companhiaAviao;
+    //CompanhiaDTO companhiaAviao;
     List<ViagemDTO> viagensAviao;
     
-    public AviaoDTO(String name, int numberLug, CompanhiaDTO comp){
+    public AviaoDTO(String name, int numberLug){
         this.nomeAviao=name;
         this.num_lugares=numberLug;
-        this.companhiaAviao=comp;
+        //this.companhiaAviao=comp;
         this.viagensAviao=new ArrayList<ViagemDTO>();
     }
     
@@ -39,9 +39,9 @@ public class AviaoDTO {
         return num_lugares;
     }
 
-    public CompanhiaDTO getCompanhiaAviao() {
+    /*public CompanhiaDTO getCompanhiaAviao() {
         return companhiaAviao;
-    }
+    }*/
 
     public List<ViagemDTO> getViagensAviao() {
         return viagensAviao;
@@ -55,9 +55,9 @@ public class AviaoDTO {
         this.num_lugares = num_lugares;
     }
 
-    public void setCompanhiaAviao(CompanhiaDTO companhiaAviao) {
+    /*public void setCompanhiaAviao(CompanhiaDTO companhiaAviao) {
         this.companhiaAviao = companhiaAviao;
-    }
+    }*/
 
     public void setViagensAviao(List<ViagemDTO> viagensAviao) {
         this.viagensAviao = viagensAviao;
@@ -69,7 +69,7 @@ public class AviaoDTO {
         String info_aviao="";
         
         info_aviao+=this.getNomeAviao()+"\t"+this.getNum_lugares()+"\n";
-        info_aviao+="Pertenco a companhia: "+this.getCompanhiaAviao()+"\n";
+        //info_aviao+="Pertenco a companhia: "+this.getCompanhiaAviao()+"\n";
         info_aviao+="Viagens a serem efetuadas:\n";
         
         for(ViagemDTO x : this.viagensAviao){

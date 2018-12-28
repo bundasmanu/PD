@@ -5,16 +5,34 @@
  */
 package dados;
 
+import java.util.List;
 import javax.ejb.Remote;
+import tpdtos.AviaoDTO;
+import tpdtos.CompanhiaDTO;
 
 /**
  *
  * @author gustavo
  */
 @Remote
-public interface BeanRemotoRemote extends AviaoRemotoFunc{
+public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc{
     
     @Override
     public String mostraOla();
+    
+    @Override
+    public boolean insertCompanhia(CompanhiaDTO d);
+    
+    @Override
+    public boolean updateCompanhia(String nomeComp, String novoNome);
+    
+    @Override
+    public boolean deleteCompanhia(CompanhiaDTO d);
+    
+    @Override
+    public List<CompanhiaDTO> selectList();
+    
+    @Override
+    public List<AviaoDTO> selectAvioes(String nome_c);
     
 }

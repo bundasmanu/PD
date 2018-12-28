@@ -56,10 +56,11 @@ public class Aviao implements Serializable {
         this.idAviao = idAviao;
     }
 
-    public Aviao(Integer idAviao, String nomeAviao, int numLugares) {
+    public Aviao(Integer idAviao, String nomeAviao, int numLugares,Companhia c) {
         this.idAviao = idAviao;
         this.nomeAviao = nomeAviao;
         this.numLugares = numLugares;
+        this.idCompanhia=c;
     }
 
     public Integer getIdAviao() {

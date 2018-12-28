@@ -13,12 +13,10 @@ public class OperadorDTO {
     
     String nome;
     String email;
-    AgenciaDTO agenciaTrabalho;
     
-    public OperadorDTO(String name, String mail, int id_agencia){
+    public OperadorDTO(String name, String mail){
         this.nome=name;
         this.email=mail;
-        this.agenciaTrabalho=new AgenciaDTO(id_agencia);
     }
     
     public String getNome(){
@@ -37,20 +35,12 @@ public class OperadorDTO {
         this.email=mail;
     }
     
-    public AgenciaDTO getAgencia(){
-        return this.agenciaTrabalho;
-    }
-    
-    public void setAgencia(AgenciaDTO a){
-        this.agenciaTrabalho=a;
-    }
-    
     @Override
     public String toString(){
         
         String info_op="";
         
-        info_op+=this.getNome()+this.getMail()+"\nTrabalha na "+this.agenciaTrabalho.getNomeAgencia()+"\n";
+        info_op+=this.getNome()+this.getMail()+"\n";
         
         return info_op;
     }

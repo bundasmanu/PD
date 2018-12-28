@@ -6,11 +6,13 @@
 package operadorcliente;
 
 import dados.BeanRemotoRemote;
+import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import tpdtos.AgenciaDTO;
+import tpdtos.CompanhiaDTO;
 import tpdtos.OperadorDTO;
 
 /**
@@ -28,6 +30,7 @@ public class OperadorCliente {
     static boolean sair=false;
     static int estou_logado=0;
     static String id="";
+    private static AgenciaDTO agencia=new AgenciaDTO("JJAJA");
     
             // propriedades
  public static void getRemoteReferences(){
@@ -109,7 +112,7 @@ String rsfull_class_name = "java:global/TP/TP-ejb/BeanRemoto!dados.BeanRemotoRem
     char c;
     String option;
      
-    System.out.println("(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect Loja\n");
+    System.out.println("(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect Companhias\n");
     option=sc.next().toUpperCase();
      
     if(option.length() >= 1){
@@ -121,16 +124,72 @@ String rsfull_class_name = "java:global/TP/TP-ejb/BeanRemoto!dados.BeanRemotoRem
     switch(c){
         
         case 'I':
-
+            try{
+                System.out.println("\nIntroduza o nome da companhia\n");
+                String nome_comp=sc.next();
+                CompanhiaDTO novaComp=new CompanhiaDTO(nome_comp);
+                boolean aconteceu=rf.insertCompanhia(novaComp);
+                if(aconteceu==true){
+                    System.out.println("\nInserida a companhia com sucesso\n");
+                }
+                else{
+                    System.out.println("\nOcorreu um problema\n");
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
             break;  
         case 'U':
-
+            try{
+                System.out.println("\nIntroduza o nome da companhia a atualizar\n");
+                String nome_comp=sc.next();
+                System.out.println("\nIntroduza o novo nome da companhia\n");
+                String novo_nome=sc.next();
+                boolean retorno=rf.updateCompanhia(nome_comp, novo_nome);
+                if(retorno==false){
+                    System.out.println("\nErro na atualizacao\n");
+                }
+                else{
+                    System.out.println("\nCompanhia atualizada com sucesso\n");
+                }
+            }    
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
             break;
         case 'D':
-
+               try{
+                   System.out.println("\nQual o nome da companhia a apagar\n");
+                   String nomc=sc.next();
+                   CompanhiaDTO comp_apag=new CompanhiaDTO(nomc);
+                   boolean deleteOP=rf.deleteCompanhia(comp_apag);
+                   if(deleteOP==false){
+                       System.out.println("\nErro na Operacao\n");
+                   }
+                   else{
+                       System.out.println("\nOperacao bem sucedida\n");
+                   }
+               } 
+               catch(Exception e){
+                   System.out.println(e.getMessage());
+               }
             break;  
         case 'S':
-
+                try{
+                    List<CompanhiaDTO> lista_companhia=rf.selectList();
+                    if(lista_companhia==null){
+                        System.out.println("\nErro na Operacao\n");
+                    }
+                    else{
+                        for(CompanhiaDTO x : lista_companhia){
+                            System.out.println(x.toString());
+                        }
+                    }
+                }
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
             break;
         case 'Q':
             sair=true;
@@ -209,12 +268,15 @@ String rsfull_class_name = "java:global/TP/TP-ejb/BeanRemoto!dados.BeanRemotoRem
         // TODO code application logic here
         
         getRemoteReferences();
-        AgenciaDTO agencia=new AgenciaDTO("JJAJA");
-        OperadorDTO op=new OperadorDTO("JOAO","SGGSDGAMI.COM",agencia.getId());
+        while(sair!=true){
+           //interface_banco();
+           interface_inicial();
+        }
+        /*OperadorDTO op=new OperadorDTO("JOAO","SGGSDGAMI.COM",agencia.getId());
         op.setAgencia(agencia);
         agencia.getOperadores().add(op);
         System.out.println(agencia.toString());
-        System.out.println(rf.mostraOla());
+        System.out.println(rf.mostraOla());*/
         
     }
     

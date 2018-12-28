@@ -22,6 +22,8 @@ public interface CompanhiaFacadeLocal {
     void remove(Companhia companhia);
 
     Companhia find(Object id);
+    
+    public Companhia findbyName(String nome);
 
     List<Companhia> findAll();
 

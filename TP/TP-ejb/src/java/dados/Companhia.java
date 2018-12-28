@@ -52,9 +52,6 @@ public class Companhia implements Serializable {
     private Collection<Pontuacao> pontuacaoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCompanhia")
     private Collection<Aviao> aviaoCollection;
-    @JoinColumn(name = "id_agencia", referencedColumnName = "id_agencia")
-    @ManyToOne(optional = false)
-    private AgenciaViagens idAgencia;
 
     public Companhia() {
     }
@@ -63,10 +60,10 @@ public class Companhia implements Serializable {
         this.idCompanhia = idCompanhia;
     }
 
-    public Companhia(Integer idCompanhia, String nomeCompanhia, float pontuacaoMedia) {
+    public Companhia(Integer idCompanhia, String nomeCompanhia) {
         this.idCompanhia = idCompanhia;
         this.nomeCompanhia = nomeCompanhia;
-        this.pontuacaoMedia = pontuacaoMedia;
+        this.pontuacaoMedia = 0;
     }
 
     public Integer getIdCompanhia() {
@@ -107,14 +104,6 @@ public class Companhia implements Serializable {
 
     public void setAviaoCollection(Collection<Aviao> aviaoCollection) {
         this.aviaoCollection = aviaoCollection;
-    }
-
-    public AgenciaViagens getIdAgencia() {
-        return idAgencia;
-    }
-
-    public void setIdAgencia(AgenciaViagens idAgencia) {
-        this.idAgencia = idAgencia;
     }
 
     @Override
