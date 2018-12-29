@@ -22,6 +22,8 @@ public interface AviaoFacadeLocal {
     void remove(Aviao aviao);
 
     Aviao find(Object id);
+    
+    Aviao findNomeAviao(String nome);
 
     List<Aviao> findAll();
 

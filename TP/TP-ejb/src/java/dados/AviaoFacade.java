@@ -8,6 +8,7 @@ package dados;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,5 +28,16 @@ public class AviaoFacade extends AbstractFacade<Aviao> implements AviaoFacadeLoc
     public AviaoFacade() {
         super(Aviao.class);
     }
-    
+
+    @Override
+    public Aviao findNomeAviao(String nome) {
+
+        Query qu = this.em.createNamedQuery("Aviao.findByNomeAviao");
+        qu.setParameter("nomeAviao", nome);
+        Aviao x = (Aviao) qu.getSingleResult();
+
+        return x;
+
+    }
+
 }

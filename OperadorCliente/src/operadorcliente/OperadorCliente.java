@@ -12,6 +12,7 @@ import java.util.Scanner;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import tpdtos.AgenciaDTO;
+import tpdtos.AviaoDTO;
 import tpdtos.CompanhiaDTO;
 import tpdtos.OperadorDTO;
 
@@ -244,7 +245,7 @@ String rsfull_class_name = "java:global/TP/TP-ejb/BeanRemoto!dados.BeanRemotoRem
     String option;
     String user; 
     
-    System.out.println("(Q)uit, (I)nsert\n");
+    System.out.println("(Q)uit, (I)nsert, (D)elete, (U)pdate, (S)elect aviao\n");
     option=sc.next().toUpperCase();
      
     if(option.length() >= 1){
@@ -255,8 +256,75 @@ String rsfull_class_name = "java:global/TP/TP-ejb/BeanRemoto!dados.BeanRemotoRem
     
     switch (c) {
         case 'I':
-
+            try{
+                System.out.println("\nIntroduza o nome do aviao\n");
+                String nome_aviao=sc.next();
+                System.out.println("\nIntroduza o numero de lugares\n");
+                Integer num_lug=sc.nextInt();
+                System.out.println("\nIntroduza o nome da companhia\n");
+                String nome_comp= sc.next();
+                AviaoDTO aviao= new AviaoDTO(nome_aviao,num_lug);
+                boolean aconteceu=rf.insertAviao(aviao,nome_comp);
+                if(aconteceu==true){
+                    System.out.println("\nInserido o aviao com sucesso\n");
+                }
+                else{
+                    System.out.println("\nOcorreu um problema\n");
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
         break;
+        case 'D':
+           try{
+                   System.out.println("\nQual o nome do aviao a apagar\n");
+                   String noma=sc.next();
+                   System.out.println("\nQual o nome da companhia  que tinha\n");
+                   String nomecompanhia=sc.next();
+                   boolean deleteAviao=rf.deleteAviao(noma,nomecompanhia);
+                   if(deleteAviao==false){
+                       System.out.println("\nErro na Operacao\n");
+                   }
+                   else{
+                       System.out.println("\nOperacao bem sucedida\n");
+                   }
+               } 
+               catch(Exception e){
+                   System.out.println(e.getMessage());
+               }
+           break;
+        case 'U':
+             try{
+                   System.out.println("\nQual o nome do aviao a atualizar\n");
+                   String nome_av=sc.next();
+                   System.out.println("\nQual o numero de lugares a atualizar para esse aviao\n");
+                   Integer numlu=sc.nextInt();
+                   //AviaoDTO avi_apag= new AviaoDTO(noma, numLugares);
+                   boolean atualizaAviao=rf.updateAviao(nome_av,numlu);
+                   if(atualizaAviao==false){
+                       System.out.println("\nErro na Operacao\n");
+                   }
+                   else{
+                       System.out.println("\nOperacao bem sucedida\n");
+                   }
+               } 
+               catch(Exception e){
+                   System.out.println(e.getMessage());
+               }
+           break;
+             case 'S':
+                try{
+                   System.out.println("\nQual o nome do aviao que pretende visualizar\n");
+                   String nome_av2=sc.next();
+                   
+                   //AviaoDTO avi_apag= new AviaoDTO(noma, numLugares);
+                   System.out.println(""+rf.selectionaAviao(nome_av2));
+               } 
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+            break;
         default:
             break;
     }

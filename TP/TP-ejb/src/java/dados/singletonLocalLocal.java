@@ -18,9 +18,16 @@ import tpdtos.CompanhiaDTO;
 public interface singletonLocalLocal {
     
     public String showOla();
+    //parte das companhias
     public boolean insertCompanhia(CompanhiaDTO d);
     public boolean atualizaCompanhia(String nomeComp, String novoNome);
     public boolean apagaCompanhia(CompanhiaDTO d);
     public List<CompanhiaDTO> selectAll();
     public List<AviaoDTO> selectAvioes(String nome_c);
+    
+    //parte do aviao
+    public boolean insertAviao(AviaoDTO aviao,String nome_companhia);
+    public boolean deleteAviao(String nome_aviao,String nome_companhia);
+    public boolean updateAviao(String nome_aviao,Integer novo_num_lugares);
+    public String selectionaAviao(String nome_aviao);
 }

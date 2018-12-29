@@ -5,6 +5,7 @@
  */
 package dados;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -58,14 +59,37 @@ public class BeanRemoto implements BeanRemotoRemote {
         return this.sing.atualizaCompanhia(nomeComp, novoNome);
     }
     
-    @Override
-    public List<CompanhiaDTO> selectList(){
-        return this.sing.selectAll();
-    }
-    
+  
     @Override
     public List<AviaoDTO> selectAvioes(String nome_c){
         return this.sing.selectAvioes(nome_c);
     }
+
+    @Override
+    public boolean insertAviao(AviaoDTO aviao,String nome_companhia) {
+       return this.sing.insertAviao(aviao, nome_companhia);
+    }
+
+    @Override
+    public boolean deleteAviao(String nome_aviao,String nome_companhia) {
+        return this.sing.deleteAviao(nome_aviao,nome_companhia);
+    }
+
+    @Override
+    public boolean updateAviao(String nome_aviao,Integer novo_num_lugares) {
+        return this.sing.updateAviao(nome_aviao, novo_num_lugares);
+    }
+    
+    @Override
+    public List<CompanhiaDTO> selectList(){
+        return this.sing.selectAll();
+    }
+
+    @Override
+    public String selectionaAviao(String nome_aviao){
+        return this.sing.selectionaAviao(nome_aviao);
+    }
+
+   
     
 }
