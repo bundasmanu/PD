@@ -22,6 +22,8 @@ public interface PartidasFacadeLocal {
     void remove(Partidas partidas);
 
     Partidas find(Object id);
+    
+    Partidas findbyName(String nomeCidade); /*SO EXISTE UMA CIDADE COM O MESMO NOME*/
 
     List<Partidas> findAll();
 

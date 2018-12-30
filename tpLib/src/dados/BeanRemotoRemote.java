@@ -9,13 +9,15 @@ import java.util.List;
 import javax.ejb.Remote;
 import tpdtos.AviaoDTO;
 import tpdtos.CompanhiaDTO;
+import tpdtos.OperadorDTO;
+import tpdtos.PartidaDTO;
 
 /**
  *
  * @author gustavo
  */
 @Remote
-public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc{
+public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, OperadorRemotoFunc, PartidaRemotoFunc{
     
     @Override
     public String mostraOla();
@@ -33,6 +35,33 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc{
     public List<CompanhiaDTO> selectList();
     
     @Override
-    public List<AviaoDTO> selectAvioes(String nome_c);
+    public CompanhiaDTO selectCompanhia(String nome_c);
+    
+    @Override
+    public boolean encontrouOperador(OperadorDTO d);
+    
+    @Override
+    public boolean insertOperador(OperadorDTO d);
+    
+    @Override
+    public boolean deleteOperador(String email);
+    
+    @Override
+    public boolean atualizaOperador(String email, String novoNome);/*FORNECER O EMAIL DO OPERADOR E ALTERAR O SEU NOME*/
+    
+    @Override
+    public List<OperadorDTO> selectAllOP();
+    
+    @Override
+    public boolean insertPartida(PartidaDTO part);/*NAO PODEM EXISTIR CIDADES COM O MESMO NOME*/
+    
+    @Override
+    public boolean deletePartida(String cidade);
+    
+    @Override
+    public List<PartidaDTO> selectAllPartidas();
+    
+    @Override
+    public PartidaDTO selectPartida(String cidade);
     
 }

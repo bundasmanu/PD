@@ -13,6 +13,8 @@ import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import tpdtos.AviaoDTO;
 import tpdtos.CompanhiaDTO;
+import tpdtos.OperadorDTO;
+import tpdtos.PartidaDTO;
 
 /**
  *
@@ -64,8 +66,53 @@ public class BeanRemoto implements BeanRemotoRemote {
     }
     
     @Override
-    public List<AviaoDTO> selectAvioes(String nome_c){
-        return this.sing.selectAvioes(nome_c);
+    public CompanhiaDTO selectCompanhia(String nome_c){
+        return this.sing.selectCompanhia(nome_c);
+    }
+    
+    @Override
+    public boolean encontrouOperador(OperadorDTO d){
+        return this.sing.encontrouOperador(d);
+    }
+    
+    @Override
+    public boolean insertOperador(OperadorDTO d){
+        return this.sing.insereOperador(d);
+    }
+    
+    @Override
+    public boolean deleteOperador(String email){
+        return this.sing.apagaOperador(email);
+    }
+    
+    @Override
+    public boolean atualizaOperador(String email, String novoNome){
+        return this.sing.atualizaOp(email, novoNome);
+    }
+    
+    @Override
+    public List<OperadorDTO> selectAllOP(){
+        return this.sing.selectAllOPS();
+    }
+    
+    @Override
+    public boolean insertPartida(PartidaDTO part){
+        return this.sing.inserePartida(part);
+    }
+    
+    @Override
+    public boolean deletePartida(String cidade){
+        return this.sing.apagaPartida(cidade);
+    }
+    
+    @Override
+    public List<PartidaDTO> selectAllPartidas(){
+        return this.sing.seleccionaAllPartidas();
+    }
+    
+    @Override
+    public PartidaDTO selectPartida(String cidade){
+        return this.sing.seleccionaPartida(cidade);
     }
     
 }

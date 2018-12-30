@@ -22,6 +22,8 @@ public interface OperadorFacadeLocal {
     void remove(Operador operador);
 
     Operador find(Object id);
+    
+    public Operador findbyName(String email);
 
     List<Operador> findAll();
 

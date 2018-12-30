@@ -5,18 +5,27 @@
  */
 package tpdtos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author gustavo
  */
-public class OperadorDTO {
+public class OperadorDTO implements Serializable{
     
     String nome;
     String email;
+    private String pass;
     
-    public OperadorDTO(String name, String mail){
+    public OperadorDTO(String name, String mail,String pass){ /*INSERT OPERADOR*/
         this.nome=name;
         this.email=mail;
+        this.pass=pass;
+    }
+    
+    public OperadorDTO(String email, String pass){ /*SELECT OPERADOR*/
+        this.email=email;
+        this.pass=pass;
     }
     
     public String getNome(){
@@ -34,14 +43,27 @@ public class OperadorDTO {
     public void setMail(String mail){
         this.email=mail;
     }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
     
     @Override
     public String toString(){
         
         String info_op="";
-        
-        info_op+=this.getNome()+this.getMail()+"\n";
-        
+        try{
+
+            info_op+=this.getNome()+"\t+"+this.getMail()+"\n";
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return "";
+        }
         return info_op;
     }
     

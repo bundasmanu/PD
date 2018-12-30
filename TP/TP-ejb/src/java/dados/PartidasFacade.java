@@ -8,6 +8,7 @@ package dados;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +27,23 @@ public class PartidasFacade extends AbstractFacade<Partidas> implements Partidas
 
     public PartidasFacade() {
         super(Partidas.class);
+    }
+    
+    @Override
+    public Partidas findbyName(String nomeCidade){
+        
+        Partidas x=null;
+        try{
+            Query qu=this.em.createNamedQuery("Partidas.findByCidadePartida");
+            qu.setParameter("cidadePartida", nomeCidade);
+            x=(Partidas)qu.getSingleResult();
+        }
+        catch(Exception e){
+            return null;
+        }
+    
+        return x;
+        
     }
     
 }

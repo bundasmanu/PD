@@ -19,14 +19,12 @@ public class PontuacaoDTO {
     PARA ASSIM DEPOIS INSERIRMOS NA COLECCÇAO CORRETA A PONTUACAO*/
     
     int valor;
-    ClienteDTO cli;
     List<CompanhiaDTO> companhias;
     List<DestinoDTO> destinos;
     List<PartidaDTO> partidas;
     
-    public PontuacaoDTO(int val,String name,String email){
+    public PontuacaoDTO(int val){  /*NO INSERT DE UMA PONTUACAO NA MAIN, É NECESSARIO PEDIR O VALOR DA PONTUACAO O EMAIL DO USUARIO E A COMPANHIA OU DESTINO OU PARTIDA A AVALIAR*/
         this.valor=val;
-        this.cli=new ClienteDTO(name,email);
         this.companhias=new ArrayList<CompanhiaDTO>();
         this.destinos=new ArrayList<DestinoDTO>();
         this.partidas=new ArrayList<PartidaDTO>();
@@ -64,14 +62,7 @@ public class PontuacaoDTO {
         this.partidas = partidas;
     }
 
-    public ClienteDTO getCli() {
-        return cli;
-    }
-
-    public void setCli(ClienteDTO cli) {
-        this.cli = cli;
-    }
-
+    @Override
     public String toString(){
         
         String info_pontuacao="";

@@ -5,6 +5,7 @@
  */
 package tpdtos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,20 +13,27 @@ import java.util.List;
  *
  * @author gustavo
  */
-public class PartidaDTO {
+public class PartidaDTO implements Serializable{
     
     String cidade;
     float pontuacao_media;
     List<ViagemDTO> viagens;
     List<PontuacaoDTO> pontuacoes;
     
-    public PartidaDTO(String city){
+    public PartidaDTO(String city){ /*INSERCAO*/
         this.cidade=city;
         this.pontuacao_media=0;
         this.viagens=new ArrayList<ViagemDTO>();
         this.pontuacoes=new ArrayList<PontuacaoDTO>();
     }
 
+    public PartidaDTO(String city, float pont_med){ /*SELECT*/
+        this.cidade=city;
+        this.pontuacao_media=pont_med;
+        this.viagens=new ArrayList<ViagemDTO>();
+        this.pontuacoes=new ArrayList<PontuacaoDTO>();
+    }
+    
     public String getCidade() {
         return cidade;
     }
@@ -49,6 +57,14 @@ public class PartidaDTO {
     public void setPontuacao_media(float pontuacao_media) {
         this.pontuacao_media = pontuacao_media;
     }
+
+    public List<PontuacaoDTO> getPontuacoes() {
+        return pontuacoes;
+    }
+
+    public void setPontuacoes(List<PontuacaoDTO> pontuacoes) {
+        this.pontuacoes = pontuacoes;
+    }
     
     @Override
     public String toString(){
@@ -56,7 +72,9 @@ public class PartidaDTO {
         String info_partida="";
         
         info_partida+=this.getCidade()+"\n";
+        info_partida+=this.getPontuacao_media()+"\n";
         
+        info_partida+="Viagens: \n";
         for(ViagemDTO x : this.viagens){
             info_partida+=x.toString()+"\n";
         }

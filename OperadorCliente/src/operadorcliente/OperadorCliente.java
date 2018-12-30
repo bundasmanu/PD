@@ -14,6 +14,7 @@ import javax.naming.NamingException;
 import tpdtos.AgenciaDTO;
 import tpdtos.CompanhiaDTO;
 import tpdtos.OperadorDTO;
+import tpdtos.PartidaDTO;
 
 /**
  *
@@ -28,6 +29,7 @@ public class OperadorCliente {
     static BeanRemotoRemote rf; //Remoto
     static Scanner sc = new Scanner (System.in);
     static boolean sair=false;
+    static boolean user_aceite=false;
     static int estou_logado=0;
     static String id="";
     private static AgenciaDTO agencia=new AgenciaDTO("JJAJA");
@@ -72,12 +74,57 @@ String rsfull_class_name = "java:global/TP/TP-ejb/BeanRemoto!dados.BeanRemotoRem
    }
  }
  
+ public static void sigInOperador(){
+     
+    char c;
+    String option;
+     
+    System.out.println("\n(Q)uit, (S)igIn");
+    option=sc.next().toUpperCase(); sc.skip("\n");
+     
+    if(option.length() >= 1){
+        c = option.charAt(0);
+    }else{
+        c = ' ';
+    }
+    
+        switch(c){
+        
+        case 'S':
+            try{
+                System.out.println("\nIntroduza o seu email: ");
+                String email=sc.nextLine();
+                System.out.println("\nIntroduza a sua pass");
+                String pass=sc.nextLine();
+                OperadorDTO d=new OperadorDTO(email, pass);
+                boolean existe=rf.encontrouOperador(d);
+                if(existe==true){
+                    user_aceite=true;/*USER ACEITE--> PODE PROSSEGUIR*/
+                    System.out.println("\nPode prosseguir\n");
+                }
+                else{
+                    System.out.println("\nUtilizador nao foi encontrado, tente novamente\n");
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+            break;
+        case 'Q':
+            System.exit(1);
+            break;
+        default:
+            break;
+    }
+    
+ }
+ 
   public static void interface_inicial(){
      
     char c;
     String option;
      
-    System.out.println("(Q)uit, (C)ompanhia, (A)viao, (O)perador\n");
+    System.out.println("\n(Q)uit, (C)ompanhia, (A)viao, (O)perador, (P)artidas\n");
     option=sc.next().toUpperCase();
      
     if(option.length() >= 1){
@@ -97,6 +144,9 @@ String rsfull_class_name = "java:global/TP/TP-ejb/BeanRemoto!dados.BeanRemotoRem
         case 'O':
             interface_Operador();
             break;
+        case 'P':
+            interface_Partidas();
+            break;
         case 'Q':
             sair=true;
             break;
@@ -112,7 +162,7 @@ String rsfull_class_name = "java:global/TP/TP-ejb/BeanRemoto!dados.BeanRemotoRem
     char c;
     String option;
      
-    System.out.println("(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect Companhias\n");
+    System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect Companhias\n");
     option=sc.next().toUpperCase();
      
     if(option.length() >= 1){
@@ -206,8 +256,9 @@ String rsfull_class_name = "java:global/TP/TP-ejb/BeanRemoto!dados.BeanRemotoRem
     String option;
     String user; 
     
-    System.out.println("(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect Empregado\n");
-    option=sc.next().toUpperCase();
+    System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)electAll");
+    option=sc.next().toUpperCase(); 
+    sc.skip("\n");
      
     if(option.length() >= 1){
         c = option.charAt(0);
@@ -215,19 +266,79 @@ String rsfull_class_name = "java:global/TP/TP-ejb/BeanRemoto!dados.BeanRemotoRem
         c = ' ';
     }
     
+    String email_op;
+    String nome_op;
+    String pass_op;
+    OperadorDTO d_op=null;
+    boolean retorno;
+    
     switch(c){
         
         case 'I':
-
+            try{
+                System.out.println("\nIntroduza o seu email: ");
+                email_op=sc.nextLine();
+                System.out.println("\nIntroduza o seu nome: ");
+                nome_op=sc.nextLine();
+                System.out.println("\nIntroduza a sua pass: ");
+                pass_op=sc.nextLine();
+                d_op=new OperadorDTO(nome_op,email_op,pass_op);
+                retorno=rf.insertOperador(d_op);
+                if(retorno==false){
+                    System.out.println("\nNao foi possivel inserir o operador\n");
+                }
+                else{
+                    System.out.println("\nOperador inserido com sucesso\n");
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
             break;  
         case 'U':
-
+            try{
+                System.out.println("\nIndique o email do utilizador: ");
+                email_op=sc.nextLine();
+                System.out.println("\nIndique o novo nome: ");
+                nome_op=sc.nextLine();
+                retorno=rf.atualizaOperador(email_op, nome_op);
+                if(retorno==true){
+                    System.out.println("\nOperador Atualizado com sucesso\n");
+                }
+                else{
+                    System.out.println("\nErro na atualizacao do Operador\n");
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
             break;
         case 'D':
-
+                try{
+                    System.out.println("\nIntroduza o email a eliminar: "); /*CRITERIO UTILIZADO PARA APAGAR O OPERADOR FOI O SEU EMAIL (UNICO) PARA CDA UTILIZADOR*/
+                    email_op=sc.nextLine();
+                    retorno=rf.deleteOperador(email_op);
+                    if(retorno==false){
+                        System.out.println("\nNao foi possivel apagar o operador\n");
+                    }
+                    else{
+                        System.out.println("\nOperador apagado com sucesso\n");
+                    }
+                }
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
             break;
         case 'S':
-
+            try{
+                List<OperadorDTO> retornoOP=rf.selectAllOP();
+                for(OperadorDTO x : retornoOP){
+                    System.out.println(x.toString());
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
             break;
         case 'Q':
             sair=true;
@@ -262,12 +373,122 @@ String rsfull_class_name = "java:global/TP/TP-ejb/BeanRemoto!dados.BeanRemotoRem
     }
       
   }
+  
+  
+    public static void interface_Partidas(){
+     
+    char c;
+    String option;
+    String user; 
+    
+    System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)electAll, (1)Select Partida pelo Nome");
+    option=sc.next().toUpperCase(); 
+    sc.skip("\n");
+     
+    if(option.length() >= 1){
+        c = option.charAt(0);
+    }else{
+        c = ' ';
+    }
+    
+    String cidade;
+    PartidaDTO partida=null;
+    boolean retorno;
+    
+    switch(c){
+        
+        case 'I':
+            try{
+                System.out.println("\nIntroduza a cidade de partida: ");
+                cidade=sc.nextLine();
+                partida=new PartidaDTO(cidade);
+                retorno=rf.insertPartida(partida);
+                if(retorno==true){
+                    System.out.println("\nPartida inserida com sucesso\n");
+                }
+                else{
+                    System.out.println("\nErro ao inserir a partida\n");
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+            break;  
+        case 'U':
+            try{
+                System.out.println("\nNao sei ainda que parametro alterar, o nome nao faz sentido digo eu\n");
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+            break;
+        case 'D':
+                try{
+                    System.out.println("\nIntroduza a cidade: ");
+                    cidade=sc.nextLine();
+                    retorno=rf.deletePartida(cidade);
+                    if(retorno==true){
+                        System.out.println("\nPartida apagada com sucesso\n");
+                    }
+                    else{
+                        System.out.println("\nErro ao apagar partida\n");
+                    }
+                }    
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+            break;
+        case 'S':
+            try{
+                List<PartidaDTO> retorno_part=rf.selectAllPartidas();
+                if(retorno_part!=null){
+                    for(PartidaDTO x : retorno_part){
+                        System.out.println(x.toString());
+                    }
+                }
+                else{
+                    System.out.println("\nNao existem partidas\n");
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+            break;
+        case '1':
+            try{
+                System.out.println("\nQual o nome da cidade de partida a procurar: ");
+                cidade=sc.nextLine();
+                PartidaDTO retornoPart=rf.selectPartida(cidade);
+                if(retornoPart!=null){
+                    System.out.println(retornoPart.toString());
+                }
+                else{
+                    System.out.println("\nErro na procura da cidade de partida indicada\n");
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+            break;
+        case 'Q':
+            sair=true;
+            break;
+        default:
+            break;
+    }
+
+ }
     
     
     public static void main(String[] args) {
         // TODO code application logic here
         
         getRemoteReferences();
+        
+        do{
+            sigInOperador();
+        }while(user_aceite!=true);
+        
         while(sair!=true){
            //interface_banco();
            interface_inicial();

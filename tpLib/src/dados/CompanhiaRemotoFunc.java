@@ -19,5 +19,5 @@ public interface CompanhiaRemotoFunc {
     public boolean deleteCompanhia(CompanhiaDTO d);
     public boolean updateCompanhia(String nomeComp, String novoNome);
     public List<CompanhiaDTO> selectList();
-    public List<AviaoDTO> selectAvioes(String nome_c);
+    public CompanhiaDTO selectCompanhia(String nome_c);
 }
