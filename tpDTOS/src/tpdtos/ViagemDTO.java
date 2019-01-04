@@ -18,12 +18,12 @@ public class ViagemDTO implements Serializable{
     
     private int id;
     int numero_lugares;
-    Date hora_part;
-    Date hora_cheg;
+    int hora_part;
+    int hora_cheg;
     List<BilheteDTO> bilhetes;
     List<BagagemDTO> bagagens;
     
-    public ViagemDTO(int number, Date part, Date cheg){
+    public ViagemDTO(int number, int part, int cheg){
         this.numero_lugares=number;
         this.hora_part=part;
         this.hora_cheg=cheg;
@@ -39,11 +39,11 @@ public class ViagemDTO implements Serializable{
         return numero_lugares;
     }
 
-    public Date getHora_part() {
+    public int getHora_part() {
         return hora_part;
     }
 
-    public Date getHora_cheg() {
+    public int getHora_cheg() {
         return hora_cheg;
     }
 
@@ -55,11 +55,11 @@ public class ViagemDTO implements Serializable{
         this.numero_lugares = numero_lugares;
     }
 
-    public void setHora_part(Date hora_part) {
+    public void setHora_part(int hora_part) {
         this.hora_part = hora_part;
     }
 
-    public void setHora_cheg(Date hora_cheg) {
+    public void setHora_cheg(int hora_cheg) {
         this.hora_cheg = hora_cheg;
     }
     
@@ -89,7 +89,6 @@ public class ViagemDTO implements Serializable{
         String info_viagem="";
         
         info_viagem+=this.getNumero_lugares()+"\t"+this.getHora_part()+"\t"+this.getHora_cheg()+"\n";
-        info_viagem+=this.getHora_cheg().toString()+"\n";
         info_viagem+="Info Bilhetes:\n";
         
         for(BilheteDTO x : this.bilhetes){

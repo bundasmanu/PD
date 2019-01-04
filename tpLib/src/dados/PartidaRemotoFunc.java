@@ -19,4 +19,5 @@ public interface PartidaRemotoFunc {
     //public boolean updatePartida-->Nao sei que parametro atualizar o nome nao faz sentido, só se for a pontuacao média, mas decerto mais valia fazer um trigger
     public List<PartidaDTO> selectAllPartidas();
     public PartidaDTO selectPartida(String cidade);//como só existe uma cidade com o mesmo nome, só retorna uma partida
+    
 }

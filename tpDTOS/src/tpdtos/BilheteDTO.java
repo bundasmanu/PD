@@ -5,28 +5,24 @@
  */
 package tpdtos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author gustavo
  */
-public class BilheteDTO {
+public class BilheteDTO implements Serializable{
     
     int preco_bilhete;
     ClienteDTO cli;
     ViagemDTO viagem;
     
-    public BilheteDTO(int preco, String nome, String email, int id_viagem){
+    public BilheteDTO(int preco){
         this.preco_bilhete=preco;
-        this.cli=new ClienteDTO(nome,email);
-        this.viagem=new ViagemDTO(id_viagem);
     }
 
     public int getPreco_bilhete() {
         return preco_bilhete;
-    }
-
-    public ClienteDTO getCli() {
-        return cli;
     }
 
     public ViagemDTO getViagem() {
@@ -37,12 +33,16 @@ public class BilheteDTO {
         this.preco_bilhete = preco_bilhete;
     }
 
-    public void setCli(ClienteDTO cli) {
-        this.cli = cli;
-    }
-
     public void setViagem(ViagemDTO viagem) {
         this.viagem = viagem;
+    }
+
+    public ClienteDTO getCli() {
+        return cli;
+    }
+
+    public void setCli(ClienteDTO cli) {
+        this.cli = cli;
     }
     
     @Override
@@ -51,7 +51,6 @@ public class BilheteDTO {
         String info_bilhete="";
         
         info_bilhete+=this.getPreco_bilhete()+"\n";
-        info_bilhete+="Cliente : "+this.getCli().toString()+"\n";
         info_bilhete+="Viagem : "+this.getViagem().toString()+"\n";
         
         return info_bilhete;

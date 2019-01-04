@@ -8,16 +8,20 @@ package dados;
 import java.util.List;
 import javax.ejb.Remote;
 import tpdtos.AviaoDTO;
+import tpdtos.BilheteDTO;
+import tpdtos.ClienteDTO;
 import tpdtos.CompanhiaDTO;
 import tpdtos.OperadorDTO;
 import tpdtos.PartidaDTO;
+import tpdtos.PontuacaoDTO;
+import tpdtos.ViagemDTO;
 
 /**
  *
  * @author gustavo
  */
 @Remote
-public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, OperadorRemotoFunc, PartidaRemotoFunc{
+public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, OperadorRemotoFunc, PartidaRemotoFunc, ClienteRemotoFunc, PontuacaoRemoteFunc, BilheteRemotoFunc, ViagemRemotoFunc{
     
     @Override
     public String mostraOla();
@@ -26,10 +30,10 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     public boolean insertCompanhia(CompanhiaDTO d);
     
     @Override
-    public boolean updateCompanhia(String nomeComp, String novoNome);
+    public boolean deleteCompanhia(CompanhiaDTO d);
     
     @Override
-    public boolean deleteCompanhia(CompanhiaDTO d);
+    public boolean updateCompanhia(String nomeComp, String novoNome);
     
     @Override
     public List<CompanhiaDTO> selectList();
@@ -63,5 +67,74 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     
     @Override
     public PartidaDTO selectPartida(String cidade);
+
+    @Override
+    public boolean insertAviao( AviaoDTO aviao,String nome_companhia);
+    
+    @Override
+    public boolean deleteAviao(int id);
+    
+    @Override
+    public boolean updateAviao(int id,Integer novo_num_lugares);
+    
+    @Override
+    public List<AviaoDTO> selectionaAviao();
+    
+    @Override
+    public boolean insertCliente(ClienteDTO c, String pass);/*POR SEGURANÇA A PASS É PASSADA POR ATRIBUTO*/
+    
+    @Override
+    public boolean deleteCliente(String email);/*COMO O EMAIL É UNICO, BASTA PASSAR ESSE PARAMETRO*/
+    
+    @Override
+    public boolean updateCliente(String email,String nova_pass);/*ATENCAO NAO É PRECISA VALIDAR O UTILIZADOR, ISSO É FEITO NA PARTE WEB*/
+    
+    @Override
+    public List<ClienteDTO> selectAllClientes();
+    
+    @Override
+    public boolean verificaLogin(String email, String pass);
+    
+    @Override
+    public ClienteDTO selectCliente(String email);
+    
+    @Override
+    public boolean insertPontComp(int valor, String emailCli, String nomeComp);
+    
+    @Override
+    public boolean deletePontComp(int idPont);
+ 
+    @Override
+    public boolean updatePontComp(int idPont, int novaPont);
+    
+    @Override
+    public List<PontuacaoDTO> selectAllClientPont(int idCli); //TAMBEM DAVA PELO EMAIL, MAS POR AGORA FIZ ASSIM
+    
+    @Override
+    public boolean insertBilhete(int preco_bilhete, int id_viagem, int id_cliente);
+    
+    @Override
+    public boolean deleteBilhete(int id);
+    
+    @Override
+    public BilheteDTO selectBilhete(int id_bilhete);
+    
+    @Override
+    public List<BilheteDTO> selectAllBilhetes();
+    
+    @Override
+    public boolean insertViagem(int num_lugares, int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada); /*PODERIA SER UTILIZADO O NOME AVIAO E OS NOMES DAS CIDADES, PORQUE SAO UNICAS*/
+    
+    @Override
+    public boolean deleteViagem(int idViagem);
+    
+    @Override
+    public boolean updateViagembyAviao(int id_viagem, int id_novo_aviao); /*PODERIA SER UTILIZADO O NOME DO AVIAO*/
+    
+    @Override
+    public ViagemDTO selectViagem(int idViagem);
+    
+    @Override
+    public List<ViagemDTO> selectAllViagens();
     
 }

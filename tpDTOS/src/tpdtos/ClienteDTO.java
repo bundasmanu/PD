@@ -5,6 +5,7 @@
  */
 package tpdtos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author gustavo
  */
-public class ClienteDTO {
+public class ClienteDTO implements Serializable{
     
     String nome;
     String email;

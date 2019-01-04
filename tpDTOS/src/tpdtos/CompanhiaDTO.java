@@ -20,9 +20,16 @@ public class CompanhiaDTO implements Serializable{
     List<AviaoDTO> avioes_companhia;
     List<PontuacaoDTO> pontuacoes;
     
-    public CompanhiaDTO(String name){
+    public CompanhiaDTO(String name){ /*INSERT*/
         this.nome=name;
         this.pontuacao_media=0;
+        this.avioes_companhia=new ArrayList<AviaoDTO>();
+        this.pontuacoes=new ArrayList<PontuacaoDTO>();
+    }
+    
+    public CompanhiaDTO(String name, float pont){ /*RETORNO*/
+        this.nome=name;
+        this.pontuacao_media=pont;
         this.avioes_companhia=new ArrayList<AviaoDTO>();
         this.pontuacoes=new ArrayList<PontuacaoDTO>();
     }

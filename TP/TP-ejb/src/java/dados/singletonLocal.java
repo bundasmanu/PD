@@ -14,6 +14,9 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.interceptor.Interceptors;
 import tpdtos.AviaoDTO;
+import tpdtos.BagagemDTO;
+import tpdtos.BilheteDTO;
+import tpdtos.ClienteDTO;
 import tpdtos.CompanhiaDTO;
 import tpdtos.OperadorDTO;
 import tpdtos.PartidaDTO;
@@ -38,134 +41,142 @@ public class singletonLocal implements singletonLocalLocal {
     
     @EJB
     PartidasFacadeLocal partidas;
+
+    @EJB
+    AviaoFacadeLocal aviao;
     
+    @EJB
+    ClienteFacadeLocal cliente;
+    
+    @EJB
+    PontuacaoFacadeLocal pontuacao;
+    
+    @EJB
+    ViagensFacadeLocal viagens;
+    
+    @EJB
+    BilheteFacadeLocal bilhete;
+
     @Override
-    public String showOla(){
+    public String showOla() {
         return "Ola";
     }
-    
+
     @Override
-    public boolean insertCompanhia(CompanhiaDTO d){
-        
-        try{
-            Companhia novaCompanhia=new Companhia(this.companhia.count()+1, d.getNome());
+    public boolean insertCompanhia(CompanhiaDTO d) {
+
+        try {
+            Companhia novaCompanhia = new Companhia(this.companhia.count() + 1, d.getNome());
             //novaCompanhia.setIdAgencia();
             this.companhia.create(novaCompanhia);
-            
-        }
-        catch(Exception e){
+
+        } catch (Exception e) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     @Override
-    public boolean atualizaCompanhia(String nomeComp, String novoNome){
-        
+    public boolean atualizaCompanhia(String nomeComp, String novoNome) {
+
         /*PROCURA COMPANHIA*/
-        try{
-            Companhia estado=this.companhia.findbyName(nomeComp);
-        
-            if(estado==null){
+        try {
+            Companhia estado = this.companhia.findbyName(nomeComp);
+
+            if (estado == null) {
                 return false;
             }
-        
+
             /*CASO EXISTA OBJETO NA BD*/
             estado.setNomeCompanhia(novoNome);
             this.companhia.edit(estado);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     @Override
-    public boolean apagaCompanhia(CompanhiaDTO d){
-         
+    public boolean apagaCompanhia(CompanhiaDTO d) {
+
         /*PROCURA INICIALMENTE A COMPANHIA*/
-        try{
-            Companhia c=this.companhia.findbyName(d.getNome());
-        
-            if(c==null){
+        try {
+            Companhia c = this.companhia.findbyName(d.getNome());
+
+            if (c == null) {
                 return false;
             }
-            
+
             /*SENAO APAGA A COMPANHIA*/
             this.companhia.remove(c);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
-        
+
         return true;
     }
-    
-    @Override
-    public List<CompanhiaDTO> selectAll(){
         
-        /*FIND ALL TODAS AS COMPANHIAS*/
-        List<CompanhiaDTO> lista_c_dto=null;
-        try{
-            List<Companhia> lista_comp=this.companhia.findAll();
-            
-            if(lista_comp==null){
-                return null;
-            }
-            
-            /*CONVERSAO DE COMPANHIA PARA COMPANHIA DTO*/
-            lista_c_dto=new ArrayList<CompanhiaDTO>();
-            for(Companhia x : lista_comp){
-                CompanhiaDTO nova= new CompanhiaDTO(x.getNomeCompanhia());
-                nova.setPontuacao_media(x.getPontuacaoMedia());
-                /*PODE VIR A SER NECESSARIO COLOCAR OS AVIOES E AS PONTUACOES DENTRO DE CADA COMPANHIA*/
-                
-                lista_c_dto.add(nova);
-            }
-        }
-        catch(Exception e ){
-            return null;
-        }
-        return lista_c_dto;
-    }
-    
     @Override
     public CompanhiaDTO selectCompanhia(String nome_c){
         
+        /*RECEBE NOME DA COMPANHIA*/
         try{
             
-            /*PROCURAR A COMPANHIA*/
-            Companhia co=this.companhia.findbyName(nome_c);
+            Companhia comp=this.companhia.findbyName(nome_c);
             
-            if(co==null){
+            if(comp==null){
                 return null;
             }
             
-            CompanhiaDTO retorno_companhia=new CompanhiaDTO(co.getNomeCompanhia());
-            Collection<Aviao> lista_de_avioes=co.getAviaoCollection();
-            if(lista_de_avioes==null){
-                return retorno_companhia;
+            /*CASO EXISTA RETORNA UMA COMPANHIA DTO*/
+            CompanhiaDTO rComp=new CompanhiaDTO(comp.getNomeCompanhia(),comp.getPontuacaoMedia());
+            
+            if(comp.getAviaoCollection().isEmpty()==false){
+                for(Aviao x : comp.getAviaoCollection()){
+                    rComp.getAvioes().add(new AviaoDTO(x.getNomeAviao(), x.getNumLugares()));
+                }
             }
             
-            /*CASO HAJAM AVIOES NA COMPANHIA
-            -->CONVERTE-LOS PARA LISTA DE AVIAO DTO*/
-            for(Aviao x : lista_de_avioes){
-                AviaoDTO aviao=new AviaoDTO(x.getNomeAviao(), x.getNumLugares());
-                /*VERIFICAR SE VALE A PENA INCLUIR AS VIAGENS*/
-                List<AviaoDTO> acrescentaAtualMaisUm=retorno_companhia.getAvioes();
-                acrescentaAtualMaisUm.add(aviao);
-                retorno_companhia.setListAvioes(acrescentaAtualMaisUm);
+            if(comp.getPontuacaoCollection().isEmpty()==false){
+                for(Pontuacao x : comp.getPontuacaoCollection()){
+                    rComp.getPontuacoes().add(new PontuacaoDTO(x.getValor()));
+                }
             }
             
-            /*DEPOIS ACRESCENTAR AS VIAGENS*/
-            return retorno_companhia;
+            return rComp;
         }
         catch(Exception e){
+            System.out.println(e.getMessage());
             return null;
         }
-        
+    }
+
+    @Override
+    public List<CompanhiaDTO> selectAll() {
+
+        /*FIND ALL TODAS AS COMPANHIAS*/
+        List<CompanhiaDTO> lista_c_dto = null;
+        try {
+            List<Companhia> lista_comp = this.companhia.findAll();
+
+            if (lista_comp == null) {
+                return null;
+            }
+
+            /*CONVERSAO DE COMPANHIA PARA COMPANHIA DTO*/
+            lista_c_dto = new ArrayList<CompanhiaDTO>();
+            for (Companhia x : lista_comp) {
+                CompanhiaDTO nova=this.selectCompanhia(x.getNomeCompanhia());
+                /*PODE VIR A SER NECESSARIO COLOCAR OS AVIOES E AS PONTUACOES DENTRO DE CADA COMPANHIA*/
+
+                lista_c_dto.add(nova);
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return lista_c_dto;
     }
     
     @Override
@@ -402,7 +413,590 @@ public class singletonLocal implements singletonLocalLocal {
             System.out.println(e.getMessage());
             return null;
         }
+
+    }
+
+    @Override
+    public boolean insertAviao(AviaoDTO av, String nome_companhia) {
+
+        Companhia encontrou = companhia.findbyName(nome_companhia);
+        if (encontrou == null) {
+            return false;
+        }
+        try {
+            Aviao v = new Aviao(this.aviao.count() + 1, av.getNomeAviao(), av.getNum_lugares(), encontrou);
+            this.aviao.create(v);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteAviao(int id) {
+
+        Aviao encontrado = aviao.find(id);
+        if (encontrado == null) {
+            return false;
+        }
+
+        aviao.remove(encontrado);
+
+        return true;
+    }
+
+    @Override
+    public boolean updateAviao(int id,Integer novo_num_lugares) {
+        try{
+        Aviao av= aviao.find(id);
+        if(av==null){
+            return false;
+        }
         
+        av.setNumLugares(novo_num_lugares);
+        AviaoDTO aviaodto= new AviaoDTO(av.getNomeAviao(),av.getNumLugares());
+        aviao.edit(av);
+        }
+        catch(Exception e){
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public List<AviaoDTO> selectionaAviao(){
+        
+        try{
+            List<Aviao> av= aviao.findAll();
+            if(av.isEmpty()==true){
+                return null;
+            }
+            List<AviaoDTO> aviaor=new ArrayList<AviaoDTO>();
+            for(Aviao x : av){
+                AviaoDTO avt=new AviaoDTO(x.getNomeAviao(),x.getNumLugares());
+                aviaor.add(avt);
+            }
+            
+            return aviaor;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public boolean insereCliente(ClienteDTO c, String pass){
+        
+        try{
+            
+            /*VERIFICAR PRIMEIRO SE JÁ EXISTE ALGUEM COM O EMAIL PASSADO POR PARAMETRO*/
+            Cliente existe=this.cliente.findbyEmail(c.getEmail());
+            
+            if(existe!=null){
+                return false;
+            }
+            
+            existe=new Cliente(this.cliente.count()+1, c.getNome(), pass, c.getEmail());
+            this.cliente.create(existe);
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public boolean apagaCliente(String email){
+        
+        try{
+            
+            /*VERIFCAR SE EXISTE A PESSOA A ELIMINAR*/
+            Cliente cl=this.cliente.findbyEmail(email);
+            
+            if(cl==null){
+                return false;
+            }
+            
+            this.cliente.remove(cl);
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public boolean atualizaCliente(String email,String nova_pass){
+        
+        try{
+            
+            /*VERIFICAR SE O CLIENTE EXISTE*/
+            Cliente retorno=this.cliente.findbyEmail(email);
+            
+            if(retorno==null){
+                return false;
+            }
+            
+            retorno.setPassCliente(nova_pass);
+            this.cliente.edit(retorno);
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public List<ClienteDTO> seleccionaAllClientes(){
+        
+        try{
+            
+            /*RETORNAR TODOS OS CLIENTES*/
+            List<Cliente> retornoCli=this.cliente.findAll();
+            
+            if(retornoCli.isEmpty()==true){
+                return null;
+            }
+            
+            List<ClienteDTO> clientes=new ArrayList<ClienteDTO>();
+            for(Cliente x : retornoCli){
+                clientes.add(new ClienteDTO(x.getNomeCliente(),x.getEmailCliente()));
+            }
+            
+            return clientes;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    
+    @Override
+    public boolean validaLogin(String email, String pass){
+        
+        try{
+            
+            /*VERIFICA SE EXISTE ALGUM USER COM O EMAIL INDICADO, SE EXISTIR É SO UM, SO PODE EXISTIR UM UTILIZADOR LOGADO COM O MSM EMAIL*/
+            Cliente retorno_cliente=this.cliente.findbyEmail(email);
+            
+            /*SENAO EXISTE CLIENTE*/
+            if(retorno_cliente==null || (retorno_cliente!=null && retorno_cliente.getPassCliente().equals(pass)==false)){
+                return false;
+            }
+
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public ClienteDTO seleccionaCliente(String email){
+        
+        try{
+            
+            /*VERIFICAR SE O CLIENTE EXISTE*/
+            Cliente retorno_cliente=this.cliente.findbyEmail(email);
+            
+            if(retorno_cliente==null){
+                return null;
+            }
+            
+            /*SE EXISTIR*/
+            ClienteDTO cli=new ClienteDTO(retorno_cliente.getNomeCliente(), retorno_cliente.getEmailCliente());
+            
+            /*TRANSFORMAR OS BILHETES, BAGAGENS E PONTUACOES E ADICIONAR AO CLIENTE DTO*/
+            if(retorno_cliente.getBagagensCollection().isEmpty()==false){
+                for(Bagagens x : retorno_cliente.getBagagensCollection()){
+                    BagagemDTO bag=new BagagemDTO(x.getPesoBagagens());
+                    ViagemDTO viag=new ViagemDTO(x.getIdViagens().getNumLugares(), x.getIdViagens().getHoraPartida(), x.getIdViagens().getHoraChegada());
+                    bag.setViagem(viag);
+                    cli.getBagagens().add(bag);
+                }
+            }
+            
+            if(retorno_cliente.getBilheteCollection().isEmpty()==false){
+                for(Bilhete x : retorno_cliente.getBilheteCollection()){
+                    BilheteDTO bilhete=new BilheteDTO(x.getPrecoBilhete());
+                    ViagemDTO viag=new ViagemDTO(x.getIdViagens().getNumLugares(), x.getIdViagens().getHoraPartida(), x.getIdViagens().getHoraChegada());
+                    bilhete.setViagem(viag);
+                    cli.getBilhetes().add(bilhete);
+                }
+            }
+            
+            /*FALTA FAZER AS PONTUACOES*/
+                      
+            return cli;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+    }
+    
+    @Override
+    public boolean inserePontComp(int valor, String emailCli, String nomeComp){
+        
+        try{
+            
+            /*VERIFICAR INICIALMENTE SE O CLIENTE E A COMPANHIA EXISTEM PREVIAMENTE*/
+            Cliente cliente_retorno=this.cliente.findbyEmail(emailCli);
+            Companhia comp=this.companhia.findbyName(nomeComp);
+            
+            if(cliente_retorno==null || comp==null){ /*BASTA UM DELES SE NULL, PARA RETORNAR LOGO*/
+                System.out.println("\nStress\n");
+                return false;
+            }
+            
+            /*ADICAO DA COMPANHIA NA COLLECCAO DE COMPANHIAS DA PONTUACAO, PARA QUE SEJA INSERIDA NA TABELA PONT_COMP*/
+            Pontuacao pont_a_criar=new Pontuacao(this.pontuacao.count()+1, valor);
+            pont_a_criar.setIdCliente(cliente_retorno);
+            if(pont_a_criar.getCompanhiaCollection()==null){
+                Collection<Companhia> novaColeccao=new ArrayList<Companhia>();
+                novaColeccao.add(comp);
+                pont_a_criar.setCompanhiaCollection(novaColeccao);
+            }
+            else{
+                pont_a_criar.getCompanhiaCollection().add(comp);
+            }
+            
+            /*ADICAO DA PONTUACAO NA COLLECCAO DE PONTUACOES DA COMPANHIA, PARA QUE SEJA INSERIDA NA TABELA PONT_COMP*/
+            if(comp.getPontuacaoCollection()==null){
+                Collection<Pontuacao> novaColeccao=new ArrayList<Pontuacao>();
+                novaColeccao.add(pont_a_criar);
+                comp.setPontuacaoCollection(novaColeccao);
+            }
+            else{
+                comp.getPontuacaoCollection().add(pont_a_criar);
+            }
+            
+            this.pontuacao.create(pont_a_criar);
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public boolean apagaPontComp(int idPont){
+        
+        try{
+            
+            /*VERIFICAR SE EXISTE A PONTUACAO A ELIMINAR*/
+            Pontuacao pont=this.pontuacao.find(idPont);
+            
+            if(pont==null){
+                return false;
+            }
+            
+            this.pontuacao.remove(pont);/*ELIMINA DA TABELA PONTUACAO E DA PONT_COMP, PORQUE ESTAO RELACIONADAS*/
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public boolean atualizaPontComp(int idPont, int novoValorPont){
+        
+        try{
+            
+            /*VERIFICA INICIALMENTE SE EXISTE A PONTUACAO*/
+            Pontuacao pont=this.pontuacao.find(idPont);
+            
+            if(pont==null){
+                return false;
+            }
+            
+            pont.setValor(novoValorPont);
+            this.pontuacao.edit(pont);
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public List<PontuacaoDTO> seleccionaAllClientPont(int idCli){
+        
+        try{
+            
+            /*VERIFICAR SE O CLIENTE EXISTE*/
+            Cliente cli=this.cliente.find(idCli);
+            
+            if(cli==null){
+                return null;
+            }
+            
+            if(cli.getPontuacaoCollection().isEmpty()==true){
+                return null;
+            }
+            
+            /*JUNCAO DE TODOS OS PONTOS*/
+            List<PontuacaoDTO> ponts=new ArrayList<PontuacaoDTO>();
+            
+            /*PONTOS DADOS POR UM CLIENTE APENAS ÀS COMPANHIAS*/
+            List<PontuacaoDTO> pontos_cliente_companhia=this.seleccionaAllClientPontComp(idCli);
+            if(pontos_cliente_companhia!=null){
+                for(PontuacaoDTO x : pontos_cliente_companhia){
+                    pontos_cliente_companhia.add(x);
+                }
+            }
+            
+            return pontos_cliente_companhia;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    
+    @Override
+    public List<PontuacaoDTO> seleccionaAllClientPontComp(int idCli){
+        
+        try{
+            
+            /*VERIFICAR SE O CLIENTE EXISTE*/
+            Cliente cli=this.cliente.find(idCli);
+            
+            if(cli==null){
+                return null;
+            }
+            
+            if(cli.getPontuacaoCollection().isEmpty()==true){
+                return null;
+            }
+            
+            List<PontuacaoDTO> ponts=new ArrayList<PontuacaoDTO>();
+            
+            for(Pontuacao x : cli.getPontuacaoCollection()){
+                PontuacaoDTO p=new PontuacaoDTO(x.getValor());
+                if(x.getCompanhiaCollection().isEmpty()==false){
+                    List<CompanhiaDTO> comp=new ArrayList<CompanhiaDTO>();
+                    for(Companhia c : x.getCompanhiaCollection()){
+                        CompanhiaDTO codto=this.selectCompanhia(c.getNomeCompanhia());
+                        comp.add(codto);
+                    }
+                    p.setCompanhias(comp);
+                }
+                ponts.add(p);
+            }
+            
+            return ponts;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    
+    @Override
+    public boolean insereBilhete(int preco_bilhete, int id_viagem, int id_cliente){
+        
+        try{
+            
+           /*VERIFICAR INICIALMENTE SE EXISTE O CLIENTE E A VIAGEM, SO SE EXISTIREM AMBAS É QUE É POSSIVEL A INSERCAO DO BILHETE*/
+           Viagens viag_ret=this.viagens.find(id_viagem);
+           Cliente cli_ret=this.cliente.find(id_cliente);
+            
+           if(viag_ret==null || cli_ret==null){
+               return false;
+           }
+           
+           Bilhete bil_insert=new Bilhete(this.bilhete.count()+1,preco_bilhete);
+           bil_insert.setIdCliente(cli_ret);
+           bil_insert.setIdViagens(viag_ret);
+           
+           this.bilhete.create(bil_insert);
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public boolean apagaBilhete(int id){
+        
+        try{
+            
+            /*VERIFICAR INICIALMENTE SE EXISTE O BILHETE QUE SE PRETENDE APAGAR*/
+            Bilhete b=this.bilhete.find(id);
+            
+            if(b==null){
+                return false;
+            }
+         
+            this.bilhete.remove(b);
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public BilheteDTO seleccionaBilhete(int id_bilhete){
+        
+        try{
+            
+            /*VERIFICAR INICIALMENTE SE O BILHETE EXISTE*/
+            Bilhete b=this.bilhete.find(id_bilhete);
+            
+            if(b==null){
+                return null;
+            }
+            
+            BilheteDTO bil=new BilheteDTO(b.getPrecoBilhete());
+            /*PODE NAO SER NECESSARIO*/
+            ClienteDTO ret_cli=this.seleccionaCliente(b.getIdCliente().getEmailCliente());
+            bil.setCli(ret_cli);
+            /*FALTA FAZER O SET DA VIAGEM*/
+            
+            return bil;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+    }
+    
+    @Override
+    public List<BilheteDTO> seleccionaAllBilhetes(){
+        
+        try{
+            
+            /*PROCURAR INICIALMENTE TODOS OS BILHETES QUE EXISTEM*/
+            List<Bilhete> lista_bilhetes_retorno=this.bilhete.findAll();
+            
+            if(lista_bilhetes_retorno.isEmpty()==true){
+                return null;
+            }
+            
+            /*BASTA AGORA PARA CADA BILHETE, CHAMAR O METODO SELECCIONA BILHETE QUE O TRANSFORMA EM BILHETE DTO*/
+            List<BilheteDTO> lista_bilhetes=new ArrayList<BilheteDTO>();
+            for(Bilhete x : lista_bilhetes_retorno){
+                lista_bilhetes.add(this.seleccionaBilhete(x.getIdBilhete()));
+            }
+            
+            return lista_bilhetes;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+    }
+    
+    @Override
+    public boolean insereViagem(int num_lugares, int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada){
+        
+        try{
+            
+            
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public boolean apagaViagem(int idViagem){
+        
+        try{
+            
+            
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public boolean atualizaViagembyAviao(int id_viagem, int id_novo_aviao){
+        
+        try{
+            
+            
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public ViagemDTO seleccionaViagem(int idViagem){
+        
+        try{
+            
+            
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+        return null;
+    }
+    
+    @Override
+    public List<ViagemDTO> seleccionaAllViagens(){
+        
+        try{
+            
+            
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+        return null;
     }
     
 }

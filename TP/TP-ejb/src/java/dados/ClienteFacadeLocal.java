@@ -22,6 +22,8 @@ public interface ClienteFacadeLocal {
     void remove(Cliente cliente);
 
     Cliente find(Object id);
+    
+    Cliente findbyEmail(String email);
 
     List<Cliente> findAll();
 

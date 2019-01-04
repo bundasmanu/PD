@@ -5,6 +5,7 @@
  */
 package tpdtos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author gustavo
  */
-public class AviaoDTO {
+public class AviaoDTO implements Serializable{
     
     int id;
     String nomeAviao;
@@ -31,6 +32,7 @@ public class AviaoDTO {
         this.id=idd;
     }
 
+    
     public String getNomeAviao() {
         return nomeAviao;
     }

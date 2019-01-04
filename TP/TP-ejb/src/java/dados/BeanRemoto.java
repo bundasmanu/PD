@@ -5,6 +5,7 @@
  */
 package dados;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -12,9 +13,13 @@ import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import tpdtos.AviaoDTO;
+import tpdtos.BilheteDTO;
+import tpdtos.ClienteDTO;
 import tpdtos.CompanhiaDTO;
 import tpdtos.OperadorDTO;
 import tpdtos.PartidaDTO;
+import tpdtos.PontuacaoDTO;
+import tpdtos.ViagemDTO;
 
 /**
  *
@@ -60,11 +65,7 @@ public class BeanRemoto implements BeanRemotoRemote {
         return this.sing.atualizaCompanhia(nomeComp, novoNome);
     }
     
-    @Override
-    public List<CompanhiaDTO> selectList(){
-        return this.sing.selectAll();
-    }
-    
+  
     @Override
     public CompanhiaDTO selectCompanhia(String nome_c){
         return this.sing.selectCompanhia(nome_c);
@@ -113,6 +114,126 @@ public class BeanRemoto implements BeanRemotoRemote {
     @Override
     public PartidaDTO selectPartida(String cidade){
         return this.sing.seleccionaPartida(cidade);
+    }
+
+    @Override
+    public boolean insertAviao(AviaoDTO aviao,String nome_companhia) {
+       return this.sing.insertAviao(aviao, nome_companhia);
+    }
+
+    @Override
+    public boolean deleteAviao(int id) {
+        return this.sing.deleteAviao(id);
+    }
+
+    @Override
+    public boolean updateAviao(int id,Integer novo_num_lugares) {
+        return this.sing.updateAviao(id, novo_num_lugares);
+    }
+    
+    @Override
+    public List<CompanhiaDTO> selectList(){
+        return this.sing.selectAll();
+    }
+
+    @Override
+    public List<AviaoDTO> selectionaAviao(){
+        return this.sing.selectionaAviao();
+    }
+    
+    @Override
+    public boolean insertCliente(ClienteDTO c, String pass){
+        return this.sing.insereCliente(c, pass);
+    }
+    
+    @Override
+    public boolean deleteCliente(String email){
+        return this.sing.apagaCliente(email);
+    }
+    
+    @Override
+    public boolean updateCliente(String email,String nova_pass){
+        return this.sing.atualizaCliente(email, nova_pass);
+    }
+    
+    @Override
+    public List<ClienteDTO> selectAllClientes(){
+        return this.sing.seleccionaAllClientes();
+    }
+    
+    @Override
+    public boolean verificaLogin(String email, String pass){
+        return this.sing.validaLogin(email, pass);
+    }
+    
+    @Override
+    public ClienteDTO selectCliente(String email){
+        return this.sing.seleccionaCliente(email);
+    }
+    
+    @Override
+    public boolean insertPontComp(int valor, String emailCli, String idComp){
+        return this.sing.inserePontComp(valor, emailCli, idComp);
+    }
+    
+    @Override
+    public boolean deletePontComp(int id){
+        return this.sing.apagaPontComp(id);
+    }
+    
+    @Override
+    public boolean updatePontComp(int idPont, int novoValorPont){
+        return this.sing.atualizaPontComp(idPont, novoValorPont);
+    }
+    
+    @Override
+    public List<PontuacaoDTO> selectAllClientPont(int idCli){
+        return this.sing.seleccionaAllClientPontComp(idCli);
+    }
+    
+    @Override
+    public boolean insertBilhete(int preco_bilhete, int id_viagem, int id_cliente){
+        return false;
+    }
+    
+    @Override
+    public boolean deleteBilhete(int id){
+        return false;
+    }
+    
+    @Override
+    public BilheteDTO selectBilhete(int id_bilhete){
+        return this.sing.seleccionaBilhete(id_bilhete);
+    }
+
+    @Override
+    public List<BilheteDTO> selectAllBilhetes(){
+        return this.sing.seleccionaAllBilhetes();
+    }
+    
+    @Override
+    public boolean insertViagem(int num_lugares, int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada){
+        return false;
+    }
+    
+    @Override
+    public boolean deleteViagem(int idViagem){
+        return false;
+    }
+    
+    @Override
+    public boolean updateViagembyAviao(int id_viagem, int id_novo_aviao){
+        return false;
+    }
+    
+    @Override
+    public ViagemDTO selectViagem(int idViagem){
+        return null;
+    }
+    
+    @Override
+    public List<ViagemDTO> selectAllViagens(){
+        return null;
     }
     
 }

@@ -8,6 +8,7 @@ package dados;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +27,23 @@ public class ClienteFacade extends AbstractFacade<Cliente> implements ClienteFac
 
     public ClienteFacade() {
         super(Cliente.class);
+    }
+    
+    @Override
+    public Cliente findbyEmail(String email){ /*POR EMAIL, SO RETORNA NO MAXIMO UM CLIENTE, VISTO QUE NAO EXISTE CLIENTES COM O MSM EMAIL*/
+        
+        Cliente x=null;
+        try{
+            Query qu=this.em.createNamedQuery("Cliente.findByEmailCliente");
+            qu.setParameter("emailCliente", email);
+            x=(Cliente)qu.getSingleResult();
+        }
+        catch(Exception e){
+            return null;
+        }
+    
+        return x;
+        
     }
     
 }

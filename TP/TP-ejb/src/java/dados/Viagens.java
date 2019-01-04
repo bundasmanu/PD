@@ -6,10 +6,7 @@
 package dados;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,10 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -32,8 +26,8 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Viagens.findAll", query = "SELECT v FROM Viagens v")
     , @NamedQuery(name = "Viagens.findByIdViagens", query = "SELECT v FROM Viagens v WHERE v.idViagens = :idViagens")
     , @NamedQuery(name = "Viagens.findByNumLugares", query = "SELECT v FROM Viagens v WHERE v.numLugares = :numLugares")
-    , @NamedQuery(name = "Viagens.findByHoraPartida", query = "SELECT v FROM Viagens v WHERE v.horaPartida = :horaPartida")
-    , @NamedQuery(name = "Viagens.findByHoraChegada", query = "SELECT v FROM Viagens v WHERE v.horaChegada = :horaChegada")})
+    , @NamedQuery(name = "Viagens.findByHoraChegada", query = "SELECT v FROM Viagens v WHERE v.horaChegada = :horaChegada")
+    , @NamedQuery(name = "Viagens.findByHoraPartida", query = "SELECT v FROM Viagens v WHERE v.horaPartida = :horaPartida")})
 public class Viagens implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,16 +38,10 @@ public class Viagens implements Serializable {
     @Basic(optional = false)
     @Column(name = "num_lugares")
     private int numLugares;
-    @Basic(optional = false)
-    @Column(name = "hora_partida")
-    @Temporal(TemporalType.DATE)
-    private Date horaPartida;
-    @Basic(optional = false)
     @Column(name = "hora_chegada")
-    @Temporal(TemporalType.DATE)
-    private Date horaChegada;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idViagens")
-    private Collection<Bilhete> bilheteCollection;
+    private Integer horaChegada;
+    @Column(name = "hora_partida")
+    private Integer horaPartida;
     @JoinColumn(name = "id_aviao", referencedColumnName = "id_aviao")
     @ManyToOne(optional = false)
     private Aviao idAviao;
@@ -63,8 +51,6 @@ public class Viagens implements Serializable {
     @JoinColumn(name = "id_partida", referencedColumnName = "id_partida")
     @ManyToOne(optional = false)
     private Partidas idPartida;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idViagens")
-    private Collection<Bagagens> bagagensCollection;
 
     public Viagens() {
     }
@@ -73,11 +59,9 @@ public class Viagens implements Serializable {
         this.idViagens = idViagens;
     }
 
-    public Viagens(Integer idViagens, int numLugares, Date horaPartida, Date horaChegada) {
+    public Viagens(Integer idViagens, int numLugares) {
         this.idViagens = idViagens;
         this.numLugares = numLugares;
-        this.horaPartida = horaPartida;
-        this.horaChegada = horaChegada;
     }
 
     public Integer getIdViagens() {
@@ -96,28 +80,20 @@ public class Viagens implements Serializable {
         this.numLugares = numLugares;
     }
 
-    public Date getHoraPartida() {
-        return horaPartida;
-    }
-
-    public void setHoraPartida(Date horaPartida) {
-        this.horaPartida = horaPartida;
-    }
-
-    public Date getHoraChegada() {
+    public Integer getHoraChegada() {
         return horaChegada;
     }
 
-    public void setHoraChegada(Date horaChegada) {
+    public void setHoraChegada(Integer horaChegada) {
         this.horaChegada = horaChegada;
     }
 
-    public Collection<Bilhete> getBilheteCollection() {
-        return bilheteCollection;
+    public Integer getHoraPartida() {
+        return horaPartida;
     }
 
-    public void setBilheteCollection(Collection<Bilhete> bilheteCollection) {
-        this.bilheteCollection = bilheteCollection;
+    public void setHoraPartida(Integer horaPartida) {
+        this.horaPartida = horaPartida;
     }
 
     public Aviao getIdAviao() {
@@ -142,14 +118,6 @@ public class Viagens implements Serializable {
 
     public void setIdPartida(Partidas idPartida) {
         this.idPartida = idPartida;
-    }
-
-    public Collection<Bagagens> getBagagensCollection() {
-        return bagagensCollection;
-    }
-
-    public void setBagagensCollection(Collection<Bagagens> bagagensCollection) {
-        this.bagagensCollection = bagagensCollection;
     }
 
     @Override

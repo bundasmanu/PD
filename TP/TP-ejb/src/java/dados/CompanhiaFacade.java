@@ -27,11 +27,17 @@ public class CompanhiaFacade extends AbstractFacade<Companhia> implements Compan
 
     @Override
     public Companhia findbyName(String nome){
-        
-        Query qu=this.em.createNamedQuery("Companhia.findByNomeCompanhia");
-        qu.setParameter("nomeCompanhia", nome);
-        Companhia x= (Companhia)qu.getSingleResult();
-        
+    
+        Companhia x=null;    
+        try{    
+            Query qu=this.em.createNamedQuery("Companhia.findByNomeCompanhia");
+            qu.setParameter("nomeCompanhia", nome);
+            x= (Companhia)qu.getSingleResult();
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
         return x;
     }
     

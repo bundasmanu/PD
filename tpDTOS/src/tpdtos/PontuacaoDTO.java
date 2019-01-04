@@ -5,6 +5,7 @@
  */
 package tpdtos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author gustavo
  */
-public class PontuacaoDTO {
+public class PontuacaoDTO implements Serializable{
     
     /*QUANDO FIZERMOS A CENA DAS PONTUACOES*/
     /*TEMOS DE PERGUNTAR PRIMEIRO--> SE QUEREM PONTUAR UM DESTINO, OU UMA PARTIDA OU UMA COMPNAHIA,
@@ -23,7 +24,7 @@ public class PontuacaoDTO {
     List<DestinoDTO> destinos;
     List<PartidaDTO> partidas;
     
-    public PontuacaoDTO(int val){  /*NO INSERT DE UMA PONTUACAO NA MAIN, É NECESSARIO PEDIR O VALOR DA PONTUACAO O EMAIL DO USUARIO E A COMPANHIA OU DESTINO OU PARTIDA A AVALIAR*/
+    public PontuacaoDTO(int val) {  /*NO INSERT DE UMA PONTUACAO NA MAIN, É NECESSARIO PEDIR O VALOR DA PONTUACAO O EMAIL DO USUARIO E A COMPANHIA OU DESTINO OU PARTIDA A AVALIAR*/
         this.valor=val;
         this.companhias=new ArrayList<CompanhiaDTO>();
         this.destinos=new ArrayList<DestinoDTO>();
