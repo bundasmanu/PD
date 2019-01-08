@@ -5,17 +5,32 @@
  */
 package tpdtos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author gustavo
  */
-public class BagagemDTO {
-    
+public class BagagemDTO  implements Serializable{
+    int id_bagagem;
     int peso_bagagem;
     ViagemDTO viagem;
     
     public BagagemDTO(int peso){
         this.peso_bagagem=peso;
+    }
+
+    public BagagemDTO(int id_bagagem,int peso){
+        this.id_bagagem=id_bagagem;
+        this.peso_bagagem=peso;
+    }
+
+    public int getId_bagagem() {
+        return id_bagagem;
+    }
+
+    public void setId_bagagem(int id_bagagem) {
+        this.id_bagagem = id_bagagem;
     }
 
     public int getPeso_bagagem() {

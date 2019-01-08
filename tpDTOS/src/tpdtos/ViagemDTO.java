@@ -17,14 +17,13 @@ import java.util.List;
 public class ViagemDTO implements Serializable{
     
     private int id;
-    int numero_lugares;
     int hora_part;
     int hora_cheg;
     List<BilheteDTO> bilhetes;
     List<BagagemDTO> bagagens;
     
-    public ViagemDTO(int number, int part, int cheg){
-        this.numero_lugares=number;
+    public ViagemDTO(int part,int cheg){
+        
         this.hora_part=part;
         this.hora_cheg=cheg;
         this.bilhetes=new ArrayList<BilheteDTO>();
@@ -35,10 +34,6 @@ public class ViagemDTO implements Serializable{
         this.id=id;
     }
     
-    public int getNumero_lugares() {
-        return numero_lugares;
-    }
-
     public int getHora_part() {
         return hora_part;
     }
@@ -51,9 +46,6 @@ public class ViagemDTO implements Serializable{
         return bilhetes;
     }
 
-    public void setNumero_lugares(int numero_lugares) {
-        this.numero_lugares = numero_lugares;
-    }
 
     public void setHora_part(int hora_part) {
         this.hora_part = hora_part;
@@ -88,7 +80,7 @@ public class ViagemDTO implements Serializable{
         
         String info_viagem="";
         
-        info_viagem+=this.getNumero_lugares()+"\t"+this.getHora_part()+"\t"+this.getHora_cheg()+"\n";
+        info_viagem+=this.getHora_part()+"\t"+this.getHora_cheg()+"\n";
         info_viagem+="Info Bilhetes:\n";
         
         for(BilheteDTO x : this.bilhetes){

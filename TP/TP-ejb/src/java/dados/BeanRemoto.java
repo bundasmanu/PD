@@ -13,9 +13,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.interceptor.Interceptors;
 import tpdtos.AviaoDTO;
+import tpdtos.BagagemDTO;
 import tpdtos.BilheteDTO;
 import tpdtos.ClienteDTO;
 import tpdtos.CompanhiaDTO;
+import tpdtos.DestinoDTO;
 import tpdtos.OperadorDTO;
 import tpdtos.PartidaDTO;
 import tpdtos.PontuacaoDTO;
@@ -235,5 +237,67 @@ public class BeanRemoto implements BeanRemotoRemote {
     public List<ViagemDTO> selectAllViagens(){
         return null;
     }
+
+    @Override
+    public boolean insertBagagem(int peso_bagagem, int id_viagem, int id_cliente) {
+       return this.sing.insertBagagem(peso_bagagem, id_viagem, id_cliente);
+    }
+
+    @Override
+    public boolean deleteBagagem(int id_bagagem) {
+        return this.sing.deleteBagagem(id_bagagem);
+    }
+
+    @Override
+    public boolean updateBagagem(int id_bagagem, int novo_peso) {
+        return this.sing.updateBagagem(id_bagagem, novo_peso);
+    }
+
+    @Override
+    public List<BagagemDTO> selecionaAllBagagens() {
+        return this.sing.selecionaAllBagagens();
+    }
+
+    @Override
+    public boolean insereDestino(DestinoDTO part) {
+        return this.sing.insereDestino(part);
+    }
+
+    @Override
+    public boolean deleteDestino(String cidade) {
+       return this.sing.deleteDestino(cidade);
+    }
+
+    @Override
+    public List<DestinoDTO> selectAllDestinos() {
+        return this.sing.selectAllDestinos();
+    }
+
+    @Override
+    public DestinoDTO selectDestino(String cidade) {
+        return this.sing.selectDestino(cidade);
+    }
+
+    @Override
+    public boolean insertPontDestino(int valor_pont, String emailCli, String nomeDest) {
+        return this.sing.insertPontDestino(valor_pont, emailCli, nomeDest);
+    }
+
+    @Override
+    public boolean deletePontDestino(int idPont) {
+        return this.sing.deletePontDestino(idPont);
+    }
+
+    @Override
+    public boolean updatePontDestino(int idPont, int novaPont) {
+        return this.sing.updatePontDestino(idPont, novaPont);
+    }
+    
+    @Override
+    public List<PontuacaoDTO> selectAllPontuacoesDestino(String emailCli){
+        return this.sing.selectAllPontuacoesDestino(emailCli);
+    }
+
+   
     
 }

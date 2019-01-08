@@ -8,6 +8,7 @@ package dados;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,5 +28,20 @@ public class DestinosFacade extends AbstractFacade<Destinos> implements Destinos
     public DestinosFacade() {
         super(Destinos.class);
     }
-    
+
+    public Destinos findbyName(String nomeCidade) {
+
+        Destinos x = null;
+        try {
+            Query qu = this.em.createNamedQuery("Destinos.findByCidadeDestino");
+            qu.setParameter("cidadeDestino", nomeCidade);
+            x = (Destinos) qu.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+
+        return x;
+
+    }
+
 }

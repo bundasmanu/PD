@@ -22,6 +22,8 @@ public interface DestinosFacadeLocal {
     void remove(Destinos destinos);
 
     Destinos find(Object id);
+    
+    public Destinos findbyName(String nomeCidade);
 
     List<Destinos> findAll();
 
