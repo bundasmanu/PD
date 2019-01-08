@@ -26,6 +26,13 @@ public class DestinoDTO implements Serializable{
         this.viagens=new ArrayList<ViagemDTO>();
         this.pontuacoes=new ArrayList<PontuacaoDTO>();
     }
+    
+    public DestinoDTO(String city, float pont_med){ /*SELECT*/
+        this.cidade=city;
+        this.pontuacao_media=pont_med;
+        this.viagens=new ArrayList<ViagemDTO>();
+        this.pontuacoes=new ArrayList<PontuacaoDTO>();
+    }
 
     public String getCidade() {
         return cidade;

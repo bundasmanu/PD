@@ -111,5 +111,5 @@ public class Bagagens implements Serializable {
     public String toString() {
         return "dados.Bagagens[ idBagagens=" + idBagagens + " ]";
     }
-    
+
 }

@@ -8,9 +8,11 @@ package dados;
 import java.util.List;
 import javax.ejb.Remote;
 import tpdtos.AviaoDTO;
+import tpdtos.BagagemDTO;
 import tpdtos.BilheteDTO;
 import tpdtos.ClienteDTO;
 import tpdtos.CompanhiaDTO;
+import tpdtos.DestinoDTO;
 import tpdtos.OperadorDTO;
 import tpdtos.PartidaDTO;
 import tpdtos.PontuacaoDTO;
@@ -21,7 +23,7 @@ import tpdtos.ViagemDTO;
  * @author gustavo
  */
 @Remote
-public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, OperadorRemotoFunc, PartidaRemotoFunc, ClienteRemotoFunc, PontuacaoRemoteFunc, BilheteRemotoFunc, ViagemRemotoFunc{
+public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, OperadorRemotoFunc, PartidaRemotoFunc, ClienteRemotoFunc, PontuacaoRemoteFunc, BilheteRemotoFunc, ViagemRemotoFunc, BagagensRemotoFunc,DestinoRemotoFunc{
     
     @Override
     public String mostraOla();
@@ -118,6 +120,18 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     public List<PontuacaoDTO> selectAllClientPont(int idCli); //TAMBEM DAVA PELO EMAIL, MAS POR AGORA FIZ ASSIM
     
     @Override
+    public boolean insertPontDestino(int valor_pont,String emailCli,String nomeDest);
+    
+    @Override
+    public boolean deletePontDestino(int idPont);
+    
+    @Override
+    public boolean updatePontDestino(int idPont,int novaPont);
+    
+    @Override
+    public List<PontuacaoDTO> selectAllPontuacoesDestino(String emailCli);
+    
+    @Override
     public boolean insertBilhete(int preco_bilhete, int id_viagem, int id_cliente);
     
     @Override
@@ -144,4 +158,28 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     @Override
     public List<ViagemDTO> selectAllViagens();
     
+    
+    @Override
+    public boolean insertBagagem(int peso_bagagem,int id_viagem, int id_cliente);
+    
+    @Override
+    public boolean deleteBagagem(int id_bagagem);
+    
+    @Override
+    public boolean updateBagagem(int id_bagagem, int novo_peso);
+    
+    @Override
+    public List<BagagemDTO> selecionaAllBagagens();
+    
+    @Override
+    public boolean insereDestino(DestinoDTO part);
+    
+    @Override
+    public boolean deleteDestino(String cidade);
+ 
+    @Override
+    public List<DestinoDTO> selectAllDestinos();
+    
+    @Override
+    public DestinoDTO selectDestino(String cidade);
 }

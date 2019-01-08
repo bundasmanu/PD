@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class BilheteDTO implements Serializable{
     
     int preco_bilhete;
+    int lugar;
     ClienteDTO cli;
     ViagemDTO viagem;
     
@@ -24,6 +25,15 @@ public class BilheteDTO implements Serializable{
     public int getPreco_bilhete() {
         return preco_bilhete;
     }
+
+    public int getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(int lugar) {
+        this.lugar = lugar;
+    }
+    
 
     public ViagemDTO getViagem() {
         return viagem;
@@ -52,6 +62,8 @@ public class BilheteDTO implements Serializable{
         
         info_bilhete+=this.getPreco_bilhete()+"\n";
         info_bilhete+="Cliente : "+this.getCli().getNome()+"\n";
+        info_bilhete+= this.getLugar()+"\n";
+        info_bilhete+="Viagem : "+this.getViagem().toString()+"\n";
         
         return info_bilhete;
     }

@@ -8,9 +8,11 @@ package dados;
 import java.util.List;
 import javax.ejb.Local;
 import tpdtos.AviaoDTO;
+import tpdtos.BagagemDTO;
 import tpdtos.BilheteDTO;
 import tpdtos.ClienteDTO;
 import tpdtos.CompanhiaDTO;
+import tpdtos.DestinoDTO;
 import tpdtos.OperadorDTO;
 import tpdtos.PartidaDTO;
 import tpdtos.PontuacaoDTO;
@@ -68,6 +70,13 @@ public interface singletonLocalLocal {
     public List<PontuacaoDTO> seleccionaAllClientPont(int idCli); //TAMBEM DAVA PELO EMAIL, MAS POR AGORA FIZ ASSIM
     /*FALTA FAZER O SELECT DAS PARTIDAS E DOS DESTINOS*/
     
+    //parte das pontuacoes->relativa ao Destino
+    public boolean insertPontDestino(int valor_pont,String emailCli,String nomeDest);
+    public boolean deletePontDestino(int idPont);
+    public boolean updatePontDestino(int idPont,int novaPont);
+    public List<PontuacaoDTO> selectAllPontuacoesDestino(String emailCli);
+    //Falta fazer o select ..
+    
     //parte das viagens
     public boolean insereViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada); /*PODERIA SER UTILIZADO O NOME AVIAO E OS NOMES DAS CIDADES, PORQUE SAO UNICAS*/
     public boolean apagaViagem(int idViagem);
@@ -80,5 +89,19 @@ public interface singletonLocalLocal {
     public boolean apagaBilhete(int id);
     public BilheteDTO seleccionaBilhete(int id_bilhete);
     public List<BilheteDTO> seleccionaAllBilhetes();
+    
+    //parte das bagagens
+    public boolean insertBagagem(int peso_bagagem,int id_viagem, int id_cliente);
+    public boolean deleteBagagem(int id_bagagem);
+    public boolean updateBagagem(int id_bagagem, int novo_peso);
+    public String selecionaBagagem(int id_bagagem);
+    public List<BagagemDTO> selecionaAllBagagens();
+    
+    
+    //parte dos destinos
+    public boolean insereDestino(DestinoDTO part);
+    public boolean deleteDestino(String cidade);
+    public List<DestinoDTO> selectAllDestinos();
+    public DestinoDTO selectDestino(String cidade);
     
 }
