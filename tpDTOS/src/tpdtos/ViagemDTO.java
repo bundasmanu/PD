@@ -22,6 +22,8 @@ public class ViagemDTO implements Serializable{
     int hora_cheg;
     List<BilheteDTO> bilhetes;
     List<BagagemDTO> bagagens;
+    PartidaDTO part; /*NESTE CASO E IMPORTANTE A SUA PRESENCA*/
+    DestinoDTO dest; /*NESTE CASO E IMPORTANTE A SUA PRESENCA*/
     
     public ViagemDTO(int number, int part, int cheg){
         this.numero_lugares=number;
@@ -81,6 +83,22 @@ public class ViagemDTO implements Serializable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public PartidaDTO getPart() {
+        return part;
+    }
+
+    public DestinoDTO getDest() {
+        return dest;
+    }
+
+    public void setPart(PartidaDTO part) {
+        this.part = part;
+    }
+
+    public void setDest(DestinoDTO dest) {
+        this.dest = dest;
     }
  
     @Override

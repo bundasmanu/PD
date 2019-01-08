@@ -17,5 +17,6 @@ public interface PontuacaoRemoteFunc {
     public boolean insertPontComp(int valor, String emailCli, String nomeComp);
     public boolean deletePontComp(int idPont);
     public boolean updatePontComp(int idPont, int novaPont);
+    public boolean insertPontPartida(int valor, String emailCli, String namePartida);
     public List<PontuacaoDTO> selectAllClientPont(int idCli); //TAMBEM DAVA PELO EMAIL, MAS POR AGORA FIZ ASSIM
 }

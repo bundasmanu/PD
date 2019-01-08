@@ -51,7 +51,7 @@ public class BilheteDTO implements Serializable{
         String info_bilhete="";
         
         info_bilhete+=this.getPreco_bilhete()+"\n";
-        info_bilhete+="Viagem : "+this.getViagem().toString()+"\n";
+        info_bilhete+="Cliente : "+this.getCli().getNome()+"\n";
         
         return info_bilhete;
     }

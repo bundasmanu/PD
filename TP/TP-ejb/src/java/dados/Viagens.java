@@ -6,7 +6,9 @@
 package dados;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -29,6 +32,11 @@ import javax.persistence.Table;
     , @NamedQuery(name = "Viagens.findByHoraChegada", query = "SELECT v FROM Viagens v WHERE v.horaChegada = :horaChegada")
     , @NamedQuery(name = "Viagens.findByHoraPartida", query = "SELECT v FROM Viagens v WHERE v.horaPartida = :horaPartida")})
 public class Viagens implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idViagens")
+    private Collection<Bilhete> bilheteCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idViagens")
+    private Collection<Bagagens> bagagensCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -143,6 +151,22 @@ public class Viagens implements Serializable {
     @Override
     public String toString() {
         return "dados.Viagens[ idViagens=" + idViagens + " ]";
+    }
+
+    public Collection<Bilhete> getBilheteCollection() {
+        return bilheteCollection;
+    }
+
+    public void setBilheteCollection(Collection<Bilhete> bilheteCollection) {
+        this.bilheteCollection = bilheteCollection;
+    }
+
+    public Collection<Bagagens> getBagagensCollection() {
+        return bagagensCollection;
+    }
+
+    public void setBagagensCollection(Collection<Bagagens> bagagensCollection) {
+        this.bagagensCollection = bagagensCollection;
     }
     
 }

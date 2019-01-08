@@ -5,11 +5,13 @@
  */
 package tpdtos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author gustavo
  */
-public class BagagemDTO {
+public class BagagemDTO implements Serializable{
     
     int peso_bagagem;
     ViagemDTO viagem;

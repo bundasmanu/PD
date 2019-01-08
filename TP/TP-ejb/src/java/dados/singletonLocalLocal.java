@@ -24,6 +24,7 @@ import tpdtos.ViagemDTO;
 public interface singletonLocalLocal {
     
     public String showOla();
+    
     //parte das companhias
     public boolean insertCompanhia(CompanhiaDTO d);
     public boolean atualizaCompanhia(String nomeComp, String novoNome);
@@ -62,12 +63,13 @@ public interface singletonLocalLocal {
     public boolean inserePontComp(int valor, String emailCli, String nomeComp);
     public boolean apagaPontComp(int idPont);
     public boolean atualizaPontComp(int idPont, int novaPont);
-    public List<PontuacaoDTO> seleccionaAllClientPont(int idCli); //TAMBEM DAVA PELO EMAIL, MAS POR AGORA FIZ ASSIM
+    public boolean inserePontPartida(int valor, String emailCli, String nomePartida);
     public List<PontuacaoDTO> seleccionaAllClientPontComp(int idCli);
+    public List<PontuacaoDTO> seleccionaAllClientPont(int idCli); //TAMBEM DAVA PELO EMAIL, MAS POR AGORA FIZ ASSIM
     /*FALTA FAZER O SELECT DAS PARTIDAS E DOS DESTINOS*/
     
     //parte das viagens
-    public boolean insereViagem(int num_lugares, int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada); /*PODERIA SER UTILIZADO O NOME AVIAO E OS NOMES DAS CIDADES, PORQUE SAO UNICAS*/
+    public boolean insereViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada); /*PODERIA SER UTILIZADO O NOME AVIAO E OS NOMES DAS CIDADES, PORQUE SAO UNICAS*/
     public boolean apagaViagem(int idViagem);
     public boolean atualizaViagembyAviao(int id_viagem, int id_novo_aviao); /*PODERIA SER UTILIZADO O NOME DO AVIAO*/
     public ViagemDTO seleccionaViagem(int idViagem);

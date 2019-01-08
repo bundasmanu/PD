@@ -26,6 +26,10 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     @Override
     public String mostraOla();
     
+        //TEMPO
+    public int tempoAtual();
+    public void retificaIncrementoTempo(int valor);
+    
     @Override
     public boolean insertCompanhia(CompanhiaDTO d);
     
@@ -108,6 +112,9 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     public boolean updatePontComp(int idPont, int novaPont);
     
     @Override
+    public boolean insertPontPartida(int valor, String emailCli, String namePartida);
+    
+    @Override
     public List<PontuacaoDTO> selectAllClientPont(int idCli); //TAMBEM DAVA PELO EMAIL, MAS POR AGORA FIZ ASSIM
     
     @Override
@@ -123,7 +130,7 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     public List<BilheteDTO> selectAllBilhetes();
     
     @Override
-    public boolean insertViagem(int num_lugares, int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada); /*PODERIA SER UTILIZADO O NOME AVIAO E OS NOMES DAS CIDADES, PORQUE SAO UNICAS*/
+    public boolean insertViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada); /*PODERIA SER UTILIZADO O NOME AVIAO E OS NOMES DAS CIDADES, PORQUE SAO UNICAS*/
     
     @Override
     public boolean deleteViagem(int idViagem);

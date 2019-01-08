@@ -5,6 +5,7 @@
  */
 package tpdtos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,16 +13,16 @@ import java.util.List;
  *
  * @author gustavo
  */
-public class DestinoDTO {
+public class DestinoDTO implements Serializable{
     
     String cidade;
     float pontuacao_media;
     List<ViagemDTO> viagens;
     List<PontuacaoDTO> pontuacoes;
     
-    public DestinoDTO(String city){
+    public DestinoDTO(String city, float pont){
         this.cidade=city;
-        this.pontuacao_media=0;
+        this.pontuacao_media=pont;
         this.viagens=new ArrayList<ViagemDTO>();
         this.pontuacoes=new ArrayList<PontuacaoDTO>();
     }

@@ -35,10 +35,24 @@ public class BeanRemoto implements BeanRemotoRemote {
     @EJB
     singletonLocalLocal sing;
     
+    @EJB
+    TempoBeanLocal crono;
+    
     @Override
     public String mostraOla(){
         return this.sing.showOla();
     }
+    
+    //TEMPO
+    @Override
+    public int tempoAtual(){
+        return this.crono.getTempoAtual();
+    }
+    
+    @Override
+    public void retificaIncrementoTempo(int valor){
+        this.crono.retificaTempo(valor);
+    } 
     
     @PostConstruct
     public void inicializacao(){
@@ -187,18 +201,23 @@ public class BeanRemoto implements BeanRemotoRemote {
     }
     
     @Override
+    public boolean insertPontPartida(int valor, String emailCli, String namePartida){
+        return this.sing.inserePontPartida(valor, emailCli, namePartida);
+    }
+    
+    @Override
     public List<PontuacaoDTO> selectAllClientPont(int idCli){
         return this.sing.seleccionaAllClientPontComp(idCli);
     }
     
     @Override
     public boolean insertBilhete(int preco_bilhete, int id_viagem, int id_cliente){
-        return false;
+        return this.sing.insereBilhete(preco_bilhete, id_viagem, id_cliente);
     }
     
     @Override
     public boolean deleteBilhete(int id){
-        return false;
+        return this.sing.apagaBilhete(id);
     }
     
     @Override
@@ -212,28 +231,28 @@ public class BeanRemoto implements BeanRemotoRemote {
     }
     
     @Override
-    public boolean insertViagem(int num_lugares, int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada){
-        return false;
+    public boolean insertViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada){
+        return this.sing.insereViagem(hora_part, hora_cheg, id_aviao, id_partida, id_chegada);
     }
     
     @Override
     public boolean deleteViagem(int idViagem){
-        return false;
+        return this.sing.apagaViagem(idViagem);
     }
     
     @Override
     public boolean updateViagembyAviao(int id_viagem, int id_novo_aviao){
-        return false;
+        return this.sing.atualizaViagembyAviao(id_viagem, id_novo_aviao);
     }
     
     @Override
     public ViagemDTO selectViagem(int idViagem){
-        return null;
+        return this.sing.seleccionaViagem(idViagem);
     }
     
     @Override
     public List<ViagemDTO> selectAllViagens(){
-        return null;
+        return this.sing.seleccionaAllViagens();
     }
     
 }
