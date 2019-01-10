@@ -60,6 +60,7 @@ public interface singletonLocalLocal {
     public List<ClienteDTO> seleccionaAllClientes();
     public boolean validaLogin(String email, String pass);
     public ClienteDTO seleccionaCliente(String email);
+    public List<BilheteDTO> selectAllBilhetesFromACliente(int id_cliente);
     
     //parte das pontuacoes
     public boolean inserePontComp(int valor, String emailCli, String nomeComp);
@@ -83,6 +84,7 @@ public interface singletonLocalLocal {
     public boolean atualizaViagembyAviao(int id_viagem, int id_novo_aviao); /*PODERIA SER UTILIZADO O NOME DO AVIAO*/
     public ViagemDTO seleccionaViagem(int idViagem);
     public List<ViagemDTO> seleccionaAllViagens();
+    public boolean removeTodasViagensAposHoraTerminar(int hora_cheg);
     
     //parte dos bilhetes
     public boolean insereBilhete(int preco_bilhete, int id_viagem, int id_cliente);

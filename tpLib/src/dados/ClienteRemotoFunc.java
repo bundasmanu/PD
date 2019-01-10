@@ -6,6 +6,7 @@
 package dados;
 
 import java.util.List;
+import tpdtos.BilheteDTO;
 import tpdtos.ClienteDTO;
 
 /**
@@ -18,6 +19,7 @@ public interface ClienteRemotoFunc {
     public boolean deleteCliente(String email);/*COMO O EMAIL É UNICO, BASTA PASSAR ESSE PARAMETRO*/
     public boolean updateCliente(String email,String nova_pass);/*ATENCAO NAO É PRECISA VALIDAR O UTILIZADOR, ISSO É FEITO NA PARTE WEB*/
     public List<ClienteDTO> selectAllClientes();
+    public List<BilheteDTO> selectAllBilhetesFromACliente(int id_cliente);
     public boolean verificaLogin(String email, String pass);
     public ClienteDTO selectCliente(String email);  
     

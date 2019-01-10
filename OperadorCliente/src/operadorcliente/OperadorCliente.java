@@ -107,148 +107,12 @@ public class OperadorCliente {
                         System.out.println("\nPode prosseguir\n");
                     } else {
                         System.out.println("\nUtilizador nao foi encontrado, tente novamente\n");
-    
- }
- 
-  public static void interface_inicial(){
-     
-    char c;
-    String option;
-     
-    System.out.println("\n(Q)uit, (C)ompanhia, (A)viao, (O)perador, (P)artidas, (1)Clientes, (2)Pontuacao, (V)iagens, (B)ilhete, (T)empo \n ");
-    option=sc.next().toUpperCase();
-     
-    if(option.length() >= 1){
-        c = option.charAt(0);
-    }else{
-        c = ' ';
-    }
-    
-    switch(c){
-        
-        case 'C':
-            interface_Companhia();
-            break;  
-        case 'A':
-            interface_aviao();
-            break;
-        case 'O':
-            interface_Operador();
-            break;
-        case 'P':
-            interface_Partidas();
-            break;
-        case '1':
-            interface_cliente();
-            break;
-        case '2':
-            interface_Pontuacao();
-            break;
-        case 'V':
-            interface_Viagem();
-            break;
-        case 'B':
-            interface_Bilhete();
-            break;
-        case 'T':
-                System.out.println(rf.tempoAtual());
-                rf.retificaIncrementoTempo(100);
-            break;
-        case 'Q':
-            sair=true;
-            break;
-        default:
-            break;
-    }
-    
-     
- }
-    
- public static void interface_Companhia(){
-     
-    char c;
-    String option;
-     
-    System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect Companhias\n");
-    option=sc.next().toUpperCase();
-     
-    if(option.length() >= 1){
-        c = option.charAt(0);
-    }else{
-        c = ' ';
-    }
-    
-    switch(c){
-        
-        case 'I':
-            try{
-                System.out.println("\nIntroduza o nome da companhia\n");
-                String nome_comp=sc.next();
-                CompanhiaDTO novaComp=new CompanhiaDTO(nome_comp);
-                boolean aconteceu=rf.insertCompanhia(novaComp);
-                if(aconteceu==true){
-                    System.out.println("\nInserida a companhia com sucesso\n");
-                }
-                else{
-                    System.out.println("\nOcorreu um problema\n");
-                }
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;  
-        case 'U':
-            try{
-                System.out.println("\nIntroduza o nome da companhia a atualizar\n");
-                String nome_comp=sc.next();
-                System.out.println("\nIntroduza o novo nome da companhia\n");
-                String novo_nome=sc.next();
-                boolean retorno=rf.updateCompanhia(nome_comp, novo_nome);
-                if(retorno==false){
-                    System.out.println("\nErro na atualizacao\n");
-                }
-                else{
-                    System.out.println("\nCompanhia atualizada com sucesso\n");
-                }
-            }    
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;
-        case 'D':
-               try{
-                   System.out.println("\nQual o nome da companhia a apagar\n");
-                   String nomc=sc.next();
-                   CompanhiaDTO comp_apag=new CompanhiaDTO(nomc);
-                   boolean deleteOP=rf.deleteCompanhia(comp_apag);
-                   if(deleteOP==false){
-                       System.out.println("\nErro na Operacao\n");
-                   }
-                   else{
-                       System.out.println("\nOperacao bem sucedida\n");
-                   }
-               } 
-               catch(Exception e){
-                   System.out.println(e.getMessage());
-               }
-            break;  
-        case 'S':
-                try{
-                    List<CompanhiaDTO> lista_companhia=rf.selectList();
-                    if(lista_companhia==null){
-                        System.out.println("\nErro na Operacao\n");
+
                     }
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-                break;
-            case 'Q':
-                System.exit(1);
-                break;
-            default:
-                break;
         }
-
     }
 
     public static void interface_inicial() {
@@ -256,7 +120,7 @@ public class OperadorCliente {
         char c;
         String option;
 
-        System.out.println("\n(Q)uit, (C)ompanhia, (A)viao, (O)perador, (P)artidas, (1)Clientes, (2)Pontuacao, (B)agagens ,(D)estinos\n ");
+        System.out.println("\n(Q)uit, (C)ompanhia, (A)viao, (O)perador, (P)artidas, (1)Clientes, (2)Pontuacao, (V)iagens, (B)ilhete, (T)empo, (3)Bagagens, (D)estinos \n ");
         option = sc.next().toUpperCase();
 
         if (option.length() >= 1) {
@@ -285,10 +149,22 @@ public class OperadorCliente {
             case '2':
                 interface_Pontuacao();
                 break;
+            case 'V':
+                interface_Viagem();
+                break;
             case 'B':
+                interface_Bilhete();
+                break;
+            case 'T':
+                System.out.println(rf.tempoAtual());
+                //rf.retificaIncrementoTempo(100);
+                break;
+            case '3':
                 interface_Bagagens();
+                break;
             case 'D':
                 interface_Destinos();
+                break;
             case 'Q':
                 sair = true;
                 break;
@@ -375,7 +251,7 @@ public class OperadorCliente {
                 }
                 break;
             case 'Q':
-                sair = true;
+                System.exit(1);
                 break;
             default:
                 break;
@@ -937,188 +813,6 @@ public class OperadorCliente {
                         System.out.println("\nO cliente existe\n");
                     } else {
                         System.out.println("\nO cliente não existe\n");
-            break;
-        case 'V':
-            try{
-                System.out.println("\nIntroduza o email do cliente: ");
-                email=sc.nextLine();
-                System.out.println("\nIntroduza a pass do cliente: ");
-                pass=sc.nextLine();
-                retorno=rf.verificaLogin(email, pass);
-                if(retorno==true){
-                    System.out.println("\nO cliente existe\n");
-                }
-                else{
-                    System.out.println("\nO cliente não existe\n");
-                }
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;
-        case '1':
-            try{
-                System.out.println("\nIntroduza o email do cliente: ");
-                email=sc.nextLine();
-                cli=rf.selectCliente(email);
-                if(cli!=null){
-                    System.out.println(cli.toString());
-                }
-                else{
-                    System.out.println("\nO cliente nao existe\n");
-                }
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;
-        case 'Q':
-            sair=true;
-            break;
-        default:
-            break;
-    }
-    
-     
- }
-    
- public static void interface_Pontuacao(){
-     
-    char c;
-    String option;
-    String user; 
-    
-    System.out.println("\n(Q)uit, (C)ompanhias, (P)artidas, (D)estinos");
-    option=sc.next().toUpperCase();  
-    sc.skip("\n");
-     
-    if(option.length() >= 1){
-        c = option.charAt(0);
-    }else{
-        c = ' ';
-    }
-    
-    switch(c){
-        
-        case 'C':
-            try{
-                interface_Pont_Comp();
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;  
-        case 'P':
-            try{
-                interface_Pont_Part();
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;
-        case 'D':
-                try{
-
-                }    
-                catch(Exception e){
-                    System.out.println(e.getMessage());
-                }
-            break;
-        case 'Q':
-            sair=true;
-            break;
-        default:
-            break;
-    }
-
- }
-    
-  public static void interface_Pont_Comp(){
-     
-    char c;
-    String option;
-    String user; 
-    
-    System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)electAll: ");
-    option=sc.next().toUpperCase();  
-    sc.skip("\n");
-     
-    if(option.length() >= 1){
-        c = option.charAt(0);
-    }else{
-        c = ' ';
-    }
-    
-    String emailCli;
-    String nomeComp;
-    int idPont;
-    int idCli;
-    int valorPont;
-    PontuacaoDTO pont=null;
-    boolean retorno;
-    
-    switch(c){
-        
-        case 'I':
-            try{
-                System.out.println("\nIntroduza o email do cliente: ");
-                emailCli=sc.nextLine();
-                System.out.println("\nIntroduza o nome da companhia: ");
-                nomeComp=sc.nextLine();
-                System.out.println("\nIntroduza o valor da pontuacao: ");
-                valorPont=sc.nextInt();
-                retorno=rf.insertPontComp(valorPont, emailCli, nomeComp);
-                if(retorno==true){
-                    System.out.println("\nPontuacao inserida com sucesso\n");
-                }
-                else{
-                    System.out.println("\nErro na insercao da pontuacao\n");
-                }
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;  
-        case 'U':
-            try{
-                System.out.println("\nIntroduza o id da pontuacao a alterar: ");
-                idPont=sc.nextInt();
-                System.out.println("\nIntroduza o novo valor da pontuacao: ");
-                valorPont=sc.nextInt();
-                retorno=rf.updatePontComp(idPont, valorPont);
-                if(retorno==true){
-                    System.out.println("\nPontuacao atualizada com sucesso\n");
-                }
-                else{
-                    System.out.println("\nErro ao atualizar a pontuacao\n");
-                }
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;
-        case 'D':
-            try {
-                System.out.println("\nIntroduza o id da pontuacao a eliminar");
-                idPont = sc.nextInt();
-                retorno = rf.deletePontComp(idPont);
-                if (retorno == true) {
-                    System.out.println("\nPontuacao apagada com sucesso\n");
-                } else {
-                    System.out.println("\nErro ao apagar a pontuacao\n");
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-            break;
-        case 'S':
-            try{
-                System.out.println("\nIntroduza o id do cliente");
-                idCli = sc.nextInt();
-                List<PontuacaoDTO> pontuacoes_cli=rf.selectAllClientPont(idCli);
-                if(pontuacoes_cli.isEmpty()==false){
-                    for(PontuacaoDTO x : pontuacoes_cli){
-                        System.out.println(x.toString());
                     }
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -1134,54 +828,6 @@ public class OperadorCliente {
                     } else {
                         System.out.println("\nO cliente nao existe\n");
                     }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                break;
-            case 'Q':
-                sair = true;
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    public static void interface_Pontuacao() {
-
-        char c;
-        String option;
-        String user;
-
-        System.out.println("\n(Q)uit, (C)ompanhias, (P)artidas, (D)estinos");
-        option = sc.next().toUpperCase();
-        sc.skip("\n");
-
-        if (option.length() >= 1) {
-            c = option.charAt(0);
-        } else {
-            c = ' ';
-        }
-
-        switch (c) {
-
-            case 'C':
-                try {
-                    interface_Pont_Comp();
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                break;
-            case 'P':
-                try {
-
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                break;
-            case 'D':
-                try {
-                    interface_Pont_Dest();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -1278,9 +924,55 @@ public class OperadorCliente {
                         for (PontuacaoDTO x : pontuacoes_cli) {
                             System.out.println(x.toString());
                         }
-                    } else {
-                        System.out.println("\nAinda nao efetou nenhumas pontuacoes\n");
                     }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            case 'Q':
+                sair = true;
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    public static void interface_Pontuacao() {
+
+        char c;
+        String option;
+        String user;
+
+        System.out.println("\n(Q)uit, (C)ompanhias, (P)artidas, (D)estinos");
+        option = sc.next().toUpperCase();
+        sc.skip("\n");
+
+        if (option.length() >= 1) {
+            c = option.charAt(0);
+        } else {
+            c = ' ';
+        }
+
+        switch (c) {
+
+            case 'C':
+                try {
+                    interface_Pont_Comp();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            case 'P':
+                try {
+                    interface_Pont_Part();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            case 'D':
+                try {
+                    interface_Pont_Dest();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -1393,352 +1085,363 @@ public class OperadorCliente {
 
     }
 
- }
-  
-  
-  public static void interface_Pont_Part(){
-     
-    char c;
-    String option;
-    String user; 
-    
-    System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)electAll: ");
-    option=sc.next().toUpperCase();  
-    sc.skip("\n");
-     
-    if(option.length() >= 1){
-        c = option.charAt(0);
-    }else{
-        c = ' ';
-    }
-    
-    String emailCli;
-    String nomePart;
-    int idPont;
-    int idCli;
-    int valorPont;
-    PontuacaoDTO pont=null;
-    boolean retorno;
-    
-    switch(c){
-        
-        case 'I':
-            try{
-                System.out.println("\nIntroduza o email do cliente: ");
-                emailCli=sc.nextLine();
-                System.out.println("\nIntroduza o nome da partida: ");
-                nomePart=sc.nextLine();
-                System.out.println("\nIntroduza o valor da pontuacao: ");
-                valorPont=sc.nextInt();
-                retorno=rf.insertPontPartida(valorPont, emailCli, nomePart);
-                if(retorno==true){
-                    System.out.println("\nPontuacao inserida com sucesso\n");
-                }
-                else{
-                    System.out.println("\nErro na insercao da pontuacao\n");
-                }
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;  
-        case 'U':
-            try{
-                System.out.println("\nIntroduza o id da pontuacao a alterar: ");
-                idPont=sc.nextInt();
-                System.out.println("\nIntroduza o novo valor da pontuacao: ");
-                valorPont=sc.nextInt();
-                retorno=rf.updatePontComp(idPont, valorPont);
-                if(retorno==true){
-                    System.out.println("\nPontuacao atualizada com sucesso\n");
-                }
-                else{
-                    System.out.println("\nErro ao atualizar a pontuacao\n");
-                }
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;
-        case 'D':
-            try {
-                System.out.println("\nIntroduza o id da pontuacao a eliminar");
-                idPont = sc.nextInt();
-                retorno = rf.deletePontComp(idPont);
-                if (retorno == true) {
-                    System.out.println("\nPontuacao apagada com sucesso\n");
-                } else {
-                    System.out.println("\nErro ao apagar a pontuacao\n");
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-            break;
-        case 'S':
-            try{
-                System.out.println("\nIntroduza o id do cliente");
-                idCli = sc.nextInt();
-                List<PontuacaoDTO> pontuacoes_cli=rf.selectAllClientPont(idCli);
-                if(pontuacoes_cli.isEmpty()==false){
-                    for(PontuacaoDTO x : pontuacoes_cli){
-                        System.out.println(x.toString());
-                    }
-                }
-                else{
-                    System.out.println("\nAinda nao efetou nenhumas pontuacoes\n");
-                }
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;
-        case 'Q':
-            sair=true;
-            break;
-        default:
-            break;
-    }
+    public static void interface_Pont_Part() {
 
- }
-      
- public static void interface_Bilhete(){
-     
-    char c;
-    String option;
-    String user; 
-    
-    System.out.println("\n(Q)uit, (I)nsert, (U)pdate by Aviao, (D)elete, (S)elect, (1)Select All");
-    option=sc.next().toUpperCase();  
-    sc.skip("\n");
-     
-    if(option.length() >= 1){
-        c = option.charAt(0);
-    }else{
-        c = ' ';
-    }
-    
-    int preco;
-    int codigo_bil;
-    int codigo_cli;
-    int codigo_viagem;
-    int codig_viagem;
-    BilheteDTO bilhete=null;
-    boolean retorno=false;
-    
-    switch(c){
-        
-        case 'I':
-            try{
-                System.out.println("\nQual o preco do bilhete: ");
-                preco=sc.nextInt();
-                System.out.println("\nQual o id do cliente: ");
-                codigo_cli=sc.nextInt();
-                System.out.println("\nQual o id da viagem: ");
-                codig_viagem=sc.nextInt();
-                retorno=rf.insertBilhete(preco, codig_viagem, codigo_cli);
-                if(retorno==true){
-                    System.out.println("\nBilhete inserido com sucesso");
-                }
-                else{
-                    System.out.println("\nErro ao inserir o bilhete\n");
-                }
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;  
-        case 'D':
-            try{
-                System.out.println("\nQual o id do bilhete: ");
-                codigo_bil=sc.nextInt();
-                retorno=rf.deleteBilhete(codigo_bil);
-                if(retorno==true){
-                    System.out.println("\nBilhete apagado com sucesso\n");
-                }
-                else{
-                    System.out.println("\nErro ao apagar o bilhete\n");
-                }
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;
-        case 'U':
-                try{
-                    
-                }    
-                catch(Exception e){
+        char c;
+        String option;
+        String user;
+
+        System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)electAll: ");
+        option = sc.next().toUpperCase();
+        sc.skip("\n");
+
+        if (option.length() >= 1) {
+            c = option.charAt(0);
+        } else {
+            c = ' ';
+        }
+
+        String emailCli;
+        String nomePart;
+        int idPont;
+        int idCli;
+        int valorPont;
+        PontuacaoDTO pont = null;
+        boolean retorno;
+
+        switch (c) {
+
+            case 'I':
+                try {
+                    System.out.println("\nIntroduza o email do cliente: ");
+                    emailCli = sc.nextLine();
+                    System.out.println("\nIntroduza o nome da partida: ");
+                    nomePart = sc.nextLine();
+                    System.out.println("\nIntroduza o valor da pontuacao: ");
+                    valorPont = sc.nextInt();
+                    retorno = rf.insertPontPartida(valorPont, emailCli, nomePart);
+                    if (retorno == true) {
+                        System.out.println("\nPontuacao inserida com sucesso\n");
+                    } else {
+                        System.out.println("\nErro na insercao da pontuacao\n");
+                    }
+                } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-            break;
-        case 'S':
-                try{
-                    System.out.println("\nQual o id do bilhete: ");
-                    codigo_bil=sc.nextInt();
-                    bilhete=rf.selectBilhete(codigo_bil);
-                    if(bilhete!=null){
-                        System.out.println(bilhete.toString());
+                break;
+            case 'U':
+                try {
+                    System.out.println("\nIntroduza o id da pontuacao a alterar: ");
+                    idPont = sc.nextInt();
+                    System.out.println("\nIntroduza o novo valor da pontuacao: ");
+                    valorPont = sc.nextInt();
+                    retorno = rf.updatePontComp(idPont, valorPont);
+                    if (retorno == true) {
+                        System.out.println("\nPontuacao atualizada com sucesso\n");
+                    } else {
+                        System.out.println("\nErro ao atualizar a pontuacao\n");
                     }
-                    else{
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            case 'D':
+                try {
+                    System.out.println("\nIntroduza o id da pontuacao a eliminar");
+                    idPont = sc.nextInt();
+                    retorno = rf.deletePontComp(idPont);
+                    if (retorno == true) {
+                        System.out.println("\nPontuacao apagada com sucesso\n");
+                    } else {
+                        System.out.println("\nErro ao apagar a pontuacao\n");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            case 'S':
+                try {
+                    System.out.println("\nIntroduza o id do cliente");
+                    idCli = sc.nextInt();
+                    List<PontuacaoDTO> pontuacoes_cli = rf.selectAllClientPont(idCli);
+                    if (pontuacoes_cli.isEmpty() == false) {
+                        for (PontuacaoDTO x : pontuacoes_cli) {
+                            System.out.println(x.toString());
+                        }
+                    } else {
+                        System.out.println("\nAinda nao efetou nenhumas pontuacoes\n");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            case 'Q':
+                sair = true;
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    public static void interface_Bilhete() {
+
+        char c;
+        String option;
+        String user;
+
+        System.out.println("\n(Q)uit, (I)nsert, (U)pdate by Aviao, (D)elete, (S)elect, (1)Select All, (2)Selecionar todos bilhetes de um cliente");
+        option = sc.next().toUpperCase();
+        sc.skip("\n");
+
+        if (option.length() >= 1) {
+            c = option.charAt(0);
+        } else {
+            c = ' ';
+        }
+
+        int preco;
+        int codigo_bil;
+        int codigo_cli;
+        int codigo_viagem;
+        int codig_viagem;
+        BilheteDTO bilhete = null;
+        boolean retorno = false;
+
+        switch (c) {
+
+            case 'I':
+                try {
+                    System.out.println("\nQual o preco do bilhete: ");
+                    preco = sc.nextInt();
+                    System.out.println("\nQual o id do cliente: ");
+                    codigo_cli = sc.nextInt();
+                    System.out.println("\nQual o id da viagem: ");
+                    codig_viagem = sc.nextInt();
+                    retorno = rf.insertBilhete(preco, codig_viagem, codigo_cli);
+                    if (retorno == true) {
+                        System.out.println("\nBilhete inserido com sucesso");
+                    } else {
+                        System.out.println("\nErro ao inserir o bilhete\n");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            case 'D':
+                try {
+                    System.out.println("\nQual o id do bilhete: ");
+                    codigo_bil = sc.nextInt();
+                    retorno = rf.deleteBilhete(codigo_bil);
+                    if (retorno == true) {
+                        System.out.println("\nBilhete apagado com sucesso\n");
+                    } else {
+                        System.out.println("\nErro ao apagar o bilhete\n");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            case 'U':
+                try {
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            case 'S':
+                try {
+                    System.out.println("\nQual o id do bilhete: ");
+                    codigo_bil = sc.nextInt();
+                    bilhete = rf.selectBilhete(codigo_bil);
+                    if (bilhete != null) {
+                        System.out.println(bilhete.toString());
+                    } else {
                         System.out.println("\nErro na seleccao do cliente\n");
                     }
-                }    
-                catch(Exception e){
+                } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-            break;
-        case '1':
-                try{
-                    List<BilheteDTO> bilhetes=rf.selectAllBilhetes();
-                    if(bilhetes!=null){
-                        for(BilheteDTO x : bilhetes){
+                break;
+            case '1':
+                try {
+                    List<BilheteDTO> bilhetes = rf.selectAllBilhetes();
+                    if (bilhetes != null) {
+                        for (BilheteDTO x : bilhetes) {
                             System.out.println(x.toString());
                         }
-                    }
-                    else{
+                    } else {
                         System.out.println("\nAinda nao existem bilhetes\n");
                     }
-                }    
-                catch(Exception e){
+                } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-            break;
-        case 'Q':
-            sair=true;
-            break;
-        default:
-            break;
-    }
-
- }
- 
-  public static void interface_Viagem(){
-     
-    char c;
-    String option;
-    String user; 
-    
-    System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect, (1)Select All");
-    option=sc.next().toUpperCase();  
-    sc.skip("\n");
-     
-    if(option.length() >= 1){
-        c = option.charAt(0);
-    }else{
-        c = ' ';
-    }
-    
-    int num_lugares;
-    int hora_part;
-    int hora_cheg;
-    int id_aviao;
-    int id_partida;
-    int id_chegada;
-    int id_viagem;
-    ViagemDTO viagem=null;
-    boolean retorno=false;
-    
-    switch(c){
-        
-        case 'I':
-            try{
-                System.out.println("\nHora de Partida: ");
-                hora_part=sc.nextInt();
-                System.out.println("\nHora de Chegada: ");
-                hora_cheg=sc.nextInt();
-                System.out.println("\nQual o id do aviao: ");
-                id_aviao=sc.nextInt();
-                System.out.println("\nQual o id da cidade de partida: ");
-                id_partida=sc.nextInt();
-                System.out.println("\nQual o id da cidade de chegada: ");
-                id_chegada=sc.nextInt();
-                retorno=rf.insertViagem(hora_part, hora_cheg, id_aviao, id_partida, id_chegada);
-                if(retorno==true){
-                    System.out.println("\nViagem inserida com sucesso\n");
-                }
-                else{
-                    System.out.println("\nErro na insercao da viagem\n");
-                }
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;  
-        case 'D':
-            try{
-                System.out.println("\nQual o id da Viagem: ");
-                id_viagem=sc.nextInt();
-                retorno=rf.deleteViagem(id_viagem);
-                if(retorno==true){
-                    System.out.println("\nViagem apagada com sucesso\n");
-                }
-                else{
-                    System.out.println("\nErro ao apagar a viagem\n");
-                }
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;
-        case 'U':
+                break;
+            case '2':
+                int cod=0;
+                int num_bilhete=0;
                 try{
-                    System.out.println("\nQual o id da Viagem: ");
-                    id_viagem=sc.nextInt();
-                    System.out.println("\nQual o id do novo aviao: ");
-                    id_aviao=sc.nextInt();
-                    retorno=rf.updateViagembyAviao(id_viagem, id_aviao);
-                    if(retorno==true){
-                        System.out.println("\nViagem atualizada com sucesso\n");
-                    }
-                    else{
-                        System.out.println("\nErro ao atualizar a viagem\n");
-                    }    
-                }    
-                catch(Exception e){
-                    System.out.println(e.getMessage());
-                }
-            break;
-        case 'S':
-                try{
-                    System.out.println("\nQual o id da Viagem: ");
-                    id_viagem=sc.nextInt();
-                    viagem=rf.selectViagem(id_viagem);
-                    if(viagem!=null){
-                        System.out.println(viagem.toString());
-                    }
-                    else{
-                        System.out.println("\nErro ao seleccionar a viagem\n");
-                    }
-                }    
-                catch(Exception e){
-                    System.out.println(e.getMessage());
-                }
-            break;
-        case '1':
-                try{
-                    List<ViagemDTO> viagens=rf.selectAllViagens();
-                    if(viagens!=null){
-                        for(ViagemDTO x : viagens){
-                            System.out.println(x.toString());
+                    System.out.println("\nQual o id do cliente para a qual pretende ver os bilhetes");
+                    
+                    int cod_cli= sc.nextInt();
+                    List<BilheteDTO> lista_bilhete= rf.selectAllBilhetesFromACliente(cod_cli);
+                    if(lista_bilhete!=null){
+                        for(int i=0;i<lista_bilhete.size();i++){
+                            cod=++num_bilhete;
+                            System.out.println("Bilhete nº: "+cod);
+                            System.out.println("Lugar: "+lista_bilhete.get(i).getLugar()+"\t"+ "Id da viagem:" +lista_bilhete.get(i).getViagem().getId());
                         }
                     }
                     else{
-                        System.out.println("\nNao existem viagens\n");
+                        System.out.println("Erro na operacao");
                     }
-                }    
-                catch(Exception e){
-                    System.out.println(e.getMessage());
                 }
-            break;
-        case 'Q':
-            sair=true;
-            break;
-        default:
-            break;
+                catch(Exception e){
+                    System.out.println(""+e.getMessage());
+                   
+                }
+            case 'Q':
+                sair = true;
+                break;
+            default:
+                break;
+        }
+
     }
 
- }
- 
+    public static void interface_Viagem() {
+
+        char c;
+        String option;
+        String user;
+
+        System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect, (1)Select All,(R)emove todas as viagens apos hora terminar");
+        option = sc.next().toUpperCase();
+        sc.skip("\n");
+
+        if (option.length() >= 1) {
+            c = option.charAt(0);
+        } else {
+            c = ' ';
+        }
+
+        int num_lugares;
+        int hora_c;
+        int hora_part;
+        int hora_cheg;
+        int id_aviao;
+        int id_partida;
+        int id_chegada;
+        int id_viagem;
+        ViagemDTO viagem = null;
+        boolean retorno = false;
+
+        switch (c) {
+
+            case 'I':
+                try {
+                    System.out.println("\nHora de Partida: ");
+                    hora_part = sc.nextInt();
+                    System.out.println("\nHora de Chegada: ");
+                    hora_cheg = sc.nextInt();
+                    System.out.println("\nQual o id do aviao: ");
+                    id_aviao = sc.nextInt();
+                    System.out.println("\nQual o id da cidade de partida: ");
+                    id_partida = sc.nextInt();
+                    System.out.println("\nQual o id da cidade de chegada: ");
+                    id_chegada = sc.nextInt();
+                    retorno = rf.insertViagem(hora_part, hora_cheg, id_aviao, id_partida, id_chegada);
+                    if (retorno == true) {
+                        System.out.println("\nViagem inserida com sucesso\n");
+                    } else {
+                        System.out.println("\nErro na insercao da viagem\n");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            case 'R':
+                try {
+                    System.out.println("\nQual a hora de chegada: ");
+                    hora_c = sc.nextInt();
+                    boolean status = rf.removeTodasViagensAposHoraTerminar(hora_c);
+                    if (status == true) {
+                        System.out.println("\nRemovidas todas as viagem com hora de chegada superior a passada como parametro");
+                    } else {
+                        System.out.println("\nFalha ao remover todas as viagens");
+                    }
+                } catch (Exception e) {
+                    System.out.println("" + e.getMessage());
+                }
+                break;
+            case 'D':
+                try {
+                    System.out.println("\nQual o id da Viagem: ");
+                    id_viagem = sc.nextInt();
+                    retorno = rf.deleteViagem(id_viagem);
+                    if (retorno == true) {
+                        System.out.println("\nViagem apagada com sucesso\n");
+                    } else {
+                        System.out.println("\nErro ao apagar a viagem\n");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            case 'U':
+                try {
+                    System.out.println("\nQual o id da Viagem: ");
+                    id_viagem = sc.nextInt();
+                    System.out.println("\nQual o id do novo aviao: ");
+                    id_aviao = sc.nextInt();
+                    retorno = rf.updateViagembyAviao(id_viagem, id_aviao);
+                    if (retorno == true) {
+                        System.out.println("\nViagem atualizada com sucesso\n");
+                    } else {
+                        System.out.println("\nErro ao atualizar a viagem\n");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            case 'S':
+                try {
+                    System.out.println("\nQual o id da Viagem: ");
+                    id_viagem = sc.nextInt();
+                    viagem = rf.selectViagem(id_viagem);
+                    if (viagem != null) {
+                        System.out.println(viagem.toString());
+                    } else {
+                        System.out.println("\nErro ao seleccionar a viagem\n");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            case '1':
+                try {
+                    List<ViagemDTO> viagens = rf.selectAllViagens();
+                    if (viagens != null) {
+                        for (ViagemDTO x : viagens) {
+                            System.out.println(x.toString());
+                        }
+                    } else {
+                        System.out.println("\nNao existem viagens\n");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+
+            case 'Q':
+                sair = true;
+                break;
+            default:
+                break;
+        }
+
+    }
+
     public static void main(String[] args) {
         // TODO code application logic here
 

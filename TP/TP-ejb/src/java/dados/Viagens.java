@@ -28,7 +28,6 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Viagens.findAll", query = "SELECT v FROM Viagens v")
     , @NamedQuery(name = "Viagens.findByIdViagens", query = "SELECT v FROM Viagens v WHERE v.idViagens = :idViagens")
-    , @NamedQuery(name = "Viagens.findByNumLugares", query = "SELECT v FROM Viagens v WHERE v.numLugares = :numLugares")
     , @NamedQuery(name = "Viagens.findByHoraChegada", query = "SELECT v FROM Viagens v WHERE v.horaChegada = :horaChegada")
     , @NamedQuery(name = "Viagens.findByHoraPartida", query = "SELECT v FROM Viagens v WHERE v.horaPartida = :horaPartida")})
 public class Viagens implements Serializable {
@@ -43,9 +42,6 @@ public class Viagens implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_viagens")
     private Integer idViagens;
-    @Basic(optional = false)
-    @Column(name = "num_lugares")
-    private int numLugares;
     @Column(name = "hora_chegada")
     private Integer horaChegada;
     @Column(name = "hora_partida")
@@ -67,10 +63,7 @@ public class Viagens implements Serializable {
         this.idViagens = idViagens;
     }
 
-    public Viagens(Integer idViagens, int numLugares) {
-        this.idViagens = idViagens;
-        this.numLugares = numLugares;
-    }
+    
 
     public Integer getIdViagens() {
         return idViagens;
@@ -80,13 +73,6 @@ public class Viagens implements Serializable {
         this.idViagens = idViagens;
     }
 
-    public int getNumLugares() {
-        return numLugares;
-    }
-
-    public void setNumLugares(int numLugares) {
-        this.numLugares = numLugares;
-    }
 
     public Integer getHoraChegada() {
         return horaChegada;

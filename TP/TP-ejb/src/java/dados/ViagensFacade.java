@@ -5,20 +5,29 @@
  */
 package dados;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.jms.Connection;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
  * @author gustavo
  */
+
+
 @Stateless
 public class ViagensFacade extends AbstractFacade<Viagens> implements ViagensFacadeLocal {
-
+  
     @PersistenceContext(unitName = "TP-ejbPU")
     private EntityManager em;
-
+    static Logger LOGGER= Logger.getLogger(ViagensFacade.class.getName());
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -27,5 +36,8 @@ public class ViagensFacade extends AbstractFacade<Viagens> implements ViagensFac
     public ViagensFacade() {
         super(Viagens.class);
     }
-    
+
+
+
+
 }
