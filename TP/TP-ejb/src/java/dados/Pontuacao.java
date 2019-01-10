@@ -10,6 +10,8 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -32,6 +34,7 @@ public class Pontuacao implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_pontuacao")
     private Integer idPontuacao;
@@ -39,9 +42,9 @@ public class Pontuacao implements Serializable {
     @Column(name = "valor")
     private int valor;
     @ManyToMany(mappedBy = "pontuacaoCollection")
-    private Collection<Partidas> partidasCollection;
-    @ManyToMany(mappedBy = "pontuacaoCollection")
     private Collection<Companhia> companhiaCollection;
+    @ManyToMany(mappedBy = "pontuacaoCollection")
+    private Collection<Partidas> partidasCollection;
     @ManyToMany(mappedBy = "pontuacaoCollection")
     private Collection<Destinos> destinosCollection;
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
@@ -51,12 +54,7 @@ public class Pontuacao implements Serializable {
     public Pontuacao() {
     }
 
-    public Pontuacao(Integer idPontuacao) {
-        this.idPontuacao = idPontuacao;
-    }
-
-    public Pontuacao(Integer idPontuacao, int valor) {
-        this.idPontuacao = idPontuacao;
+    public Pontuacao(int valor) {
         this.valor = valor;
     }
 
@@ -76,20 +74,20 @@ public class Pontuacao implements Serializable {
         this.valor = valor;
     }
 
-    public Collection<Partidas> getPartidasCollection() {
-        return partidasCollection;
-    }
-
-    public void setPartidasCollection(Collection<Partidas> partidasCollection) {
-        this.partidasCollection = partidasCollection;
-    }
-
     public Collection<Companhia> getCompanhiaCollection() {
         return companhiaCollection;
     }
 
     public void setCompanhiaCollection(Collection<Companhia> companhiaCollection) {
         this.companhiaCollection = companhiaCollection;
+    }
+
+    public Collection<Partidas> getPartidasCollection() {
+        return partidasCollection;
+    }
+
+    public void setPartidasCollection(Collection<Partidas> partidasCollection) {
+        this.partidasCollection = partidasCollection;
     }
 
     public Collection<Destinos> getDestinosCollection() {

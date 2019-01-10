@@ -54,7 +54,7 @@ public class BagagemDTO  implements Serializable{
         
         String info_bagagem="";
         info_bagagem+=this.getPeso_bagagem()+"\n";
-        info_bagagem+=this.viagem.toString()+"\n";
+        info_bagagem+=this.viagem.getHora_part()+this.viagem.getHora_cheg()+"\n";
         
         return info_bagagem;
     }

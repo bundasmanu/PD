@@ -6,8 +6,10 @@
 package dados;
 
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
+import javax.ejb.MessageDrivenContext;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
@@ -34,6 +36,9 @@ public class logs_mdb implements MessageListener{
     
     /*LOGGER--> ENVIO PARA O SERVIDOR DO PAYARA*/
     static final Logger logger = Logger.getLogger("SimpleMessageBean");
+    
+    @Resource
+    private MessageDrivenContext mdc;
     
     public logs_mdb(){
         

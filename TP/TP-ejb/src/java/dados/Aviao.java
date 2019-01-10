@@ -6,17 +6,16 @@
 package dados;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -34,6 +33,7 @@ public class Aviao implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_aviao")
     private Integer idAviao;
@@ -43,8 +43,6 @@ public class Aviao implements Serializable {
     @Basic(optional = false)
     @Column(name = "num_lugares")
     private int numLugares;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAviao")
-    private Collection<Viagens> viagensCollection;
     @JoinColumn(name = "id_companhia", referencedColumnName = "id_companhia")
     @ManyToOne(optional = false)
     private Companhia idCompanhia;
@@ -56,11 +54,9 @@ public class Aviao implements Serializable {
         this.idAviao = idAviao;
     }
 
-    public Aviao(Integer idAviao, String nomeAviao, int numLugares,Companhia c) {
-        this.idAviao = idAviao;
+    public Aviao(String nomeAviao, int numLugares) {
         this.nomeAviao = nomeAviao;
         this.numLugares = numLugares;
-        this.idCompanhia=c;
     }
 
     public Integer getIdAviao() {
@@ -85,14 +81,6 @@ public class Aviao implements Serializable {
 
     public void setNumLugares(int numLugares) {
         this.numLugares = numLugares;
-    }
-
-    public Collection<Viagens> getViagensCollection() {
-        return viagensCollection;
-    }
-
-    public void setViagensCollection(Collection<Viagens> viagensCollection) {
-        this.viagensCollection = viagensCollection;
     }
 
     public Companhia getIdCompanhia() {

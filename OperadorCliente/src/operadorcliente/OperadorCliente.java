@@ -108,14 +108,20 @@ public class OperadorCliente {
                     } else {
                         System.out.println("\nUtilizador nao foi encontrado, tente novamente\n");
     
- }
+                    }
+                }
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+        }
+    }
  
   public static void interface_inicial(){
      
     char c;
     String option;
      
-    System.out.println("\n(Q)uit, (C)ompanhia, (A)viao, (O)perador, (P)artidas, (1)Clientes, (2)Pontuacao, (V)iagens, (B)ilhete, (T)empo \n ");
+    System.out.println("\n(Q)uit, (C)ompanhia, (A)viao, (O)perador, (P)artidas, (1)Clientes, (2)Pontuacao, (V)iagens, (B)ilhete, (T)empo, (3)Bagagens, (D)estinos \n ");
     option=sc.next().toUpperCase();
      
     if(option.length() >= 1){
@@ -154,6 +160,12 @@ public class OperadorCliente {
                 System.out.println(rf.tempoAtual());
                 rf.retificaIncrementoTempo(100);
             break;
+        case '3':
+            interface_Bagagens();
+        break;
+        case 'D':
+            interface_Destinos();
+        break;    
         case 'Q':
             sair=true;
             break;
@@ -244,138 +256,6 @@ public class OperadorCliente {
                 break;
             case 'Q':
                 System.exit(1);
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    public static void interface_inicial() {
-
-        char c;
-        String option;
-
-        System.out.println("\n(Q)uit, (C)ompanhia, (A)viao, (O)perador, (P)artidas, (1)Clientes, (2)Pontuacao, (B)agagens ,(D)estinos\n ");
-        option = sc.next().toUpperCase();
-
-        if (option.length() >= 1) {
-            c = option.charAt(0);
-        } else {
-            c = ' ';
-        }
-
-        switch (c) {
-
-            case 'C':
-                interface_Companhia();
-                break;
-            case 'A':
-                interface_aviao();
-                break;
-            case 'O':
-                interface_Operador();
-                break;
-            case 'P':
-                interface_Partidas();
-                break;
-            case '1':
-                interface_cliente();
-                break;
-            case '2':
-                interface_Pontuacao();
-                break;
-            case 'B':
-                interface_Bagagens();
-            case 'D':
-                interface_Destinos();
-            case 'Q':
-                sair = true;
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    public static void interface_Companhia() {
-
-        char c;
-        String option;
-
-        System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect Companhias\n");
-        option = sc.next().toUpperCase();
-
-        if (option.length() >= 1) {
-            c = option.charAt(0);
-        } else {
-            c = ' ';
-        }
-
-        switch (c) {
-
-            case 'I':
-                try {
-                    System.out.println("\nIntroduza o nome da companhia\n");
-                    String nome_comp = sc.next();
-                    CompanhiaDTO novaComp = new CompanhiaDTO(nome_comp);
-                    boolean aconteceu = rf.insertCompanhia(novaComp);
-                    if (aconteceu == true) {
-                        System.out.println("\nInserida a companhia com sucesso\n");
-                    } else {
-                        System.out.println("\nOcorreu um problema\n");
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                break;
-            case 'U':
-                try {
-                    System.out.println("\nIntroduza o nome da companhia a atualizar\n");
-                    String nome_comp = sc.next();
-                    System.out.println("\nIntroduza o novo nome da companhia\n");
-                    String novo_nome = sc.next();
-                    boolean retorno = rf.updateCompanhia(nome_comp, novo_nome);
-                    if (retorno == false) {
-                        System.out.println("\nErro na atualizacao\n");
-                    } else {
-                        System.out.println("\nCompanhia atualizada com sucesso\n");
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                break;
-            case 'D':
-                try {
-                    System.out.println("\nQual o nome da companhia a apagar\n");
-                    String nomc = sc.next();
-                    CompanhiaDTO comp_apag = new CompanhiaDTO(nomc);
-                    boolean deleteOP = rf.deleteCompanhia(comp_apag);
-                    if (deleteOP == false) {
-                        System.out.println("\nErro na Operacao\n");
-                    } else {
-                        System.out.println("\nOperacao bem sucedida\n");
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                break;
-            case 'S':
-                try {
-                    List<CompanhiaDTO> lista_companhia = rf.selectList();
-                    if (lista_companhia == null) {
-                        System.out.println("\nErro na Operacao\n");
-                    } else {
-                        for (CompanhiaDTO x : lista_companhia) {
-                            System.out.println(x.toString());
-                        }
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                break;
-            case 'Q':
-                sair = true;
                 break;
             default:
                 break;
@@ -937,24 +817,11 @@ public class OperadorCliente {
                         System.out.println("\nO cliente existe\n");
                     } else {
                         System.out.println("\nO cliente não existe\n");
-            break;
-        case 'V':
-            try{
-                System.out.println("\nIntroduza o email do cliente: ");
-                email=sc.nextLine();
-                System.out.println("\nIntroduza a pass do cliente: ");
-                pass=sc.nextLine();
-                retorno=rf.verificaLogin(email, pass);
-                if(retorno==true){
-                    System.out.println("\nO cliente existe\n");
+                    }
                 }
-                else{
-                    System.out.println("\nO cliente não existe\n");
+                catch(Exception e){
+                    System.out.println(e.getMessage());
                 }
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
             break;
         case '1':
             try{
@@ -980,57 +847,6 @@ public class OperadorCliente {
     }
     
      
- }
-    
- public static void interface_Pontuacao(){
-     
-    char c;
-    String option;
-    String user; 
-    
-    System.out.println("\n(Q)uit, (C)ompanhias, (P)artidas, (D)estinos");
-    option=sc.next().toUpperCase();  
-    sc.skip("\n");
-     
-    if(option.length() >= 1){
-        c = option.charAt(0);
-    }else{
-        c = ' ';
-    }
-    
-    switch(c){
-        
-        case 'C':
-            try{
-                interface_Pont_Comp();
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;  
-        case 'P':
-            try{
-                interface_Pont_Part();
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-            break;
-        case 'D':
-                try{
-
-                }    
-                catch(Exception e){
-                    System.out.println(e.getMessage());
-                }
-            break;
-        case 'Q':
-            sair=true;
-            break;
-        default:
-            break;
-    }
-
  }
     
   public static void interface_Pont_Comp(){
@@ -1120,24 +936,12 @@ public class OperadorCliente {
                     for(PontuacaoDTO x : pontuacoes_cli){
                         System.out.println(x.toString());
                     }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
                 }
-                break;
-            case '1':
-                try {
-                    System.out.println("\nIntroduza o email do cliente: ");
-                    email = sc.nextLine();
-                    cli = rf.selectCliente(email);
-                    if (cli != null) {
-                        System.out.println(cli.toString());
-                    } else {
-                        System.out.println("\nO cliente nao existe\n");
-                    }
-                } catch (Exception e) {
+            } 
+            catch (Exception e) {
                     System.out.println(e.getMessage());
-                }
-                break;
+            }
+            break;
             case 'Q':
                 sair = true;
                 break;
@@ -1174,7 +978,7 @@ public class OperadorCliente {
                 break;
             case 'P':
                 try {
-
+                    interface_Pont_Part();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -1182,105 +986,6 @@ public class OperadorCliente {
             case 'D':
                 try {
                     interface_Pont_Dest();
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                break;
-            case 'Q':
-                sair = true;
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    public static void interface_Pont_Comp() {
-
-        char c;
-        String option;
-        String user;
-
-        System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)electAll: ");
-        option = sc.next().toUpperCase();
-        sc.skip("\n");
-
-        if (option.length() >= 1) {
-            c = option.charAt(0);
-        } else {
-            c = ' ';
-        }
-
-        String emailCli;
-        String nomeComp;
-        int idPont;
-        int idCli;
-        int valorPont;
-        PontuacaoDTO pont = null;
-        boolean retorno;
-
-        switch (c) {
-
-            case 'I':
-                try {
-                    System.out.println("\nIntroduza o email do cliente: ");
-                    emailCli = sc.nextLine();
-                    System.out.println("\nIntroduza o nome da companhia: ");
-                    nomeComp = sc.nextLine();
-                    System.out.println("\nIntroduza o valor da pontuacao: ");
-                    valorPont = sc.nextInt();
-                    retorno = rf.insertPontComp(valorPont, emailCli, nomeComp);
-                    if (retorno == true) {
-                        System.out.println("\nPontuacao inserida com sucesso\n");
-                    } else {
-                        System.out.println("\nErro na insercao da pontuacao\n");
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                break;
-            case 'U':
-                try {
-                    System.out.println("\nIntroduza o id da pontuacao a alterar: ");
-                    idPont = sc.nextInt();
-                    System.out.println("\nIntroduza o novo valor da pontuacao: ");
-                    valorPont = sc.nextInt();
-                    retorno = rf.updatePontComp(idPont, valorPont);
-                    if (retorno == true) {
-                        System.out.println("\nPontuacao atualizada com sucesso\n");
-                    } else {
-                        System.out.println("\nErro ao atualizar a pontuacao\n");
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                break;
-            case 'D':
-                try {
-                    System.out.println("\nIntroduza o id da pontuacao a eliminar");
-                    idPont = sc.nextInt();
-                    retorno = rf.deletePontComp(idPont);
-                    if (retorno == true) {
-                        System.out.println("\nPontuacao apagada com sucesso\n");
-                    } else {
-                        System.out.println("\nErro ao apagar a pontuacao\n");
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                break;
-            case 'S':
-                try {
-                    System.out.println("\nIntroduza o id do cliente");
-                    idCli = sc.nextInt();
-                    List<PontuacaoDTO> pontuacoes_cli = rf.selectAllClientPont(idCli);
-                    if (pontuacoes_cli.isEmpty() == false) {
-                        for (PontuacaoDTO x : pontuacoes_cli) {
-                            System.out.println(x.toString());
-                        }
-                    } else {
-                        System.out.println("\nAinda nao efetou nenhumas pontuacoes\n");
-                    }
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -1392,8 +1097,6 @@ public class OperadorCliente {
         }
 
     }
-
- }
   
   
   public static void interface_Pont_Part(){

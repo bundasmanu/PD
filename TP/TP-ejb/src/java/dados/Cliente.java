@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -33,6 +35,7 @@ public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_cliente")
     private Integer idCliente;
@@ -55,12 +58,7 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(Integer idCliente) {
-        this.idCliente = idCliente;
-    }
-
-    public Cliente(Integer idCliente, String nomeCliente, String passCliente, String emailCliente) {
-        this.idCliente = idCliente;
+    public Cliente(String nomeCliente, String passCliente, String emailCliente) {
         this.nomeCliente = nomeCliente;
         this.passCliente = passCliente;
         this.emailCliente = emailCliente;

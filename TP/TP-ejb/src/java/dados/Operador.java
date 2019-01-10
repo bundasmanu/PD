@@ -9,9 +9,9 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -32,6 +32,7 @@ public class Operador implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_operador")
     private Integer idOperador;
@@ -52,8 +53,8 @@ public class Operador implements Serializable {
         this.idOperador = idOperador;
     }
 
-    public Operador(Integer idOperador, String nomeOperador, String emailOperador, String passOperador) {
-        this.idOperador = idOperador;
+    public Operador(String nomeOperador, String emailOperador, String passOperador) {
+        //this.idOperador = idOperador;
         this.nomeOperador = nomeOperador;
         this.emailOperador = emailOperador;
         this.passOperador = passOperador;

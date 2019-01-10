@@ -8,11 +8,15 @@ package dados;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
+import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import tpdtos.AviaoDTO;
 import tpdtos.BagagemDTO;
@@ -62,14 +66,10 @@ public class singletonLocal implements singletonLocalLocal {
     @EJB
     BilheteFacadeLocal bilhete;
     
-    @EJB
-    DestinosFacadeLocal destino;
-    
     private static final Logger LOGGER = Logger.getLogger( singletonLocal.class.getName() );
     
-    @EJB 
+    @EJB
     LogsSendQueueBeanLocal logs;
-    
 
     @EJB
     BagagensFacadeLocal bagagem;
@@ -83,7 +83,7 @@ public class singletonLocal implements singletonLocalLocal {
     public boolean insertCompanhia(CompanhiaDTO d) {
 
         try {
-            Companhia novaCompanhia = new Companhia(this.companhia.count() + 1, d.getNome());
+            Companhia novaCompanhia = new Companhia(d.getNome());
             //novaCompanhia.setIdAgencia();
             this.companhia.create(novaCompanhia);
 
@@ -229,7 +229,7 @@ public class singletonLocal implements singletonLocalLocal {
 
             /*SENAO EXISTIR NENHUM UTILIZADOR REGISTADO COM O MESMO EMAIL ENTAO INSIRO-O NA BD*/
             if (ja_existe == null) {
-                Operador novoOp = new Operador(this.operador.count() + 1, d.getNome(), d.getMail(), d.getPass());
+                Operador novoOp = new Operador(d.getNome(), d.getMail(), d.getPass());
                 this.operador.create(novoOp);
                 return true;
             }
@@ -330,7 +330,7 @@ public class singletonLocal implements singletonLocalLocal {
             }
 
             /*CASO AINDA NAO EXISTA, INSERE NA BD*/
-            p = new Partidas(this.partidas.count() + 1, part.getCidade(), 0);/*VARIAVEL P SE CHEGAR AQUI ESTA A NULL, POSSO UTILIZA-LA*/
+            p = new Partidas(part.getCidade(), 0);/*VARIAVEL P SE CHEGAR AQUI ESTA A NULL, POSSO UTILIZA-LA*/
             this.partidas.create(p);
 
         } catch (Exception e) {
@@ -432,7 +432,8 @@ public class singletonLocal implements singletonLocalLocal {
             return false;
         }
         try {
-            Aviao v = new Aviao(this.aviao.count() + 1, av.getNomeAviao(), av.getNum_lugares(), encontrou);
+            Aviao v = new Aviao(av.getNomeAviao(), av.getNum_lugares());
+            v.setIdCompanhia(encontrou);
             this.aviao.create(v);
         } catch (Exception e) {
             return false;
@@ -504,7 +505,7 @@ public class singletonLocal implements singletonLocalLocal {
                 return false;
             }
 
-            existe = new Cliente(this.cliente.count() + 1, c.getNome(), pass, c.getEmail());
+            existe = new Cliente(c.getNome(), pass, c.getEmail());
             this.cliente.create(existe);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -664,7 +665,7 @@ public class singletonLocal implements singletonLocalLocal {
             }
 
             /*ADICAO DA COMPANHIA NA COLLECCAO DE COMPANHIAS DA PONTUACAO, PARA QUE SEJA INSERIDA NA TABELA PONT_COMP*/
-            Pontuacao pont_a_criar = new Pontuacao(this.pontuacao.count() + 1, valor);
+            Pontuacao pont_a_criar = new Pontuacao(valor);
             pont_a_criar.setIdCliente(cliente_retorno);
             if (pont_a_criar.getCompanhiaCollection() == null) {
                 Collection<Companhia> novaColeccao = new ArrayList<Companhia>();
@@ -751,7 +752,7 @@ public class singletonLocal implements singletonLocalLocal {
                 return false;
             }
             
-            Pontuacao pont_insert=new Pontuacao(this.pontuacao.count()+1, valor);
+            Pontuacao pont_insert=new Pontuacao(valor);
             pont_insert.setIdCliente(c);/*DEFINIR QUAL O CLIENTE*/
             
             /*INSERCAO DA COLECCAO NAS PARTIDAS*/
@@ -780,10 +781,6 @@ public class singletonLocal implements singletonLocalLocal {
     }
     
     @Override
-    public List<PontuacaoDTO> seleccionaAllClientPont(int idCli){
-        
-        try{
-            
     public List<PontuacaoDTO> seleccionaAllClientPont(int idCli) {
 
         try {
@@ -915,7 +912,7 @@ public class singletonLocal implements singletonLocalLocal {
                return false;
            }
            
-           Bilhete bil_insert=new Bilhete(this.bilhete.count()+1,preco_bilhete);
+           Bilhete bil_insert=new Bilhete(preco_bilhete);
            bil_insert.setLugar(this.bilhete.count()+1);
            bil_insert.setIdCliente(cli_ret);
            bil_insert.setIdViagens(viag_ret);
@@ -928,33 +925,6 @@ public class singletonLocal implements singletonLocalLocal {
             return false;
         }
         
-        return true;
-    }
-    
-    @Override
-    public boolean apagaBilhete(int id){
-        
-        try{
-            
-            /*VERIFICAR INICIALMENTE SE EXISTE O BILHETE QUE SE PRETENDE APAGAR*/
-            Bilhete b=this.bilhete.find(id);
-            
-            if(b==null){
-                return false;
-            }
-
-            Bilhete bil_insert = new Bilhete(this.bilhete.count() + 1, preco_bilhete);
-            //o id 1 fica com o lugar 1 e sempre assim sucessivamente..
-            bil_insert.setLugar(this.bilhete.count()+1);
-            bil_insert.setIdCliente(cli_ret);
-            bil_insert.setIdViagens(viag_ret);
-
-            this.bilhete.create(bil_insert);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-
         return true;
     }
 
@@ -1032,71 +1002,6 @@ public class singletonLocal implements singletonLocalLocal {
 
     }
 
-    @Override
-    public boolean insereViagem(int num_lugares, int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada) {
-
-        try {
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean apagaViagem(int idViagem) {
-
-        try {
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean atualizaViagembyAviao(int id_viagem, int id_novo_aviao) {
-
-        try {
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-
-        return false;
-    }
-
-    @Override
-    public ViagemDTO seleccionaViagem(int idViagem) {
-
-        try {
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
-
-        return null;
-    }
-
-    @Override
-    public List<ViagemDTO> seleccionaAllViagens() {
-
-        try {
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
-
-        return null;
-    }
-
     //stand by
     @Override
     public boolean insertBagagem(int peso_bagagem, int id_viagem, int id_cliente) {
@@ -1110,9 +1015,9 @@ public class singletonLocal implements singletonLocalLocal {
                 return false;
             }
 
-            if (cli.getBilheteCollection().isEmpty() == false) {
+            if (cli.getBilheteCollection().isEmpty() == true) {
 
-                Bagagens bagagem_a_criar = new Bagagens(this.bagagem.count() + 1, peso_bagagem);
+                Bagagens bagagem_a_criar = new Bagagens(peso_bagagem);
                 bagagem_a_criar.setIdViagens(viagem);
                 bagagem_a_criar.setIdCliente(cli);
                 this.bagagem.create(bagagem_a_criar);
@@ -1170,7 +1075,9 @@ public class singletonLocal implements singletonLocalLocal {
 
             List<BagagemDTO> part = new ArrayList<BagagemDTO>();
             for (Bagagens x : bagagens) {
-                part.add(new BagagemDTO(x.getIdBagagens(), x.getPesoBagagens()));
+                BagagemDTO bag=new BagagemDTO(x.getIdBagagens(), x.getPesoBagagens());
+                bag.setViagem(new ViagemDTO(x.getIdViagens().getHoraPartida(),x.getIdViagens().getHoraChegada()));
+                part.add(bag);
             }
 
             return part;
@@ -1194,7 +1101,7 @@ public class singletonLocal implements singletonLocalLocal {
                 return false;
             }
 
-            p = new Destinos(this.destino.count() + 1, part.getCidade(), 0);
+            p = new Destinos(part.getCidade(), 0);
             this.destino.create(p);
         } catch (Exception e) {
             return false;
@@ -1289,7 +1196,7 @@ public class singletonLocal implements singletonLocalLocal {
           }
           
           //inserir pontuacao
-          Pontuacao pont_a_inserir= new Pontuacao(this.pontuacao.count()+1,valor_pont);
+          Pontuacao pont_a_inserir= new Pontuacao(valor_pont);
           pont_a_inserir.setIdCliente(cliente_encontrado);
           if(pont_a_inserir.getDestinosCollection()==null){
               Collection<Destinos> novoDestino= new ArrayList<Destinos>();
@@ -1357,71 +1264,6 @@ public class singletonLocal implements singletonLocalLocal {
     }
     
     @Override
-    public List<PontuacaoDTO> selectAllPontuacoesDestino(String emailCli){
-    public BilheteDTO seleccionaBilhete(int id){
-        
-        try{
-            
-            /*VERIFICAR INICIALMENTE SE O BILHETE EXISTE*/
-            Bilhete b=this.bilhete.find(id);
-            
-            if(b==null){
-            //encontra o cliente
-            Cliente cli= this.cliente.findbyEmail(emailCli);
-            if(cli==null){
-                System.out.println("O cliente nao foi encontrado");
-                return null;
-            }
-            
-            BilheteDTO bil=new BilheteDTO(b.getPrecoBilhete());
-            /*PODE NAO SER NECESSARIO*/
-            ClienteDTO ret_cli=this.seleccionaCliente(b.getIdCliente().getEmailCliente());
-            bil.setCli(ret_cli);
-            /*FALTA FAZER O SET DA VIAGEM*/
-            
-            return bil;
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-            return null;
-        }
-        
-    }
-    
-    @Override
-    public List<BilheteDTO> seleccionaAllBilhetes(){
-        
-        try{
-            /*PROCURAR INICIALMENTE TODOS OS BILHETES QUE EXISTEM*/
-            List<Bilhete> lista_bilhetes_retorno=this.bilhete.findAll();
-            
-            if(lista_bilhetes_retorno.isEmpty()==true){
-            if(cli.getPontuacaoCollection().isEmpty()==true){
-                return null;
-            }
-            List<PontuacaoDTO> ponts= new ArrayList<PontuacaoDTO>();
-            
-            for(Pontuacao x: cli.getPontuacaoCollection()){
-                PontuacaoDTO p = new PontuacaoDTO(x.getValor());
-                if(x.getDestinosCollection().isEmpty()==false){
-                    List<DestinoDTO> dest= new ArrayList<DestinoDTO>();
-                    for(Destinos d: x.getDestinosCollection()){
-                        DestinoDTO codto= this.selectDestino(d.getCidadeDestino());
-                        dest.add(codto);
-                    }
-                    p.setDestinos(dest);
-                }
-                ponts.add(p);
-            }
-            return ponts;
-        }catch(Exception e){
-            System.out.println(""+e.getMessage());
-            return null;
-        }    
-        
-    }
-    
-    @Override
     public boolean insereViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada){
         
         try{
@@ -1435,7 +1277,7 @@ public class singletonLocal implements singletonLocalLocal {
                 return false;
             }
             
-            Viagens viag=new Viagens(this.viagens.count()+1);
+            Viagens viag=new Viagens();
             viag.setHoraPartida(hora_part);
             viag.setHoraChegada(hora_cheg);
             viag.setIdAviao(av_ret);
@@ -1450,7 +1292,15 @@ public class singletonLocal implements singletonLocalLocal {
         }
         
         /*CHAMAR METODO ASSINCRONO NUM SINGLETON-->QUE VAI ENVIAR UMA MENSAGEM PARA UMA QUEUE, QUE DPS O MDB VAI LER ASSINCRONO ENVIAR PARA OS LOGS E ESCREVER NUM FICHEIRO*/
-        logs.sendToQueue("Criada Viagem");
+        Future<Boolean> async=logs.sendToQueue("Criada Viagem");
+        try {
+            Boolean k= async.get();
+            LOGGER.info(""+k);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(singletonLocal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            Logger.getLogger(singletonLocal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return true;
     }
     
@@ -1515,7 +1365,7 @@ public class singletonLocal implements singletonLocalLocal {
                 return null;
             }
             
-            ViagemDTO vi=new ViagemDTO(viag_ret.getNumLugares(), viag_ret.getHoraPartida(), viag_ret.getHoraChegada());
+            ViagemDTO vi=new ViagemDTO(viag_ret.getHoraPartida(), viag_ret.getHoraChegada());
             vi.setPart(new PartidaDTO(viag_ret.getIdPartida().getCidadePartida(), viag_ret.getIdPartida().getPontMedia()));
             vi.setDest(new DestinoDTO(viag_ret.getIdDestino().getCidadeDestino(),viag_ret.getIdDestino().getPontuacaoMedia()));
             
@@ -1552,6 +1402,41 @@ public class singletonLocal implements singletonLocalLocal {
             return null;
         }
 
+    }
+    
+    @Override
+    public List<PontuacaoDTO> selectAllPontuacoesDestino(String emailCli){
+        try{
+            //encontra o cliente
+            Cliente cli= this.cliente.findbyEmail(emailCli);
+            if(cli==null){
+                System.out.println("O cliente nao foi encontrado");
+                return null;
+            }
+            
+            if(cli.getPontuacaoCollection().isEmpty()==true){
+                return null;
+            }
+            List<PontuacaoDTO> ponts= new ArrayList<PontuacaoDTO>();
+            
+            for(Pontuacao x: cli.getPontuacaoCollection()){
+                PontuacaoDTO p = new PontuacaoDTO(x.getValor());
+                if(x.getDestinosCollection().isEmpty()==false){
+                    List<DestinoDTO> dest= new ArrayList<DestinoDTO>();
+                    for(Destinos d: x.getDestinosCollection()){
+                        DestinoDTO codto= this.selectDestino(d.getCidadeDestino());
+                        dest.add(codto);
+                    }
+                    p.setDestinos(dest);
+                }
+                ponts.add(p);
+            }
+            return ponts;
+        }catch(Exception e){
+            System.out.println(""+e.getMessage());
+            return null;
+        }    
+        
     }
     
 }

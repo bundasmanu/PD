@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,28 +30,22 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Viagens.findAll", query = "SELECT v FROM Viagens v")
     , @NamedQuery(name = "Viagens.findByIdViagens", query = "SELECT v FROM Viagens v WHERE v.idViagens = :idViagens")
-    , @NamedQuery(name = "Viagens.findByNumLugares", query = "SELECT v FROM Viagens v WHERE v.numLugares = :numLugares")
     , @NamedQuery(name = "Viagens.findByHoraChegada", query = "SELECT v FROM Viagens v WHERE v.horaChegada = :horaChegada")
     , @NamedQuery(name = "Viagens.findByHoraPartida", query = "SELECT v FROM Viagens v WHERE v.horaPartida = :horaPartida")})
 public class Viagens implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idViagens")
-    private Collection<Bilhete> bilheteCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idViagens")
-    private Collection<Bagagens> bagagensCollection;
-
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_viagens")
     private Integer idViagens;
-    @Basic(optional = false)
-    @Column(name = "num_lugares")
-    private int numLugares;
     @Column(name = "hora_chegada")
     private Integer horaChegada;
     @Column(name = "hora_partida")
     private Integer horaPartida;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idViagens")
+    private Collection<Bilhete> bilheteCollection;
     @JoinColumn(name = "id_aviao", referencedColumnName = "id_aviao")
     @ManyToOne(optional = false)
     private Aviao idAviao;
@@ -59,17 +55,10 @@ public class Viagens implements Serializable {
     @JoinColumn(name = "id_partida", referencedColumnName = "id_partida")
     @ManyToOne(optional = false)
     private Partidas idPartida;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idViagens")
+    private Collection<Bagagens> bagagensCollection;
 
     public Viagens() {
-    }
-
-    public Viagens(Integer idViagens) {
-        this.idViagens = idViagens;
-    }
-
-    public Viagens(Integer idViagens, int numLugares) {
-        this.idViagens = idViagens;
-        this.numLugares = numLugares;
     }
 
     public Integer getIdViagens() {
@@ -78,14 +67,6 @@ public class Viagens implements Serializable {
 
     public void setIdViagens(Integer idViagens) {
         this.idViagens = idViagens;
-    }
-
-    public int getNumLugares() {
-        return numLugares;
-    }
-
-    public void setNumLugares(int numLugares) {
-        this.numLugares = numLugares;
     }
 
     public Integer getHoraChegada() {
@@ -102,6 +83,14 @@ public class Viagens implements Serializable {
 
     public void setHoraPartida(Integer horaPartida) {
         this.horaPartida = horaPartida;
+    }
+
+    public Collection<Bilhete> getBilheteCollection() {
+        return bilheteCollection;
+    }
+
+    public void setBilheteCollection(Collection<Bilhete> bilheteCollection) {
+        this.bilheteCollection = bilheteCollection;
     }
 
     public Aviao getIdAviao() {
@@ -128,6 +117,14 @@ public class Viagens implements Serializable {
         this.idPartida = idPartida;
     }
 
+    public Collection<Bagagens> getBagagensCollection() {
+        return bagagensCollection;
+    }
+
+    public void setBagagensCollection(Collection<Bagagens> bagagensCollection) {
+        this.bagagensCollection = bagagensCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -151,22 +148,6 @@ public class Viagens implements Serializable {
     @Override
     public String toString() {
         return "dados.Viagens[ idViagens=" + idViagens + " ]";
-    }
-
-    public Collection<Bilhete> getBilheteCollection() {
-        return bilheteCollection;
-    }
-
-    public void setBilheteCollection(Collection<Bilhete> bilheteCollection) {
-        this.bilheteCollection = bilheteCollection;
-    }
-
-    public Collection<Bagagens> getBagagensCollection() {
-        return bagagensCollection;
-    }
-
-    public void setBagagensCollection(Collection<Bagagens> bagagensCollection) {
-        this.bagagensCollection = bagagensCollection;
     }
     
 }

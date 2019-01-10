@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -35,6 +37,7 @@ public class Destinos implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_destino")
     private Integer idDestino;
@@ -55,12 +58,7 @@ public class Destinos implements Serializable {
     public Destinos() {
     }
 
-    public Destinos(Integer idDestino) {
-        this.idDestino = idDestino;
-    }
-
-    public Destinos(Integer idDestino, String cidadeDestino, float pontuacaoMedia) {
-        this.idDestino = idDestino;
+    public Destinos(String cidadeDestino, float pontuacaoMedia) {
         this.cidadeDestino = cidadeDestino;
         this.pontuacaoMedia = pontuacaoMedia;
     }

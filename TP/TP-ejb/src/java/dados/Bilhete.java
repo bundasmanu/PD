@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,20 +27,21 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Bilhete.findAll", query = "SELECT b FROM Bilhete b")
     , @NamedQuery(name = "Bilhete.findByIdBilhete", query = "SELECT b FROM Bilhete b WHERE b.idBilhete = :idBilhete")
-    , @NamedQuery(name = "Bilhete.findByPrecoBilhete", query = "SELECT b FROM Bilhete b WHERE b.precoBilhete = :precoBilhete")})
+    , @NamedQuery(name = "Bilhete.findByPrecoBilhete", query = "SELECT b FROM Bilhete b WHERE b.precoBilhete = :precoBilhete")
+    , @NamedQuery(name = "Bilhete.findByLugar", query = "SELECT b FROM Bilhete b WHERE b.lugar = :lugar")})
 public class Bilhete implements Serializable {
-
-    @Column(name = "lugar")
-    private Integer lugar;
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_bilhete")
     private Integer idBilhete;
     @Basic(optional = false)
     @Column(name = "preco_bilhete")
     private int precoBilhete;
+    @Column(name = "lugar")
+    private Integer lugar;
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     @ManyToOne(optional = false)
     private Cliente idCliente;
@@ -49,12 +52,7 @@ public class Bilhete implements Serializable {
     public Bilhete() {
     }
 
-    public Bilhete(Integer idBilhete) {
-        this.idBilhete = idBilhete;
-    }
-
-    public Bilhete(Integer idBilhete, int precoBilhete) {
-        this.idBilhete = idBilhete;
+    public Bilhete(int precoBilhete) {
         this.precoBilhete = precoBilhete;
     }
 
@@ -72,6 +70,14 @@ public class Bilhete implements Serializable {
 
     public void setPrecoBilhete(int precoBilhete) {
         this.precoBilhete = precoBilhete;
+    }
+
+    public Integer getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(Integer lugar) {
+        this.lugar = lugar;
     }
 
     public Cliente getIdCliente() {
@@ -113,14 +119,6 @@ public class Bilhete implements Serializable {
     @Override
     public String toString() {
         return "dados.Bilhete[ idBilhete=" + idBilhete + " ]";
-    }
-
-    public Integer getLugar() {
-        return lugar;
-    }
-
-    public void setLugar(Integer lugar) {
-        this.lugar = lugar;
     }
     
 }
