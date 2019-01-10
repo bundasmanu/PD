@@ -256,6 +256,11 @@ public class BeanRemoto implements BeanRemotoRemote {
     public List<ViagemDTO> selectAllViagens(){
         return this.sing.seleccionaAllViagens();
     }
+    
+    @Override
+    public List<BilheteDTO> selectAllBilhetesFromACliente(int id_cliente){
+        return this.sing.selectAllBilhetesFromACliente(id_cliente);
+    }
 
     @Override
     public boolean insertBagagem(int peso_bagagem, int id_viagem, int id_cliente) {
@@ -316,6 +321,11 @@ public class BeanRemoto implements BeanRemotoRemote {
     public List<PontuacaoDTO> selectAllPontuacoesDestino(String emailCli){
         return this.sing.selectAllPontuacoesDestino(emailCli);
     }
+
+    /*@Override
+    public boolean removeTodasViagensAposHoraTerminar(int hora_cheg) {
+        return this.sing.removeTodasViagensAposHoraTerminar(hora_cheg);
+    }*/
 
    
     

@@ -19,5 +19,7 @@ public interface ViagemRemotoFunc {
     public boolean updateViagembyAviao(int id_viagem, int id_novo_aviao); /*PODERIA SER UTILIZADO O NOME DO AVIAO*/
     public ViagemDTO selectViagem(int idViagem);
     public List<ViagemDTO> selectAllViagens();
+    //método que remove todas as viagens apos a hora de chegada terminar
+    //public boolean removeTodasViagensAposHoraTerminar(int hora_cheg);
     
 }

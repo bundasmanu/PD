@@ -23,6 +23,8 @@ public interface ViagensFacadeLocal {
 
     Viagens find(Object id);
 
+   
+            
     List<Viagens> findAll();
 
     List<Viagens> findRange(int[] range);

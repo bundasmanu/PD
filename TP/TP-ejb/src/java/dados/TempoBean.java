@@ -6,11 +6,14 @@
 package dados;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -30,6 +33,9 @@ public class TempoBean implements TempoBeanLocal {
     // "Insert Code > Add Business Method")    
     @Resource
     private  SessionContext sessionCtx;       
+    
+    @EJB
+    ViagensFacadeLocal viagens;
     
     String timer_name="Tempo"; /*VARIAVEL QUE CONTROLA O TIMER ESPECIFICO*/
     private Tempo time;
@@ -71,12 +77,36 @@ public class TempoBean implements TempoBeanLocal {
     @Timeout
     public void timeout(Timer timer){
         time.setUnidade(time.getUnidade()+valor_atual);
+        this.removeTodasViagensAposHoraTerminar(time.getUnidade());
         //logger.info("\nAcabou o tempo\n");
     }
     
     @Override
     public int getTempoAtual(){
         return this.time.getUnidade();
+    }
+    
+    @Override
+    public boolean removeTodasViagensAposHoraTerminar(int hora_cheg) {
+
+        try {
+            List<Viagens> lista_viagens= new ArrayList<Viagens> ();
+            /*VERIFICAR SE A VIAGEM EXISTE*/
+            lista_viagens= this.viagens.findAll();
+            
+            for(int i=0;i<lista_viagens.size();i++){
+                if(lista_viagens.get(i).getHoraChegada()<= hora_cheg){
+                    this.viagens.remove(lista_viagens.get(i));
+                }
+            }
+           
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
     }
     
 }

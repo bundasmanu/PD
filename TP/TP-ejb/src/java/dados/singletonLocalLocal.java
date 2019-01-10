@@ -60,6 +60,7 @@ public interface singletonLocalLocal {
     public List<ClienteDTO> seleccionaAllClientes();
     public boolean validaLogin(String email, String pass);
     public ClienteDTO seleccionaCliente(String email);
+    public List<BilheteDTO> selectAllBilhetesFromACliente(int id_cliente);
     
     //parte das pontuacoes
     public boolean inserePontComp(int valor, String emailCli, String nomeComp);

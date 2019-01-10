@@ -21,6 +21,8 @@ public class BilheteDTO implements Serializable{
     public BilheteDTO(int preco){
         this.preco_bilhete=preco;
     }
+    
+ 
 
     public int getPreco_bilhete() {
         return preco_bilhete;

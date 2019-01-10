@@ -17,5 +17,6 @@ public interface TempoBeanLocal {
     public void CancelTimers();
     public void retificaTempo(int novoVal);
     public int getTempoAtual();
+    public boolean removeTodasViagensAposHoraTerminar(int hora_cheg);
     
 }

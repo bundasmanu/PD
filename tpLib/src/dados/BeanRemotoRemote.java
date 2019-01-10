@@ -98,6 +98,9 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     @Override
     public List<ClienteDTO> selectAllClientes();
     
+     @Override
+    public List<BilheteDTO> selectAllBilhetesFromACliente(int id_cliente);
+    
     @Override
     public boolean verificaLogin(String email, String pass);
     
@@ -157,7 +160,6 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     
     @Override
     public List<ViagemDTO> selectAllViagens();
-    
     
     @Override
     public boolean insertBagagem(int peso_bagagem,int id_viagem, int id_cliente);
