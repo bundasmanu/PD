@@ -957,6 +957,13 @@ public class singletonLocal implements singletonLocalLocal {
             return false;
         }
         
+        try{
+            Future<Boolean> ret=this.logs.sendToQueue("Compra Bilhete");
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
         return true;
     }
 
@@ -1305,6 +1312,13 @@ public class singletonLocal implements singletonLocalLocal {
             Partidas part_ret=this.partidas.find(id_partida);
             Destinos dest_ret=this.destino.find(id_chegada);
             
+            /*VERIFICAR SE A LOTACAO AINDA NAO FOI ESGOTADA*/
+            if(av_ret!=null){ /*SE O AVIAO FOR DIFERENTE DE NULL, É PORQUE EXISTE*/
+                if(av_ret.getNumLugares()==this.viagens.count()){/*SE JA ATINGIU A LOTACAO MAXIMA, NAO DEIXA INSERIR MAIS*/
+                    return false;
+                }
+            }
+            
             if(av_ret==null || part_ret==null || dest_ret==null){
                 return false;
             }
@@ -1328,7 +1342,7 @@ public class singletonLocal implements singletonLocalLocal {
         Future<Boolean> async=logs.sendToQueue("Criada Viagem");
         try {
             Boolean k= async.get();
-            LOGGER.info(""+k);
+            //LOGGER.info(""+k);
         } catch (InterruptedException ex) {
             Logger.getLogger(singletonLocal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExecutionException ex) {

@@ -58,7 +58,7 @@ public class LogsSendQueueBean implements LogsSendQueueBeanLocal, Serializable {
             /*ENVIO PARA A QUEUE*/
             context.createProducer().send((Destination) queue, mymsg); /*SE ESTOIRAR AQUI NAO FAZ O ENVIO PARA O FICHEIRO, QUE É O QUE SE PRETENDE*/
             /*ENVIO PARA O FICHEIRO*/
-            this.acrescentaLogsFicheiro(text);
+            //this.acrescentaLogsFicheiro(text);
             
             return new AsyncResult<>(true);
         }

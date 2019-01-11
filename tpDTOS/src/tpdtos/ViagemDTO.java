@@ -38,6 +38,10 @@ public class ViagemDTO implements Serializable{
         this.id=id;
     }
     
+    public ViagemDTO(){
+        
+    }
+    
     public int getHora_part() {
         return hora_part;
     }

@@ -6,7 +6,9 @@
 package dados;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -45,6 +48,8 @@ public class Viagens implements Serializable {
     @Basic(optional = false)
     @Column(name = "preco")
     private int preco;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idViagens")
+    private Collection<Bilhete> bilheteCollection;
     @JoinColumn(name = "id_aviao", referencedColumnName = "id_aviao")
     @ManyToOne(optional = false)
     private Aviao idAviao;
@@ -58,12 +63,7 @@ public class Viagens implements Serializable {
     public Viagens() {
     }
 
-    public Viagens(Integer idViagens) {
-        this.idViagens = idViagens;
-    }
-
-    public Viagens(Integer idViagens, int preco) {
-        this.idViagens = idViagens;
+    public Viagens(int preco) {
         this.preco = preco;
     }
 
@@ -97,6 +97,14 @@ public class Viagens implements Serializable {
 
     public void setPreco(int preco) {
         this.preco = preco;
+    }
+
+    public Collection<Bilhete> getBilheteCollection() {
+        return bilheteCollection;
+    }
+
+    public void setBilheteCollection(Collection<Bilhete> bilheteCollection) {
+        this.bilheteCollection = bilheteCollection;
     }
 
     public Aviao getIdAviao() {

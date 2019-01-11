@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -37,6 +38,9 @@ public class TempoBean implements TempoBeanLocal {
     @EJB
     ViagensFacadeLocal viagens;
     
+    @EJB
+    LogsSendQueueBeanLocal logs;
+            
     String timer_name="Tempo"; /*VARIAVEL QUE CONTROLA O TIMER ESPECIFICO*/
     private Tempo time;
     private TimerService t;
@@ -94,9 +98,13 @@ public class TempoBean implements TempoBeanLocal {
             /*VERIFICAR SE A VIAGEM EXISTE*/
             lista_viagens= this.viagens.findAll();
             
-            for(int i=0;i<lista_viagens.size();i++){
-                if(lista_viagens.get(i).getHoraChegada()<= hora_cheg){
-                    this.viagens.remove(lista_viagens.get(i));
+            if (lista_viagens.isEmpty() == false) {
+                for (int i = 0; i < lista_viagens.size(); i++) {
+                    if (lista_viagens.get(i).getHoraChegada() <= hora_cheg) {
+                        int id_v=lista_viagens.get(i).getIdViagens();/*OBTENCAO DO ID DA VIAGEM A REMOVER*/
+                        this.viagens.remove(lista_viagens.get(i));
+                        Future<Boolean> envio_log=this.logs.sendToQueue("Viagem Concluida"+id_v);
+                    }
                 }
             }
            
