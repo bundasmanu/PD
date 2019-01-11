@@ -6,9 +6,7 @@
 package dados;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -31,7 +28,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "Viagens.findAll", query = "SELECT v FROM Viagens v")
     , @NamedQuery(name = "Viagens.findByIdViagens", query = "SELECT v FROM Viagens v WHERE v.idViagens = :idViagens")
     , @NamedQuery(name = "Viagens.findByHoraChegada", query = "SELECT v FROM Viagens v WHERE v.horaChegada = :horaChegada")
-    , @NamedQuery(name = "Viagens.findByHoraPartida", query = "SELECT v FROM Viagens v WHERE v.horaPartida = :horaPartida")})
+    , @NamedQuery(name = "Viagens.findByHoraPartida", query = "SELECT v FROM Viagens v WHERE v.horaPartida = :horaPartida")
+    , @NamedQuery(name = "Viagens.findByPreco", query = "SELECT v FROM Viagens v WHERE v.preco = :preco")})
 public class Viagens implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,8 +42,9 @@ public class Viagens implements Serializable {
     private Integer horaChegada;
     @Column(name = "hora_partida")
     private Integer horaPartida;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idViagens")
-    private Collection<Bilhete> bilheteCollection;
+    @Basic(optional = false)
+    @Column(name = "preco")
+    private int preco;
     @JoinColumn(name = "id_aviao", referencedColumnName = "id_aviao")
     @ManyToOne(optional = false)
     private Aviao idAviao;
@@ -55,10 +54,17 @@ public class Viagens implements Serializable {
     @JoinColumn(name = "id_partida", referencedColumnName = "id_partida")
     @ManyToOne(optional = false)
     private Partidas idPartida;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idViagens")
-    private Collection<Bagagens> bagagensCollection;
 
     public Viagens() {
+    }
+
+    public Viagens(Integer idViagens) {
+        this.idViagens = idViagens;
+    }
+
+    public Viagens(Integer idViagens, int preco) {
+        this.idViagens = idViagens;
+        this.preco = preco;
     }
 
     public Integer getIdViagens() {
@@ -85,12 +91,12 @@ public class Viagens implements Serializable {
         this.horaPartida = horaPartida;
     }
 
-    public Collection<Bilhete> getBilheteCollection() {
-        return bilheteCollection;
+    public int getPreco() {
+        return preco;
     }
 
-    public void setBilheteCollection(Collection<Bilhete> bilheteCollection) {
-        this.bilheteCollection = bilheteCollection;
+    public void setPreco(int preco) {
+        this.preco = preco;
     }
 
     public Aviao getIdAviao() {
@@ -115,14 +121,6 @@ public class Viagens implements Serializable {
 
     public void setIdPartida(Partidas idPartida) {
         this.idPartida = idPartida;
-    }
-
-    public Collection<Bagagens> getBagagensCollection() {
-        return bagagensCollection;
-    }
-
-    public void setBagagensCollection(Collection<Bagagens> bagagensCollection) {
-        this.bagagensCollection = bagagensCollection;
     }
 
     @Override

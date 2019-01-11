@@ -9,11 +9,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author gustavo
  */
+@XmlRootElement
 public class ViagemDTO implements Serializable{
     
     private int id;

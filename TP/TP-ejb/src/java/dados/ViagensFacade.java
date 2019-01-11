@@ -37,7 +37,21 @@ public class ViagensFacade extends AbstractFacade<Viagens> implements ViagensFac
         super(Viagens.class);
     }
 
-
-
+    @Override
+    public List<Viagens> findbyPrice(int preco){
+        
+       try{
+           
+           Query qu=this.em.createNamedQuery("Viagens.findByPreco");
+           qu.setParameter("preco", preco);
+           List<Viagens> retorno_pesquisa=(List<Viagens>)qu.getResultList();
+           return retorno_pesquisa;
+       }
+       catch(Exception e){
+           System.out.println(e.getMessage());
+           return null;
+       }
+        
+    }
 
 }

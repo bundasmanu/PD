@@ -14,10 +14,12 @@ import tpdtos.ViagemDTO;
  */
 public interface ViagemRemotoFunc {
     
-    public boolean insertViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada); /*PODERIA SER UTILIZADO O NOME AVIAO E OS NOMES DAS CIDADES, PORQUE SAO UNICAS*/
+    public boolean insertViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada, int preco); /*PODERIA SER UTILIZADO O NOME AVIAO E OS NOMES DAS CIDADES, PORQUE SAO UNICAS*/
     public boolean deleteViagem(int idViagem);
     public boolean updateViagembyAviao(int id_viagem, int id_novo_aviao); /*PODERIA SER UTILIZADO O NOME DO AVIAO*/
     public ViagemDTO selectViagem(int idViagem);
+    public List<ViagemDTO> selectViagensByPrice(int price);
+    public List<ViagemDTO> selectViagensByDest(String dest);
     public List<ViagemDTO> selectAllViagens();
     //método que remove todas as viagens apos a hora de chegada terminar
     //public boolean removeTodasViagensAposHoraTerminar(int hora_cheg);

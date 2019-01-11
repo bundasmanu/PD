@@ -932,7 +932,7 @@ public class singletonLocal implements singletonLocalLocal {
     }
 
     @Override
-    public boolean insereBilhete(int preco_bilhete, int id_viagem, int id_cliente){
+    public boolean insereBilhete(int id_viagem, int id_cliente){
         
         try{
             
@@ -944,7 +944,7 @@ public class singletonLocal implements singletonLocalLocal {
                return false;
            }
            
-           Bilhete bil_insert=new Bilhete(preco_bilhete);
+           Bilhete bil_insert=new Bilhete(viag_ret.getPreco());
            bil_insert.setLugar(this.bilhete.count()+1);
            bil_insert.setIdCliente(cli_ret);
            bil_insert.setIdViagens(viag_ret);
@@ -1126,6 +1126,7 @@ public class singletonLocal implements singletonLocalLocal {
 
     @Override
     public boolean insereDestino(DestinoDTO part) {
+        
         try {
             Destinos p = this.destino.findbyName(part.getCidade());
 
@@ -1295,7 +1296,7 @@ public class singletonLocal implements singletonLocalLocal {
     }
 
     @Override
-    public boolean insereViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada){
+    public boolean insereViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada, int preco){
         
         try{
             
@@ -1309,6 +1310,7 @@ public class singletonLocal implements singletonLocalLocal {
             }
             
             Viagens viag=new Viagens();
+            viag.setPreco(preco);
             viag.setHoraPartida(hora_part);
             viag.setHoraChegada(hora_cheg);
             viag.setIdAviao(av_ret);
@@ -1408,6 +1410,71 @@ public class singletonLocal implements singletonLocalLocal {
             return null;
         }
 
+    }
+    
+    @Override
+    public List<ViagemDTO> seleccionaViagensPorPreco(int preco){
+        
+        try{
+            /*VERIFICAR QUAIS AS VIAGENS QUE APRESENTAM PRECO INFERIOR AO PASSADO POR PARAMETRO*/
+            List<Viagens> allViagens=this.viagens.findAll();
+        
+            if(allViagens.isEmpty()==true){
+                return null;
+            }
+        
+            List<ViagemDTO> viagens=new ArrayList<ViagemDTO>();
+            for(Viagens x : allViagens){
+                if(x.getPreco()<preco){
+                    ViagemDTO inserir_viagem=new ViagemDTO(x.getHoraPartida(),x.getHoraChegada());
+                    inserir_viagem.setId(x.getIdViagens());
+                    inserir_viagem.setPart(new PartidaDTO(x.getIdPartida().getCidadePartida(), x.getIdPartida().getPontMedia()));
+                    inserir_viagem.setDest(new DestinoDTO(x.getIdDestino().getCidadeDestino(),x.getIdDestino().getPontuacaoMedia()));
+                    viagens.add(inserir_viagem);
+                }
+            }
+            
+            return viagens;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+    }
+    
+    @Override
+    public List<ViagemDTO> seleccionaViagensPorDestino(String dest){
+        
+        try{
+            
+            /*VERIFICAR INICIALMENTE SE O DESTINO EXISTE*/
+            Destinos dest_ret=this.destino.findbyName(dest);
+            
+            if(dest_ret==null){
+                return null;
+            }
+            
+            /*BUSCAR VIAGENS TODAS E VERIFICAR SE O DESTINO É O MESMO DO PASSADO POR PARAMETRO*/
+            List<Viagens> retorno_viagens=this.viagens.findAll();
+            
+            if(retorno_viagens.isEmpty()==true){
+                return null;
+            }
+            
+            List<ViagemDTO> viagens_destino= new ArrayList<ViagemDTO>();
+            for(Viagens x : retorno_viagens){
+                if(x.getIdDestino().getCidadeDestino().equals(dest)==true){
+                    viagens_destino.add(this.seleccionaViagem(x.getIdViagens()));
+                }
+            }
+            
+            return viagens_destino;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
     
     @Override

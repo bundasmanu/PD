@@ -1230,13 +1230,11 @@ public class OperadorCliente {
 
             case 'I':
                 try {
-                    System.out.println("\nQual o preco do bilhete: ");
-                    preco = sc.nextInt();
                     System.out.println("\nQual o id do cliente: ");
                     codigo_cli = sc.nextInt();
                     System.out.println("\nQual o id da viagem: ");
                     codig_viagem = sc.nextInt();
-                    retorno = rf.insertBilhete(preco, codig_viagem, codigo_cli);
+                    retorno = rf.insertBilhete(codig_viagem, codigo_cli);
                     if (retorno == true) {
                         System.out.println("\nBilhete inserido com sucesso");
                     } else {
@@ -1351,6 +1349,7 @@ public class OperadorCliente {
         int id_partida;
         int id_chegada;
         int id_viagem;
+        int preco;
         ViagemDTO viagem = null;
         boolean retorno = false;
 
@@ -1368,7 +1367,9 @@ public class OperadorCliente {
                     id_partida = sc.nextInt();
                     System.out.println("\nQual o id da cidade de chegada: ");
                     id_chegada = sc.nextInt();
-                    retorno = rf.insertViagem(hora_part, hora_cheg, id_aviao, id_partida, id_chegada);
+                    System.out.println("\nQual o preco da viagem: ");
+                    preco = sc.nextInt();
+                    retorno = rf.insertViagem(hora_part, hora_cheg, id_aviao, id_partida, id_chegada,preco);
                     if (retorno == true) {
                         System.out.println("\nViagem inserida com sucesso\n");
                     } else {

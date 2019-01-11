@@ -28,7 +28,8 @@ public class DestinosFacade extends AbstractFacade<Destinos> implements Destinos
     public DestinosFacade() {
         super(Destinos.class);
     }
-
+    
+    @Override
     public Destinos findbyName(String nomeCidade) {
 
         Destinos x = null;

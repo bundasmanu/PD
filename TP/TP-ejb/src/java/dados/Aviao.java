@@ -6,7 +6,9 @@
 package dados;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -30,6 +33,9 @@ import javax.persistence.Table;
     , @NamedQuery(name = "Aviao.findByNomeAviao", query = "SELECT a FROM Aviao a WHERE a.nomeAviao = :nomeAviao")
     , @NamedQuery(name = "Aviao.findByNumLugares", query = "SELECT a FROM Aviao a WHERE a.numLugares = :numLugares")})
 public class Aviao implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAviao")
+    private Collection<Viagens> viagensCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -114,6 +120,14 @@ public class Aviao implements Serializable {
     @Override
     public String toString() {
         return "dados.Aviao[ idAviao=" + idAviao + " ]";
+    }
+
+    public Collection<Viagens> getViagensCollection() {
+        return viagensCollection;
+    }
+
+    public void setViagensCollection(Collection<Viagens> viagensCollection) {
+        this.viagensCollection = viagensCollection;
     }
     
 }

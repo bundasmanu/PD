@@ -14,7 +14,7 @@ import tpdtos.BilheteDTO;
  */
 public interface BilheteRemotoFunc {
     
-    public boolean insertBilhete(int preco_bilhete, int id_viagem, int id_cliente);
+    public boolean insertBilhete(int id_viagem, int id_cliente);
     public boolean deleteBilhete(int id);
     /*UPDATE ACHO QUE NAO FAZ SENTIDO PORQUE O PRECO NAO PODE SER ALTERADO DPS DE O BILHETE ESTAR COMPRADO*/ 
     public BilheteDTO selectBilhete(int id_bilhete);

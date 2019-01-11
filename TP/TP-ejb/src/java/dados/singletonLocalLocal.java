@@ -79,14 +79,16 @@ public interface singletonLocalLocal {
     //Falta fazer o select ..
     
     //parte das viagens
-    public boolean insereViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada); /*PODERIA SER UTILIZADO O NOME AVIAO E OS NOMES DAS CIDADES, PORQUE SAO UNICAS*/
+    public boolean insereViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada, int preco); /*PODERIA SER UTILIZADO O NOME AVIAO E OS NOMES DAS CIDADES, PORQUE SAO UNICAS*/
     public boolean apagaViagem(int idViagem);
     public boolean atualizaViagembyAviao(int id_viagem, int id_novo_aviao); /*PODERIA SER UTILIZADO O NOME DO AVIAO*/
     public ViagemDTO seleccionaViagem(int idViagem);
+    public List<ViagemDTO> seleccionaViagensPorPreco(int preco);
+    public List<ViagemDTO> seleccionaViagensPorDestino(String dest);
     public List<ViagemDTO> seleccionaAllViagens();
     
     //parte dos bilhetes
-    public boolean insereBilhete(int preco_bilhete, int id_viagem, int id_cliente);
+    public boolean insereBilhete(int id_viagem, int id_cliente);
     public boolean apagaBilhete(int id);
     public BilheteDTO seleccionaBilhete(int id_bilhete);
     public List<BilheteDTO> seleccionaAllBilhetes();

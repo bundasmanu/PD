@@ -213,8 +213,8 @@ public class BeanRemoto implements BeanRemotoRemote {
     }
     
     @Override
-    public boolean insertBilhete(int preco_bilhete, int id_viagem, int id_cliente){
-        return this.sing.insereBilhete(preco_bilhete, id_viagem, id_cliente);
+    public boolean insertBilhete(int id_viagem, int id_cliente){
+        return this.sing.insereBilhete(id_viagem, id_cliente);
     }
     
     @Override
@@ -233,8 +233,8 @@ public class BeanRemoto implements BeanRemotoRemote {
     }
     
     @Override
-    public boolean insertViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada){
-        return this.sing.insereViagem(hora_part, hora_cheg, id_aviao, id_partida, id_chegada);
+    public boolean insertViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada,int preco){
+        return this.sing.insereViagem(hora_part, hora_cheg, id_aviao, id_partida, id_chegada,preco);
     }
     
     @Override
@@ -250,6 +250,16 @@ public class BeanRemoto implements BeanRemotoRemote {
     @Override
     public ViagemDTO selectViagem(int idViagem){
         return this.sing.seleccionaViagem(idViagem);
+    }
+    
+    @Override
+    public List<ViagemDTO> selectViagensByPrice(int price){
+        return null;
+    }
+    
+    @Override
+    public List<ViagemDTO> selectViagensByDest(String dest){
+        return null;
     }
     
     @Override
