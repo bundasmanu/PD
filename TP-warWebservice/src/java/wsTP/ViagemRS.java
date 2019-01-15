@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import dados.singletonLocalLocal;
 import java.util.List;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 import tpdtos.ViagemDTO;
 
 /**
@@ -27,7 +28,7 @@ import tpdtos.ViagemDTO;
  */
 @Path("ViagemRS")
 @Stateless
-public class ViagemRS {
+public  class ViagemRS {
 
     @Context
     private UriInfo context;
@@ -49,7 +50,7 @@ public class ViagemRS {
     @GET
     @Path("/Preco/{Preco}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ViagemDTO> getViagensByPrice(@PathParam("Preco") int preco) {
+    public  List<ViagemDTO> getViagensByPrice(@PathParam("Preco") int preco) {
         try{
             
             List<ViagemDTO> viagens_retorno=this.sing.seleccionaViagensPorPreco(preco);
@@ -88,4 +89,7 @@ public class ViagemRS {
     @Consumes(MediaType.APPLICATION_JSON)
     public void putJson(tpdtos.ViagemDTO content) {
     }
+    
+    
+     
 }
