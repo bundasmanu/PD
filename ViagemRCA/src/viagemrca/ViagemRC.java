@@ -5,10 +5,16 @@
  */
 package viagemrca;
 
+
+import com.sun.jersey.impl.json.writer.JsonEncoder;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.GET;
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import tpdtos.ViagemDTO;
 
 /**
  * Jersey REST client generated for REST resource:ViagemRS [ViagemRS]<br>
@@ -37,6 +43,7 @@ public class ViagemRC {
         webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
     }
 
+    @GET
     public <T> T getViagensByDest(Class<T> responseType, String Destino) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("Destino/{0}", new Object[]{Destino}));
@@ -44,11 +51,22 @@ public class ViagemRC {
     }
 
     @GET
-    public <T> T getViagensByPrice(Class<T> responseType, String Preco) throws ClientErrorException {
+    public  <T> T getViagensByPrice(Class<T> responseType, String Preco) throws ClientErrorException {
+        //MediaType mediaType = new MediaType();
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("Preco/{0}", new Object[]{Preco}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+        
+        Builder builder = resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON);
+        Response response= builder.get();
+
+        
+        //T response = builder.get((Class<T>) ViagemDTO.class);
+        //MediaType.valueOf(MediaType.APPLICATION_JSON).equals(mediaType);
+        
+        return null;
     }
+    
+
 
     public void close() {
         client.close();

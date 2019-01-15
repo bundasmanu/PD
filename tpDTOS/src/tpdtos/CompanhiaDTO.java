@@ -77,7 +77,8 @@ public class CompanhiaDTO implements Serializable{
 
         info_companhia+="\nAvioes:\n";
         for(AviaoDTO x : this.avioes_companhia){
-            info_companhia+=x.toString()+"\n";
+            //info_companhia+=x.toString()+"\n";
+            info_companhia+=x.getNomeAviao()+"\t"+x.getNum_lugares()+"\n";
         }
         info_companhia+="Pontuacoes: \n";
         for(PontuacaoDTO x : this.pontuacoes){

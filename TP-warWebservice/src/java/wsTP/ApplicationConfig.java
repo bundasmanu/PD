@@ -7,13 +7,14 @@ package wsTP;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
 
 /**
  *
  * @author gustavo
  */
 @javax.ws.rs.ApplicationPath("webresources")
-public class ApplicationConfig extends Application {
+public  class ApplicationConfig extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
@@ -22,14 +23,14 @@ public class ApplicationConfig extends Application {
         return resources;
     }
 
-    /**
-     * Do not modify addRestResourceClasses() method.
-     * It is automatically populated with
-     * all resources defined in the project.
-     * If required, comment out calling this method in getClasses().
-     */
+    
+   
+     public Response toResponse(Exception exception) {
+        exception.printStackTrace();
+        return Response.serverError().entity(exception.getMessage()).build();
+    } 
+
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(wsTP.ViagemRS.class);
     }
-    
 }

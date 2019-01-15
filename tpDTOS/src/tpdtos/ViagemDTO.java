@@ -106,9 +106,12 @@ public class ViagemDTO implements Serializable{
         
         info_viagem+=this.getHora_part()+"\t"+this.getHora_cheg()+"\n";
         info_viagem+="Info Bilhetes:\n";
-        
+       
         for(BilheteDTO x : this.bilhetes){
-            info_viagem+=x.toString()+"\n";
+            
+            //info_viagem+=x.toString()+"\n";
+            info_viagem+="Preco do bilhete:"+x.getPreco_bilhete()+"\t"+"Lugar do bilhete"+x.getLugar()+"\n";
+            
         }
         
         info_viagem+="Info Bagagens:\n";

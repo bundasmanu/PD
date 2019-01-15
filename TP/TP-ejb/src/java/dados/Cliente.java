@@ -33,6 +33,9 @@ import javax.persistence.Table;
     , @NamedQuery(name = "Cliente.findByEmailCliente", query = "SELECT c FROM Cliente c WHERE c.emailCliente = :emailCliente")})
 public class Cliente implements Serializable {
 
+    @Column(name = "conta")
+    private Integer conta;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,6 +65,7 @@ public class Cliente implements Serializable {
         this.nomeCliente = nomeCliente;
         this.passCliente = passCliente;
         this.emailCliente = emailCliente;
+        this.conta=0;
     }
 
     public Integer getIdCliente() {
@@ -143,6 +147,14 @@ public class Cliente implements Serializable {
     @Override
     public String toString() {
         return "dados.Cliente[ idCliente=" + idCliente + " ]";
+    }
+
+    public Integer getConta() {
+        return conta;
+    }
+
+    public void setConta(Integer conta) {
+        this.conta = conta;
     }
     
 }

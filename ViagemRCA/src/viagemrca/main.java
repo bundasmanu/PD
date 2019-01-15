@@ -6,6 +6,7 @@
 package viagemrca;
 
 import java.util.List;
+import java.util.Scanner;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import tpdtos.ViagemDTO;
@@ -22,8 +23,15 @@ public class main {
     public static void main(String[] args) {
         // TODO code application logic here
         
+        Scanner sc= new Scanner(System.in);
+        String preco;
+        
+        //System.out.println("Qual o preco");
+        //preco=sc.nextLine();
         ViagemRC v=new ViagemRC();
-        ViagemDTO retorno_viagens=v.getViagensByPrice(ViagemDTO.class, "200");
+
+        ViagemDTO retorno_viagens=v.getViagensByPrice(ViagemDTO.class,"200");
+       
         System.out.println("NULL");
         v.close();
     }
