@@ -18,6 +18,7 @@ public interface ViagemRemotoFunc {
     public boolean deleteViagem(int idViagem);
     public boolean updateViagembyAviao(int id_viagem, int id_novo_aviao); /*PODERIA SER UTILIZADO O NOME DO AVIAO*/
     public ViagemDTO selectViagem(int idViagem);
+    public ViagemDTO selectViagemInversa(int idViagem);
     public List<ViagemDTO> selectViagensByPrice(int price);
     public List<ViagemDTO> selectViagensByDest(String dest);
     public List<ViagemDTO> selectAllViagens();

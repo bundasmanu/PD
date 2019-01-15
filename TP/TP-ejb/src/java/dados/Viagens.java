@@ -6,6 +6,7 @@
 package dados;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -63,7 +64,12 @@ public class Viagens implements Serializable {
     public Viagens() {
     }
 
-    public Viagens(int preco) {
+    public Viagens(Integer idViagens) {
+        this.idViagens = idViagens;
+    }
+
+    public Viagens(Integer idViagens, int preco) {
+        this.idViagens = idViagens;
         this.preco = preco;
     }
 

@@ -722,7 +722,7 @@ public class OperadorCliente {
         char c;
         String option;
 
-        System.out.println("\n(Q)uit, (I)nsert, (D)elete, (U)pdate, (S)elect All, (V)alida Login (1)Select: ");
+        System.out.println("\n(Q)uit, (I)nsert, (D)elete, (U)pdate, (S)elect All, (V)alida Login, (1)Select, (2)Update Conta : ");
         option = sc.next().toUpperCase();
         sc.skip("\n");
 
@@ -831,6 +831,24 @@ public class OperadorCliente {
                 }
                 else{
                     System.out.println("\nO cliente nao existe\n");
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+            break;
+        case '2':
+            try{
+                System.out.println("\nQual o email do cliente: ");
+                email=sc.nextLine();
+                System.out.println("\nIntroduza o valor a depositar: ");
+                int valor=sc.nextInt();
+                retorno=rf.updateContaCliente(email, valor);
+                if(retorno==true){
+                    System.out.println("\nDeposito efetuado com sucesso\n");
+                }
+                else{
+                    System.out.println("\nErro ao efetuar o deposito\n");
                 }
             }
             catch(Exception e){
@@ -1331,7 +1349,7 @@ public class OperadorCliente {
         String option;
         String user;
 
-        System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect, (1)Select All,(R)emove todas as viagens apos hora terminar");
+        System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect, (1)Select All,(R)emove todas as viagens apos hora terminar, (G)et Viagem Inversa");
         option = sc.next().toUpperCase();
         sc.skip("\n");
 
@@ -1451,7 +1469,21 @@ public class OperadorCliente {
                     System.out.println(e.getMessage());
                 }
                 break;
-
+            case 'G':
+                try{
+                    viagem=rf.selectViagemInversa(12);
+                    if(viagem!=null){
+                        System.out.println(viagem.getId()+"\t"+viagem.getPart().getCidade()+"\t"+viagem.getDest().getCidade());
+                    }
+                    else{
+                        System.out.println("\nNao existe viagem inversa\n");
+                    }
+                }
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+                
+                break;
             case 'Q':
                 sair = true;
                 break;

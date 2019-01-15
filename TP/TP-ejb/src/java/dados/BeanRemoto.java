@@ -173,6 +173,11 @@ public class BeanRemoto implements BeanRemotoRemote {
     }
     
     @Override
+    public boolean updateContaCliente(String email, int valor){
+        return this.sing.atualizaContaCliente(email, valor);
+    }
+    
+    @Override
     public List<ClienteDTO> selectAllClientes(){
         return this.sing.seleccionaAllClientes();
     }
@@ -250,6 +255,11 @@ public class BeanRemoto implements BeanRemotoRemote {
     @Override
     public ViagemDTO selectViagem(int idViagem){
         return this.sing.seleccionaViagem(idViagem);
+    }
+    
+    @Override
+    public ViagemDTO selectViagemInversa(int idViagem){
+        return this.sing.seleccionaViagemInversa(idViagem);
     }
     
     @Override

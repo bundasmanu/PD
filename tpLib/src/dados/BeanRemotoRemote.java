@@ -96,6 +96,9 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     public boolean updateCliente(String email,String nova_pass);/*ATENCAO NAO É PRECISA VALIDAR O UTILIZADOR, ISSO É FEITO NA PARTE WEB*/
     
     @Override
+    public boolean updateContaCliente(String email, int valor);
+    
+    @Override
     public List<ClienteDTO> selectAllClientes();
     
      @Override
@@ -157,6 +160,9 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     
     @Override
     public ViagemDTO selectViagem(int idViagem);
+    
+    @Override
+    public ViagemDTO selectViagemInversa(int idViagem);
     
     @Override
     public List<ViagemDTO> selectViagensByPrice(int price);

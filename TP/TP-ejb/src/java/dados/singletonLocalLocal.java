@@ -57,6 +57,7 @@ public interface singletonLocalLocal {
     public boolean insereCliente(ClienteDTO c, String pass);/*POR SEGURANÇA A PASS É PASSADA POR ATRIBUTO*/
     public boolean apagaCliente(String email);/*COMO O EMAIL É UNICO, BASTA PASSAR ESSE PARAMETRO*/
     public boolean atualizaCliente(String email,String nova_pass);/*ATENCAO NAO É PRECISA VALIDAR O UTILIZADOR, ISSO É FEITO NA PARTE WEB*/
+    public boolean atualizaContaCliente(String email, int valor);
     public List<ClienteDTO> seleccionaAllClientes();
     public boolean validaLogin(String email, String pass);
     public ClienteDTO seleccionaCliente(String email);
@@ -83,6 +84,7 @@ public interface singletonLocalLocal {
     public boolean apagaViagem(int idViagem);
     public boolean atualizaViagembyAviao(int id_viagem, int id_novo_aviao); /*PODERIA SER UTILIZADO O NOME DO AVIAO*/
     public ViagemDTO seleccionaViagem(int idViagem);
+    public ViagemDTO seleccionaViagemInversa(int idViagem);
     public List<ViagemDTO> seleccionaViagensPorPreco(int preco);
     public List<ViagemDTO> seleccionaViagensPorDestino(String dest);
     public List<ViagemDTO> seleccionaAllViagens();

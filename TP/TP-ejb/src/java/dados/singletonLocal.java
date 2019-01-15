@@ -328,9 +328,18 @@ public class singletonLocal implements singletonLocalLocal {
             if (p != null) {
                 return false;
             }
+            
+            /*VERIFICA SE EXISTE UM DESTINO COM A MSM CIDADE, SE EXISTIR COPIA A SUA PONTUACAO*/
+            Destinos contratrio=this.destino.findbyName(part.getCidade());
+            
+            if(contratrio==null){
+                /*CASO AINDA NAO EXISTA, INSERE NA BD, COM A PONTUACAO A 0*/
+                p = new Partidas(part.getCidade(), 0);/*VARIAVEL P SE CHEGAR AQUI ESTA A NULL, POSSO UTILIZA-LA*/
+            }
+            else{
+                p=new Partidas(part.getCidade(), contratrio.getPontuacaoMedia());
+            }
 
-            /*CASO AINDA NAO EXISTA, INSERE NA BD*/
-            p = new Partidas(part.getCidade(), 0);/*VARIAVEL P SE CHEGAR AQUI ESTA A NULL, POSSO UTILIZA-LA*/
             this.partidas.create(p);
 
         } catch (Exception e) {
@@ -434,7 +443,10 @@ public class singletonLocal implements singletonLocalLocal {
         try {
             Aviao v = new Aviao(av.getNomeAviao(), av.getNum_lugares());
             v.setIdCompanhia(encontrou);
+            encontrou.getAviaoCollection().add(v);
+            this.companhia.edit(encontrou);
             this.aviao.create(v);
+            
         } catch (Exception e) {
             return false;
         }
@@ -448,7 +460,12 @@ public class singletonLocal implements singletonLocalLocal {
         if (encontrado == null) {
             return false;
         }
-
+        
+        /*EDITAR A COMPANHIA*/
+        Companhia encontrada=encontrado.getIdCompanhia();
+        encontrada.getAviaoCollection().remove(encontrado);
+        this.companhia.edit(encontrada);
+        
         aviao.remove(encontrado);
 
         return true;
@@ -557,6 +574,30 @@ public class singletonLocal implements singletonLocalLocal {
             return false;
         }
 
+        return true;
+    }
+    
+    @Override
+    public boolean atualizaContaCliente(String email, int valor){
+        
+        try{
+            
+            /*VERIFICA SE O CLIENTE EXISTE*/
+            Cliente c=this.cliente.findbyEmail(email);
+            
+            if(c==null){
+                return false;
+            }
+            
+            c.setConta(valor);
+            this.cliente.edit(c);
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
         return true;
     }
 
@@ -741,7 +782,14 @@ public class singletonLocal implements singletonLocalLocal {
             if (pont == null) {
                 return false;
             }
-
+            
+            for(Companhia x : pont.getCompanhiaCollection()){
+                boolean ac=x.getPontuacaoCollection().remove(pont);
+                if(ac==true){
+                    this.companhia.edit(x);
+                }
+            }
+            
             this.pontuacao.remove(pont);/*ELIMINA DA TABELA PONTUACAO E DA PONT_COMP, PORQUE ESTAO RELACIONADAS*/
 
         } catch (Exception e) {
@@ -944,12 +992,29 @@ public class singletonLocal implements singletonLocalLocal {
                return false;
            }
            
+            /*VERIFICAR SE A LOTACAO AINDA NAO FOI ESGOTADA*/
+            if(viag_ret.getIdAviao().getNumLugares()==this.viagens.count()){/*SE JA ATINGIU A LOTACAO MAXIMA, NAO DEIXA INSERIR MAIS*/
+                    return false;
+            }
+           
+           /*VERIFICAR SE O CLIENTE POSSUI DINHEIRO, PARA EFETUAR A COMPRA DO BILHETE*/
+           if(cli_ret.getConta()<viag_ret.getPreco()){/*CASO NAO TENHA DINHEIRO, NAO PODE EFETUAR A COMPRA DO BILHETE*/
+               return false;
+           }
+           
+           /*CASO TENHA DINHEIRO FAZ A INSERCAO DO BILHETE*/
            Bilhete bil_insert=new Bilhete(viag_ret.getPreco());
            bil_insert.setLugar(this.bilhete.count()+1);
            bil_insert.setIdCliente(cli_ret);
            bil_insert.setIdViagens(viag_ret);
            
+           /*CRIA BILHETE*/
            this.bilhete.create(bil_insert);
+           viag_ret.getBilheteCollection().add(bil_insert);
+           this.viagens.edit(viag_ret);
+           /*RETIRA DINHEIRO DA CONTA DO UTILIZADOR, E ATUALIZA O PARAMETRO NA BD*/
+           cli_ret.setConta(cli_ret.getConta()-viag_ret.getPreco());
+           this.cliente.edit(cli_ret);
            
         }
         catch(Exception e){
@@ -978,7 +1043,17 @@ public class singletonLocal implements singletonLocalLocal {
             if (b == null) {
                 return false;
             }
-
+            
+            /*Viagens x=b.getIdViagens();
+            for(Bilhete w : x.getBilheteCollection()){
+                if(w==b){
+                    x.getBilheteCollection().remove(w);
+                }
+            }*/
+            Viagens editar_viagem=b.getIdViagens();
+            editar_viagem.getBilheteCollection().remove(b);
+            this.viagens.edit(editar_viagem);
+            
             this.bilhete.remove(b);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -1059,6 +1134,11 @@ public class singletonLocal implements singletonLocalLocal {
                 Bagagens bagagem_a_criar = new Bagagens(peso_bagagem);
                 bagagem_a_criar.setIdViagens(viagem);
                 bagagem_a_criar.setIdCliente(cli);
+                
+                /*EDIT DO CLIENTE*/
+                cli.getBagagensCollection().add(bagagem_a_criar);
+                this.cliente.edit(cli);
+                
                 this.bagagem.create(bagagem_a_criar);
                 return true;
             }
@@ -1071,12 +1151,18 @@ public class singletonLocal implements singletonLocalLocal {
 
     @Override
     public boolean deleteBagagem(int id_bagagem) {
+        
         try {
             Bagagens encontrado = bagagem.find(id_bagagem);
             if (encontrado == null) {
                 return false;
             }
-
+            
+            /*EDITAR O CLIENTE*/
+            Cliente es=encontrado.getIdCliente();
+            es.getBagagensCollection().remove(encontrado);
+            this.cliente.edit(es);
+            
             this.bagagem.remove(encontrado);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -1135,29 +1221,43 @@ public class singletonLocal implements singletonLocalLocal {
     public boolean insereDestino(DestinoDTO part) {
         
         try {
+            
             Destinos p = this.destino.findbyName(part.getCidade());
 
             if (p != null) {
                 return false;
             }
 
-            p = new Destinos(part.getCidade(), 0);
+            /*VERIFICAR SE JA EXISTE ALGUMA PARTIDA COM A MSM CIDADE, CASO HAJA A PONTUACAO_MEDIA SERA IGUAL*/
+            Partidas contrario=this.partidas.findbyName(part.getCidade());
+            
+            if(contrario==null){
+                /*AINDA NAO EXISTE CIDADE, FICA COM O VALOR 0*/
+                p = new Destinos(part.getCidade(), 0);
+            }
+            else{
+                p=new Destinos(part.getCidade(), contrario.getPontMedia());
+            }
+            
             this.destino.create(p);
+            
         } catch (Exception e) {
             return false;
         }
+        
         return true;
     }
 
     @Override
     public boolean deleteDestino(String cidade) {
+        
         try {
             Destinos dest = this.destino.findbyName(cidade);
 
             if (dest == null) {
                 return false;
             }
-
+            
             this.destino.remove(dest);
         } catch (Exception e) {
             return false;
@@ -1275,6 +1375,13 @@ public class singletonLocal implements singletonLocalLocal {
                 return false;
             }
 
+            for(Destinos x : pont.getDestinosCollection()){
+                boolean ac=x.getPontuacaoCollection().remove(pont);
+                if(ac==true){
+                    this.destino.edit(x);
+                }
+            }
+            
             //elimina a pontuacao com esse id
             this.pontuacao.remove(pont);
         } catch (Exception e) {
@@ -1311,13 +1418,6 @@ public class singletonLocal implements singletonLocalLocal {
             Aviao av_ret=this.aviao.find(id_aviao);
             Partidas part_ret=this.partidas.find(id_partida);
             Destinos dest_ret=this.destino.find(id_chegada);
-            
-            /*VERIFICAR SE A LOTACAO AINDA NAO FOI ESGOTADA*/
-            if(av_ret!=null){ /*SE O AVIAO FOR DIFERENTE DE NULL, É PORQUE EXISTE*/
-                if(av_ret.getNumLugares()==this.viagens.count()){/*SE JA ATINGIU A LOTACAO MAXIMA, NAO DEIXA INSERIR MAIS*/
-                    return false;
-                }
-            }
             
             if(av_ret==null || part_ret==null || dest_ret==null){
                 return false;
@@ -1362,6 +1462,15 @@ public class singletonLocal implements singletonLocalLocal {
             if(v_ret==null){
                 return false;
             }
+            
+            /*ATUALIZAR OS DESTINOS E PARTIDAS*/
+            Destinos dest=v_ret.getIdDestino();
+            dest.getViagensCollection().remove(v_ret);
+            this.destino.edit(dest);
+            
+            Partidas pt=v_ret.getIdPartida();
+            pt.getViagensCollection().remove(v_ret);
+            this.partidas.edit(pt);
             
             this.viagens.remove(v_ret);
             
@@ -1415,6 +1524,10 @@ public class singletonLocal implements singletonLocalLocal {
             ViagemDTO vi=new ViagemDTO(viag_ret.getHoraPartida(), viag_ret.getHoraChegada());
             vi.setPart(new PartidaDTO(viag_ret.getIdPartida().getCidadePartida(), viag_ret.getIdPartida().getPontMedia()));
             vi.setDest(new DestinoDTO(viag_ret.getIdDestino().getCidadeDestino(),viag_ret.getIdDestino().getPontuacaoMedia()));
+            List<BilheteDTO> novos_bilhete=new ArrayList<BilheteDTO>();
+            for(Bilhete x : viag_ret.getBilheteCollection()){
+                novos_bilhete.add(this.seleccionaBilhete(x.getIdBilhete()));
+            }
             
             return vi;
             
@@ -1424,6 +1537,49 @@ public class singletonLocal implements singletonLocalLocal {
             return null;
         }
 
+    }
+    
+    @Override
+    public ViagemDTO seleccionaViagemInversa(int idViagem){
+        
+        try{
+            
+            /*VERIFICAR SE A VIAGEM EXISTE*/
+            Viagens retorno_viagem=this.viagens.find(idViagem);
+            
+            if(retorno_viagem==null){
+                return null;
+            }
+            
+            /*CIDADES DE PARTIDA E CHEGADA DA VIAGEM, A VERIFICAR SE EXISTE ALGUMA INVERSA*/
+            String cidade_partida=retorno_viagem.getIdPartida().getCidadePartida();
+            String cidade_chegada=retorno_viagem.getIdDestino().getCidadeDestino();
+            
+            /*PASSAR AGORA PARA INVERSA, VERIFICANDO SE EXISTE*/
+            Partidas part_inverse=partidas.findbyName(cidade_chegada);
+            Destinos dest_inverse=destino.findbyName(cidade_partida);
+            if(part_inverse==null || dest_inverse==null){
+                return null;
+            }         
+            
+            Viagens inversa=this.viagens.findInverse(part_inverse.getIdPartida(),dest_inverse.getIdDestino());
+            
+            if(inversa==null){
+                return null;
+            }
+            
+            ViagemDTO transforma_inversa=new ViagemDTO(inversa.getHoraPartida(), inversa.getHoraChegada());
+            transforma_inversa.setId(inversa.getIdViagens());
+            transforma_inversa.setPart(new PartidaDTO(inversa.getIdPartida().getCidadePartida(), inversa.getIdPartida().getPontMedia()));
+            transforma_inversa.setDest(new DestinoDTO(inversa.getIdDestino().getCidadeDestino(), inversa.getIdDestino().getPontuacaoMedia()));
+            
+            return transforma_inversa;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
     }
     
     @Override

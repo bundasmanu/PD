@@ -24,6 +24,8 @@ public interface ViagensFacadeLocal {
     Viagens find(Object id);
 
     List<Viagens> findbyPrice(int preco);
+    
+    Viagens findInverse(int p, int t);
             
     List<Viagens> findAll();
 

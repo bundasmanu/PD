@@ -54,4 +54,20 @@ public class ViagensFacade extends AbstractFacade<Viagens> implements ViagensFac
         
     }
 
+    @Override
+    public Viagens findInverse(int p, int d){
+        
+        try{          
+            /*TROCAR O DESTINO E A PARTIDA, DE ACORDO COM A PARTIDA E O DESTINO DA VIAGEM RETORNADA POR PARAMETRO*/
+            Query qu=this.em.createQuery("select v from Viagens as v join v.idPartida p join v.idDestino d where p.idPartida="+p+" and d.idDestino="+d+"");
+            Viagens retorno=(Viagens)qu.getSingleResult();
+            return retorno;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+    }
+    
 }

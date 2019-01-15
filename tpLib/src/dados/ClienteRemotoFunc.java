@@ -18,6 +18,7 @@ public interface ClienteRemotoFunc {
     public boolean insertCliente(ClienteDTO c, String pass);/*POR SEGURANÇA A PASS É PASSADA POR ATRIBUTO*/
     public boolean deleteCliente(String email);/*COMO O EMAIL É UNICO, BASTA PASSAR ESSE PARAMETRO*/
     public boolean updateCliente(String email,String nova_pass);/*ATENCAO NAO É PRECISA VALIDAR O UTILIZADOR, ISSO É FEITO NA PARTE WEB*/
+    public boolean updateContaCliente(String email, int valor);
     public List<ClienteDTO> selectAllClientes();
     public List<BilheteDTO> selectAllBilhetesFromACliente(int id_cliente);
     public boolean verificaLogin(String email, String pass);

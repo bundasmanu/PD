@@ -52,7 +52,7 @@ public class Destinos implements Serializable {
         @JoinColumn(name = "id_pontuacao", referencedColumnName = "id_pontuacao")})
     @ManyToMany
     private Collection<Pontuacao> pontuacaoCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDestino")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDestino", orphanRemoval = true)
     private Collection<Viagens> viagensCollection;
 
     public Destinos() {
