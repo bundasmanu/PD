@@ -78,7 +78,7 @@ public class ClienteDTO implements Serializable{
         info_cliente+="Bilhetes: \n";
         
         for(BilheteDTO x : this.bilhetes){
-            info_cliente+=x.getLugar()+"\n";
+            info_cliente+=x.getLugar()+"\t"+x.getPreco_bilhete()+"\n";
         }
         
         info_cliente+="Bagagens:\n";

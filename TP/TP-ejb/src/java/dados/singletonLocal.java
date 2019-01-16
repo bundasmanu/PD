@@ -624,7 +624,7 @@ public class singletonLocal implements singletonLocalLocal {
 
             List<ClienteDTO> clientes = new ArrayList<ClienteDTO>();
             for (Cliente x : retornoCli) {
-                clientes.add(new ClienteDTO(x.getNomeCliente(), x.getEmailCliente()));
+                clientes.add(this.seleccionaCliente(x.getEmailCliente()));
             }
 
             return clientes;
