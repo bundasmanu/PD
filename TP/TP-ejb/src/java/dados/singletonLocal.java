@@ -83,6 +83,13 @@ public class singletonLocal implements singletonLocalLocal {
     public boolean insertCompanhia(CompanhiaDTO d) {
 
         try {
+            
+            Companhia ret=this.companhia.findbyName(d.getNome());
+            
+            if(ret!=null){
+                return false;
+            }
+            
             Companhia novaCompanhia = new Companhia(d.getNome());
             //novaCompanhia.setIdAgencia();
             this.companhia.create(novaCompanhia);
@@ -128,6 +135,7 @@ public class singletonLocal implements singletonLocalLocal {
 
             /*SENAO APAGA A COMPANHIA*/
             this.companhia.remove(c);
+            
         } catch (Exception e) {
             return false;
         }
@@ -988,19 +996,19 @@ public class singletonLocal implements singletonLocalLocal {
            Viagens viag_ret=this.viagens.find(id_viagem);
            Cliente cli_ret=this.cliente.find(id_cliente);
             
-           if(viag_ret==null || cli_ret==null){
-               return false;
-           }
-           
-            /*VERIFICAR SE A LOTACAO AINDA NAO FOI ESGOTADA*/
-            if(viag_ret.getIdAviao().getNumLugares()==this.viagens.count()){/*SE JA ATINGIU A LOTACAO MAXIMA, NAO DEIXA INSERIR MAIS*/
-                    return false;
-            }
-           
-           /*VERIFICAR SE O CLIENTE POSSUI DINHEIRO, PARA EFETUAR A COMPRA DO BILHETE*/
-           if(cli_ret.getConta()<viag_ret.getPreco()){/*CASO NAO TENHA DINHEIRO, NAO PODE EFETUAR A COMPRA DO BILHETE*/
-               return false;
-           }
+//           if(viag_ret==null || cli_ret==null){
+//               return false;
+//           }
+//           
+//            /*VERIFICAR SE A LOTACAO AINDA NAO FOI ESGOTADA*/
+//            if(viag_ret.getIdAviao().getNumLugares()==this.viagens.count()){/*SE JA ATINGIU A LOTACAO MAXIMA, NAO DEIXA INSERIR MAIS*/
+//                    return false;
+//            }
+//           
+//           /*VERIFICAR SE O CLIENTE POSSUI DINHEIRO, PARA EFETUAR A COMPRA DO BILHETE*/
+//           if(cli_ret.getConta()<viag_ret.getPreco()){/*CASO NAO TENHA DINHEIRO, NAO PODE EFETUAR A COMPRA DO BILHETE*/
+//               return false;
+//           }
            
            /*CASO TENHA DINHEIRO FAZ A INSERCAO DO BILHETE*/
            Bilhete bil_insert=new Bilhete(viag_ret.getPreco());

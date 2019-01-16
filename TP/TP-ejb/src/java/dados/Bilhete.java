@@ -49,15 +49,11 @@ public class Bilhete implements Serializable {
     @ManyToOne(optional = false)
     private Viagens idViagens;
 
-    public Bilhete() {
-    }
+    public Bilhete(){
 
-    public Bilhete(Integer idBilhete) {
-        this.idBilhete = idBilhete;
     }
-
-    public Bilhete(Integer idBilhete, int precoBilhete) {
-        this.idBilhete = idBilhete;
+    public Bilhete( int precoBilhete) {
+        
         this.precoBilhete = precoBilhete;
     }
 
