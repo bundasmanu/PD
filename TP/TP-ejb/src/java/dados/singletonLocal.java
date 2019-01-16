@@ -1201,16 +1201,17 @@ public class singletonLocal implements singletonLocalLocal {
                 
                 /*EDIT DO CLIENTE*/
                 cli.getBagagensCollection().add(bagagem_a_criar);
-                this.cliente.edit(cli);
+                //this.cliente.edit(cli);
                 
                 this.bagagem.create(bagagem_a_criar);
-                return true;
+                
             }
+            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        return true;
+      
     }
 
     @Override
