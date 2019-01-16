@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class BagagemDTO  implements Serializable{
     int id_bagagem;
     int peso_bagagem;
-    ViagemDTO viagem;
+    ViagemDTO viagem;  
     
     public BagagemDTO(int peso){
         this.peso_bagagem=peso;
