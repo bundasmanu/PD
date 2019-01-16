@@ -36,6 +36,9 @@ import javax.persistence.Table;
     , @NamedQuery(name = "Viagens.findByPreco", query = "SELECT v FROM Viagens v WHERE v.preco = :preco")})
 public class Viagens implements Serializable {
 
+    @Column(name = "estado_viagem")
+    private String estadoViagem;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -160,6 +163,14 @@ public class Viagens implements Serializable {
     @Override
     public String toString() {
         return "dados.Viagens[ idViagens=" + idViagens + " ]";
+    }
+
+    public String getEstadoViagem() {
+        return estadoViagem;
+    }
+
+    public void setEstadoViagem(String estadoViagem) {
+        this.estadoViagem = estadoViagem;
     }
     
 }

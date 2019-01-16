@@ -68,6 +68,8 @@ public interface singletonLocalLocal {
     public boolean apagaPontComp(int idPont);
     public boolean atualizaPontComp(int idPont, int novaPont);
     public boolean inserePontPartida(int valor, String emailCli, String nomePartida);
+    public boolean apagaPontPart(int idPont);
+    public boolean utualizaPontPart(int idPont,int novaPont);
     public List<PontuacaoDTO> seleccionaAllClientPontComp(int idCli);
     public List<PontuacaoDTO> seleccionaAllClientPont(int idCli); //TAMBEM DAVA PELO EMAIL, MAS POR AGORA FIZ ASSIM
     /*FALTA FAZER O SELECT DAS PARTIDAS E DOS DESTINOS*/

@@ -113,6 +113,10 @@ public class OperadorCliente {
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
+                break;
+            case 'Q':
+                sair=true;
+                break;
         }
     }
 
@@ -1221,7 +1225,7 @@ public class OperadorCliente {
                     System.out.println("\nIntroduza o novo valor da pontuacao: ");
                     valorPont = sc.nextInt();
                     if (valorPont >= 0 && valorPont <= 10) {
-                        retorno = rf.updatePontComp(idPont, valorPont);
+                        retorno = rf.updatePontPart(idPont, valorPont);
                         if (retorno == true) {
                             System.out.println("\nPontuacao atualizada com sucesso\n");
                         } else {
@@ -1238,7 +1242,7 @@ public class OperadorCliente {
                 try {
                     System.out.println("\nIntroduza o id da pontuacao a eliminar");
                     idPont = sc.nextInt();
-                    retorno = rf.deletePontComp(idPont);
+                    retorno = rf.deletePontPart(idPont);
                     if (retorno == true) {
                         System.out.println("\nPontuacao apagada com sucesso\n");
                     } else {

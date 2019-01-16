@@ -434,6 +434,7 @@ public class singletonLocal implements singletonLocalLocal {
             }
 
             return partSeleccionada;
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
@@ -868,6 +869,61 @@ public class singletonLocal implements singletonLocalLocal {
             return false;
         }
 
+    }
+    
+    @Override
+    public boolean apagaPontPart(int idPont){
+        
+        try{
+          
+            /*VERIFICAR SE EXISTE A PONTUACAO A ELIMINAR*/
+            Pontuacao pont = this.pontuacao.find(idPont);
+
+            if (pont == null) {
+                return false;
+            }
+            
+            for(Partidas x : pont.getPartidasCollection()){
+                boolean ac=x.getPontuacaoCollection().remove(pont);
+                if(ac==true){
+                    this.partidas.edit(x);
+                }
+            }
+            
+            this.pontuacao.remove(pont);/*ELIMINA DA TABELA PONTUACAO E DA PONT_COMP, PORQUE ESTAO RELACIONADAS*/
+            
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public boolean utualizaPontPart(int idPont,int novaPont){
+        
+        try{
+            
+            /*VERIFICA INICIALMENTE SE EXISTE A PONTUACAO*/
+            Pontuacao pont = this.pontuacao.find(idPont);
+
+            if (pont == null) {
+                return false;
+            }
+
+            pont.setValor(novaPont);
+            this.pontuacao.edit(pont);
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return true;
     }
 
     @Override
@@ -1437,7 +1493,9 @@ public class singletonLocal implements singletonLocalLocal {
             viag.setHoraChegada(hora_cheg);
             viag.setIdAviao(av_ret);
             viag.setIdPartida(part_ret);
-            viag.setIdDestino(dest_ret);         
+            viag.setIdDestino(dest_ret);
+            /*ATRIBUTO ESTADO DA VIAGEM*/
+            viag.setEstadoViagem("Em Processo");
             
             this.viagens.create(viag);
         }
