@@ -326,6 +326,16 @@ public class BeanRemoto implements BeanRemotoRemote {
     public boolean insertPontDestino(int valor_pont, String emailCli, String nomeDest) {
         return this.sing.insertPontDestino(valor_pont, emailCli, nomeDest);
     }
+    
+    @Override
+    public boolean deletePontPart(int idPont){
+        return this.sing.apagaPontPart(idPont);
+    }
+    
+    @Override
+    public boolean updatePontPart(int idPont,int novaPont){
+        return this.sing.utualizaPontPart(idPont, novaPont);
+    }
 
     @Override
     public boolean deletePontDestino(int idPont) {

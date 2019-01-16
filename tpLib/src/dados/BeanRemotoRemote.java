@@ -123,6 +123,12 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     public boolean insertPontPartida(int valor, String emailCli, String namePartida);
     
     @Override
+    public boolean deletePontPart(int idPont);
+    
+    @Override
+    public boolean updatePontPart(int idPont,int novaPont);
+    
+    @Override
     public List<PontuacaoDTO> selectAllClientPont(int idCli); //TAMBEM DAVA PELO EMAIL, MAS POR AGORA FIZ ASSIM
     
     @Override

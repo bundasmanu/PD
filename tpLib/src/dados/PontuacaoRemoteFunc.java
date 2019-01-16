@@ -18,7 +18,6 @@ public interface PontuacaoRemoteFunc {
     public boolean insertPontComp(int valor, String emailCli, String nomeComp);
     public boolean deletePontComp(int idPont);
     public boolean updatePontComp(int idPont, int novaPont);
-    public boolean insertPontPartida(int valor, String emailCli, String namePartida);
     public List<PontuacaoDTO> selectAllClientPont(int idCli); //TAMBEM DAVA PELO EMAIL, MAS POR AGORA FIZ ASSIM
     
     //parte referente a pontuacao de um determinado destino
@@ -27,4 +26,10 @@ public interface PontuacaoRemoteFunc {
     public boolean updatePontDestino(int idPont,int novaPont);
     public List<PontuacaoDTO> selectAllPontuacoesDestino(String emailCli);
     //select fazer depois
+    
+    /*PARTE REFERENTE AS PARTIDAS*/
+    public boolean insertPontPartida(int valor, String emailCli, String namePartida);
+    public boolean deletePontPart(int idPont);
+    public boolean updatePontPart(int idPont,int novaPont);
+    
 }

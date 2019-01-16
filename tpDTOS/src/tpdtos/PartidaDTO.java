@@ -80,7 +80,7 @@ public class PartidaDTO implements Serializable{
         }
         info_partida+="Pontuacoes: \n";
         for(PontuacaoDTO x : this.pontuacoes){
-            info_partida+=x.toString();
+            info_partida+=x.getValor()+"\n";
         }
         
         return info_partida;
