@@ -1309,12 +1309,31 @@ public class OperadorCliente {
                     codigo_cli = sc.nextInt();
                     System.out.println("\nQual o id da viagem: ");
                     codig_viagem = sc.nextInt();
-                    retorno = rf.insertBilhete(codig_viagem, codigo_cli);
-                    if (retorno == true) {
-                        System.out.println("\nBilhete inserido com sucesso");
-                    } else {
-                        System.out.println("\nErro ao inserir o bilhete\n");
+                    if(rf.verificaEstadoViagem(codig_viagem).equals("Em leilao")==true){
+                        System.out.println("\nINtroduza o seu preco: ");
+                        preco=sc.nextInt();
+                        if(preco>0){
+                            retorno=rf.insertBilheteLeilao(codig_viagem, codigo_cli, preco);
+                            if(retorno==true){
+                                System.out.println("\nBilhete leiloado com sucesso, em fase de espera");
+                            }
+                            else{
+                                System.out.println("\nErro ao efetuar a sua oferta do bilhete");
+                            }
+                        }
+                        else{
+                            System.out.println("\nErro no preco especificado\n");
+                        }
                     }
+                    else if(rf.verificaEstadoViagem(codig_viagem).equals("Em Processo")==true){
+                        retorno = rf.insertBilhete(codig_viagem, codigo_cli);
+                        if (retorno == true) {
+                            System.out.println("\nBilhete inserido com sucesso");
+                        } else {
+                            System.out.println("\nErro ao inserir o bilhete\n");
+                        }
+                    }
+
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }

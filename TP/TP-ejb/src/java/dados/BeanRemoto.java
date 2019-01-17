@@ -223,6 +223,11 @@ public class BeanRemoto implements BeanRemotoRemote {
     }
     
     @Override
+    public boolean insertBilheteLeilao(int id_viagem, int id_cliente, int preco_leiloado){
+        return this.sing.insereBilheteLeilao(id_viagem, id_cliente, preco_leiloado);
+    }
+    
+    @Override
     public boolean deleteBilhete(int id){
         return this.sing.apagaBilhete(id);
     }
@@ -240,6 +245,11 @@ public class BeanRemoto implements BeanRemotoRemote {
     @Override
     public boolean insertViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada,int preco){
         return this.sing.insereViagem(hora_part, hora_cheg, id_aviao, id_partida, id_chegada,preco);
+    }
+    
+    @Override
+    public String verificaEstadoViagem(int vi){
+        return this.sing.verificaEstadoViagem(vi);
     }
     
     @Override

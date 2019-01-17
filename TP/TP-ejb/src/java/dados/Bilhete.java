@@ -52,12 +52,7 @@ public class Bilhete implements Serializable {
     public Bilhete() {
     }
 
-    public Bilhete(Integer idBilhete) {
-        this.idBilhete = idBilhete;
-    }
-
-    public Bilhete(Integer idBilhete, int precoBilhete) {
-        this.idBilhete = idBilhete;
+    public Bilhete(int precoBilhete) {
         this.precoBilhete = precoBilhete;
     }
 

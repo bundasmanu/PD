@@ -15,8 +15,10 @@ import java.util.List;
  */
 public class ClienteDTO implements Serializable{
     
+    int id;
     String nome;
     String email;
+    int conta;
     List<BilheteDTO> bilhetes;
     List<BagagemDTO> bagagens;
     List<PontuacaoDTO> pontuacoes;
@@ -68,7 +70,23 @@ public class ClienteDTO implements Serializable{
     public void setPontuacoes(List<PontuacaoDTO> pontuacoes) {
         this.pontuacoes = pontuacoes;
     }
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getConta() {
+        return conta;
+    }
+
+    public void setConta(int conta) {
+        this.conta = conta;
+    }
+
     @Override
     public String toString(){
         
@@ -78,7 +96,7 @@ public class ClienteDTO implements Serializable{
         info_cliente+="Bilhetes: \n";
         
         for(BilheteDTO x : this.bilhetes){
-            info_cliente+=x.toString()+"\n";
+            info_cliente+=x.getLugar()+"\t"+x.getPreco_bilhete()+"\n";
         }
         
         info_cliente+="Bagagens:\n";
