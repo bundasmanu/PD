@@ -82,7 +82,8 @@ public class CompanhiaDTO implements Serializable{
         }
         info_companhia+="Pontuacoes: \n";
         for(PontuacaoDTO x : this.pontuacoes){
-            info_companhia+=x.toString()+"\n";
+            //info_companhia+=x.toString()+"\n";
+            info_companhia+="Valor da pontuacao:"+ x.getValor();
         }
         
         return info_companhia;

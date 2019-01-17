@@ -49,7 +49,7 @@ public class Bilhete implements Serializable {
     @ManyToOne(optional = false)
     private Viagens idViagens;
 
-    public Bilhete() {
+    public Bilhete(){
     }
 
     public Bilhete(int precoBilhete) {

@@ -138,6 +138,7 @@ public class singletonLocal implements singletonLocalLocal {
 
             /*SENAO APAGA A COMPANHIA*/
             this.companhia.remove(c);
+            
         } catch (Exception e) {
             return false;
         }
@@ -1287,13 +1288,14 @@ public class singletonLocal implements singletonLocalLocal {
                 //this.cliente.edit(cli);
                 
                 this.bagagem.create(bagagem_a_criar);
-                return true;
+                
             }
+            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        return true;
+      
     }
 
     @Override
