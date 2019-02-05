@@ -6,7 +6,9 @@
 package dados;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -129,26 +131,12 @@ public class leilao implements leilaoLocal{
             if(v.getBilhetes().isEmpty()==true){
                 return null;
             }
-            
-            /*SE EXISTIREM OS BILHETES COLOCO-OS POR ORDEM, NO INICIO OS QUE APRESENTAM MAIOR VALOR*/
-            List<BilheteDTO> retorno_bilhetes_ordenados=new ArrayList<BilheteDTO>();
-            retorno_bilhetes_ordenados.add(v.getBilhetes().get(0));/*NAO DA NULL, PORQUE TEM SEMPRE ALGO, PORQUE SE ESTA AQUI NAO RETORNOU NA EXCECAO DO EMPTY*/
-            
+                  
             LOGGER.info("\nMax "+v.getBilhetes().size());
+                        
+            Collections.sort(v.getBilhetes(), Collections.reverseOrder());
             
-            int max=0;
-            for(BilheteDTO x : v.getBilhetes().subList(1, v.getBilhetes().size())){
-                if(x.getPreco_bilhete()>max){
-                    retorno_bilhetes_ordenados.add(0, x);
-                    max=x.getPreco_bilhete();
-                }
-                else{
-                    retorno_bilhetes_ordenados.add(retorno_bilhetes_ordenados.size() + 1, x);
-                }
-                
-            }
-            
-            return retorno_bilhetes_ordenados;
+            return v.getBilhetes();
             
         }
         catch(Exception e){
@@ -186,22 +174,26 @@ public class leilao implements leilaoLocal{
     }
     
     /*ELIMINA VIAGEM DO ARRAY DPS DE PARTIR*/
-    public boolean eliminaViagemArray(int id_viagem_eliminar){
+    @Override
+    public boolean apagaViagemEmLeilao(int id){
         
-        try{
-            
-            for(ViagemDTO x : this.bilhetes_em_leilao){
-                if(x.getId()==id_viagem_eliminar){
-                    return this.bilhetes_em_leilao.remove(x);
+        try {
+            if (this.bilhetes_em_leilao.isEmpty() == true) {
+                return false;
+            }
+
+            for (ViagemDTO x : this.bilhetes_em_leilao) {
+                if (x.getId() == id) {
+                    this.bilhetes_em_leilao.remove(x);
+                    return true;
                 }
             }
-            
-        }
-        catch(Exception e){
+        } 
+        catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        
+
         return false;
     }
     

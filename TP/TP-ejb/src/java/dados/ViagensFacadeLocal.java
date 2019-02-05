@@ -26,6 +26,8 @@ public interface ViagensFacadeLocal {
     List<Viagens> findbyPrice(int preco);
     
     Viagens findInverse(int p, int t);
+    
+    List<Viagens> findViagensParametrizaveis(int dest, int minPreco, int maxPreco, int maxVagas);
             
     List<Viagens> findAll();
 

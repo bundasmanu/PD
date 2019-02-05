@@ -253,6 +253,11 @@ public class BeanRemoto implements BeanRemotoRemote {
     }
     
     @Override
+    public List<ViagemDTO> queryViagemParametrizalWebS(String dest, int minP, int maxP, int maxVagas){
+        return this.sing.queryViagemParametrizalWebS(dest, minP, maxP, maxVagas);
+    }
+    
+    @Override
     public boolean deleteViagem(int idViagem){
         return this.sing.apagaViagem(idViagem);
     }

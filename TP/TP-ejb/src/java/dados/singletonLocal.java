@@ -1088,8 +1088,9 @@ public class singletonLocal implements singletonLocalLocal {
   
            
            /*DEPOIS DE EFETUAR A INSERCAO DOS BILHETES, VERIFICAR SE A VIAGEM, JA ATINGIU O LIMITE, E PASSA DPS A LEILAO*/
-           if(viag_ret.getBilheteCollection().size()>=(viag_ret.getIdAviao().getNumLugares()*0.5)){
-            viag_ret.setEstadoViagem("Em leilao");
+           if(viag_ret.getBilheteCollection().size()>=(viag_ret.getIdAviao().getNumLugares()*0.1)){
+               viag_ret.setPreco(0);
+               viag_ret.setEstadoViagem("Em leilao");
            }
            
            /*EDIT DA VIAGEM*/
@@ -1675,6 +1676,9 @@ public class singletonLocal implements singletonLocalLocal {
             LOGGER.info(""+viag_ret.getBilheteCollection().size());
             
             ViagemDTO vi=new ViagemDTO(viag_ret.getHoraPartida(), viag_ret.getHoraChegada());
+            vi.setId(viag_ret.getIdViagens());
+            vi.setPreco(viag_ret.getPreco());
+            vi.setEstado_viagem(viag_ret.getEstadoViagem());
             vi.setPart(new PartidaDTO(viag_ret.getIdPartida().getCidadePartida(), viag_ret.getIdPartida().getPontMedia()));
             vi.setDest(new DestinoDTO(viag_ret.getIdDestino().getCidadeDestino(),viag_ret.getIdDestino().getPontuacaoMedia()));
             List<BilheteDTO> novos_bilhete=new ArrayList<BilheteDTO>();
@@ -1886,6 +1890,46 @@ public class singletonLocal implements singletonLocalLocal {
             }
         }
         return lista;
+    }
+    
+    @Override
+    public List<ViagemDTO> queryViagemParametrizalWebS(String dest, int minP, int maxP, int maxVagas){
+        
+        try{
+            
+            /*OBTER O ID DO DESTINO*/
+            Destinos destt=null;
+            if(dest.equals("")==false ){
+                destt=this.destino.findbyName(dest);
+            }
+            
+            List<Viagens> ret=null;
+            if(destt!=null){/*SE EXISTE O DESTINO*/
+                ret=this.viagens.findViagensParametrizaveis(destt.getIdDestino(), minP, maxP, maxVagas);
+            }
+            else if(dest.equals("")==true && destt==null){/*SENAO PASSEI O DESTINO*/
+                ret=this.viagens.findViagensParametrizaveis(0, minP, maxP, maxVagas);
+            }
+            else{/*SE PASSEI O DESTINO E ESTE NAO EXISTE*/
+                return null;
+            }
+            
+            if(ret==null){
+                return null;
+            }
+            
+            List<ViagemDTO> retorno_viagens=new ArrayList<ViagemDTO>();
+            for(Viagens x : ret){
+                 retorno_viagens.add(this.seleccionaViagem(x.getIdViagens()));
+            }
+            
+            return retorno_viagens;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
     }
     
 }

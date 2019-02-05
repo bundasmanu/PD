@@ -165,6 +165,9 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     public String verificaEstadoViagem(int vi);
     
     @Override
+    public List<ViagemDTO> queryViagemParametrizalWebS(String dest, int minP, int maxP, int maxVagas);
+    
+    @Override
     public boolean deleteViagem(int idViagem);
     
     @Override

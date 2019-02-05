@@ -11,12 +11,16 @@ import java.io.Serializable;
  *
  * @author gustavo
  */
-public class BilheteDTO implements Serializable{
+public class BilheteDTO implements Serializable, Comparable<BilheteDTO>{
     
     int preco_bilhete;
     int lugar;
     ClienteDTO cli;
     ViagemDTO viagem;
+    
+    public BilheteDTO(){
+        
+    }
     
     public BilheteDTO(int preco){
         this.preco_bilhete=preco;
@@ -68,5 +72,18 @@ public class BilheteDTO implements Serializable{
         return info_bilhete;
     }
     
+    @Override
+    public int compareTo(BilheteDTO b){
+        
+        if(this.getPreco_bilhete()>b.getPreco_bilhete()){
+            return 1;
+        }
+        else if(this.getPreco_bilhete()<b.getPreco_bilhete()){
+            return -1;
+        }
+        
+        /*SE FOREM IGUAIS RETORNA 0*/
+        return 0;
+    }
     
 }
