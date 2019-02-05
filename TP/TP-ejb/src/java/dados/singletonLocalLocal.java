@@ -91,6 +91,7 @@ public interface singletonLocalLocal {
     public List<ViagemDTO> seleccionaViagensPorDestino(String dest);
     public List<ViagemDTO> seleccionaAllViagens();
     public String verificaEstadoViagem(int vi);
+    public List<ViagemDTO> queryViagemParametrizalWebS(String dest, int minP, int maxP, int maxVagas);
     
     //parte dos bilhetes
     public boolean insereBilhete(int id_viagem, int id_cliente);

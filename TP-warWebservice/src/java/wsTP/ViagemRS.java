@@ -17,7 +17,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import dados.singletonLocalLocal;
 import java.util.List;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import tpdtos.ViagemDTO;
 
@@ -81,6 +83,27 @@ public  class ViagemRS {
         
     }
     
+    /*METODO PARAMETRIZAVEL*/
+    @GET
+    @Path("/listar")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ViagemDTO> obtemViagem(@QueryParam("Destino") @DefaultValue("") String dest, 
+                                       @QueryParam("precoDe") @DefaultValue("0") Integer precoMin,
+                                       @QueryParam("precoAte") @DefaultValue("10000")  Integer precoMax,
+                                       @QueryParam("vagasAte") @DefaultValue("10000") Integer vagasMax){        
+        try{
+            
+                return this.sing.queryViagemParametrizalWebS(dest, precoMin, precoMax, vagasMax);
+
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+    }
+    
     /**
      * PUT method for updating or creating an instance of ViagemRS
      * @param content representation for the resource
@@ -91,5 +114,4 @@ public  class ViagemRS {
     }
     
     
-     
 }

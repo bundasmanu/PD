@@ -124,13 +124,19 @@ public class TempoBean implements TempoBeanLocal {
                             Cliente cc=this.cliente.find(k.getCli().getId());
                             if(cc!=null){
                                 adicionar.setIdCliente(cc);
+                                cc.setConta(cc.getConta()-k.getPreco_bilhete());/*RETIRO DINHEIRO AO CLIENTE*/
                             }
                             
                             x.setEstadoViagem("Em Viagem");
                             x.getBilheteCollection().add(adicionar);
                             this.viagens.edit(x);
                             this.bilhetes.create(adicionar);
+                            /*RETIRAR DINHEIRO AO CLIENTE*/
+                            this.cliente.edit(cc);/*ATUALIZO A INFORMACAO*/
+                            /*ENVIO DO LOG DE COMPRA BILHETE LEILAO*/
+                            Future<Boolean> envio_log=this.logs.sendToQueue("Comprado Bilhete Leilao ");
                         }
+                        this.leilao.apagaViagemEmLeilao(x.getIdViagens());
                     }
                     
                     x.setEstadoViagem("Em Viagem");

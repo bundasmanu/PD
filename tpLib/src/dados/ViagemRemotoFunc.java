@@ -23,6 +23,7 @@ public interface ViagemRemotoFunc {
     public List<ViagemDTO> selectViagensByDest(String dest);
     public List<ViagemDTO> selectAllViagens();
     public String verificaEstadoViagem(int vi);
+    public List<ViagemDTO> queryViagemParametrizalWebS(String dest, int minP, int maxP, int maxVagas);/*WEBSERVICE QUERY*/
     //método que remove todas as viagens apos a hora de chegada terminar
     //public boolean removeTodasViagensAposHoraTerminar(int hora_cheg);
     

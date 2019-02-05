@@ -21,5 +21,6 @@ public interface leilaoLocal {
     public List<BilheteDTO> retornoBilhetesGanhosLeilaoPorViagem(Viagens v);
     public List<BilheteDTO> retornaBilhetesViagemLeilaoOrdenados(ViagemDTO v);
     public List<BilheteDTO> verificaSeClientesTemDinheiro(List<BilheteDTO> b, int lugares_possiveis);
+    public boolean apagaViagemEmLeilao(int id);
     
 }
