@@ -202,4 +202,8 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     
     @Override
     public DestinoDTO selectDestino(String cidade);
+    
+    public List<CompanhiaDTO> selectAllCompaniesFromClient(int id_cliente);
+    
+    public List<DestinoDTO> selectAllDestiniesFromClient(int id_cliente);
 }

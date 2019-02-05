@@ -31,4 +31,12 @@ public interface ClienteFacadeLocal {
 
     int count();
     
+    //informação acerca do cliente
+        
+    //retorna lista de companhias associados a um cliente
+    List<Companhia> findAllCompaniesFromClient(int id_cliente);
+    
+    //retorna lista de destinos associados a um cliente
+    List<Destinos> findAllDestiniesFromCliente(int id_cliente);
+    
 }

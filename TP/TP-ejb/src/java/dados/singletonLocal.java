@@ -1772,5 +1772,31 @@ public class singletonLocal implements singletonLocalLocal {
         }
 
     }
+
+    @Override
+    public List<CompanhiaDTO> selectAllCompaniesFromClient(int id_cliente) {
+        List<Companhia> lista_companhias= this.cliente.findAllCompaniesFromClient(id_cliente);
+        List<CompanhiaDTO> lista= new ArrayList<CompanhiaDTO>();
+        
+        for(Companhia x: lista_companhias){
+            lista.add(new CompanhiaDTO(x.getNomeCompanhia(),x.getPontuacaoMedia()));
+        }
+        
+        return lista;
+    }
+
+    @Override
+    public List<DestinoDTO> selectAllDestiniesFromClient(int id_cliente) {
+        List<Destinos> lista_destinos= this.cliente.findAllDestiniesFromCliente(id_cliente);
+        List<DestinoDTO> lista= new ArrayList<DestinoDTO>();
+        
+        for(Destinos d: lista_destinos){
+            List<DestinoDTO> destino=selectAllDestiniesFromClient(id_cliente);
+            for(int i=0;i<destino.size();i++){
+             lista.add(destino.get(i));
+            }
+        }
+        return lista;
+    }
     
 }

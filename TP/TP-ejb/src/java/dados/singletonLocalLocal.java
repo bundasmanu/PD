@@ -62,6 +62,9 @@ public interface singletonLocalLocal {
     public boolean validaLogin(String email, String pass);
     public ClienteDTO seleccionaCliente(String email);
     public List<BilheteDTO> selectAllBilhetesFromACliente(int id_cliente);
+    //usando queries jpql
+    public List<CompanhiaDTO> selectAllCompaniesFromClient(int id_cliente);
+    public List<DestinoDTO> selectAllDestiniesFromClient(int id_cliente);
     
     //parte das pontuacoes
     public boolean inserePontComp(int valor, String emailCli, String nomeComp);

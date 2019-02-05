@@ -769,7 +769,7 @@ public class OperadorCliente {
         char c;
         String option;
 
-        System.out.println("\n(Q)uit, (I)nsert, (D)elete, (U)pdate, (S)elect All, (V)alida Login, (1)Select, (2)Update Conta : ");
+        System.out.println("\n(Q)uit, (I)nsert, (D)elete, (U)pdate, (S)elect All, (V)alida Login, (1)Select, (2)Update Conta ,(3)Ver Destinos,(4)Ver companhias utilizadas ");
         option = sc.next().toUpperCase();
         sc.skip("\n");
 
@@ -898,6 +898,34 @@ public class OperadorCliente {
                 }
             }
             catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+            break;
+        case '3':
+            try{
+                System.out.println("\nQual o id do cliente:");
+                int id= sc.nextInt();
+                
+                List<DestinoDTO> destinos= rf.selectAllDestiniesFromClient(id);
+                System.out.println("Destino do cliente "+ id);
+                
+                for(int i=0;i<destinos.size();i++){
+                    System.out.println("Cidade de destino: "+destinos.get(i).toString());
+                }
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+            break;
+             case '4':
+            try{
+                System.out.println("\nQual o id do cliente:");
+                int id= sc.nextInt();
+                List<CompanhiaDTO> companhias= rf.selectAllCompaniesFromClient(id);
+                System.out.println("Companhias do cliente "+ id);
+                for(int i=0;i<companhias.size();i++){
+                    System.out.println("Nome da companhia: "+companhias.get(i).toString());
+                }
+            }catch(Exception e){
                 System.out.println(e.getMessage());
             }
             break;

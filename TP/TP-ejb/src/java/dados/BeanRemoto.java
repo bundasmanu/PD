@@ -352,6 +352,15 @@ public class BeanRemoto implements BeanRemotoRemote {
         return this.sing.selectAllPontuacoesDestino(emailCli);
     }
 
+    @Override
+    public List<CompanhiaDTO> selectAllCompaniesFromClient(int id_cliente){
+        return this.sing.selectAllCompaniesFromClient(id_cliente);
+    }
+    
+    @Override
+    public List<DestinoDTO> selectAllDestiniesFromClient(int id_cliente){
+        return this.sing.selectAllDestiniesFromClient(id_cliente);
+    }
     /*@Override
     public boolean removeTodasViagensAposHoraTerminar(int hora_cheg) {
         return this.sing.removeTodasViagensAposHoraTerminar(hora_cheg);
