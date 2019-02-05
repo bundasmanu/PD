@@ -100,7 +100,7 @@ public class TempoBean implements TempoBeanLocal {
             
             if (lista_viagens.isEmpty() == false) {
                 for (int i = 0; i < lista_viagens.size(); i++) {
-                    if (lista_viagens.get(i).getHoraChegada() <= hora_cheg) {
+                    if (lista_viagens.get(i).getHoraChegada() <= hora_cheg && lista_viagens.get(i).getEstadoViagem().equals("Concluida")==false) {
                         /*OBTENCAO DO ID DA VIAGEM A REMOVER*/
                         int id_v=lista_viagens.get(i).getIdViagens();
                         /*this.viagens.remove(lista_viagens.get(i));*/
