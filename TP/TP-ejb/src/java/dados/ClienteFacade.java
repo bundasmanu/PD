@@ -61,6 +61,8 @@ public class ClienteFacade extends AbstractFacade<Cliente> implements ClienteFac
 
     @Override
     public List<Destinos> findAllDestiniesFromCliente(int id_cliente) {
+        
+        
 //        return em.createQuery("SELECT DISTINCT d "
 //                + "FROM Bilhete b "
 //                + "INNER JOIN Viagens v ON b.idViagens=v.idViagens "
