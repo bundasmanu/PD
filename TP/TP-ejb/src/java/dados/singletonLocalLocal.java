@@ -93,12 +93,14 @@ public interface singletonLocalLocal {
     public List<ViagemDTO> seleccionaViagensPorPreco(int preco);
     public List<ViagemDTO> seleccionaViagensPorDestino(String dest);
     public List<ViagemDTO> seleccionaAllViagens();
+    public String verificaEstadoViagem(int vi);
     
     //parte dos bilhetes
     public boolean insereBilhete(int id_viagem, int id_cliente);
     public boolean apagaBilhete(int id);
     public BilheteDTO seleccionaBilhete(int id_bilhete);
     public List<BilheteDTO> seleccionaAllBilhetes();
+    public boolean insereBilheteLeilao(int id_viagem, int id_cliente, int preco_leiloado);
     
     //parte das bagagens
     public boolean insertBagagem(int peso_bagagem,int id_viagem, int id_cliente);

@@ -50,10 +50,9 @@ public class Bilhete implements Serializable {
     private Viagens idViagens;
 
     public Bilhete(){
-
     }
-    public Bilhete( int precoBilhete) {
-        
+
+    public Bilhete(int precoBilhete) {
         this.precoBilhete = precoBilhete;
     }
 

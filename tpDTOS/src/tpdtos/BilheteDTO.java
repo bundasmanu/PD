@@ -21,8 +21,6 @@ public class BilheteDTO implements Serializable{
     public BilheteDTO(int preco){
         this.preco_bilhete=preco;
     }
-    
- 
 
     public int getPreco_bilhete() {
         return preco_bilhete;
@@ -63,7 +61,7 @@ public class BilheteDTO implements Serializable{
         String info_bilhete="";
         
         info_bilhete+=this.getPreco_bilhete()+"\n";
-        info_bilhete+="Cliente : "+this.getCli().getNome()+"\n";
+        //info_bilhete+="Cliente : "+this.getCli().getNome()+"\n";
         info_bilhete+= this.getLugar()+"\n";
         //info_bilhete+="Viagem : "+this.getViagem().toString()+"\n";
         

@@ -21,6 +21,7 @@ import javax.ejb.Startup;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerService;
+import tpdtos.BilheteDTO;
 
 /**
  *
@@ -39,8 +40,17 @@ public class TempoBean implements TempoBeanLocal {
     ViagensFacadeLocal viagens;
     
     @EJB
+    ClienteFacadeLocal cliente;
+    
+    @EJB
+    BilheteFacadeLocal bilhetes;
+    
+    @EJB
     LogsSendQueueBeanLocal logs;
-            
+    
+    @EJB
+    leilaoLocal leilao;        
+    
     String timer_name="Tempo"; /*VARIAVEL QUE CONTROLA O TIMER ESPECIFICO*/
     private Tempo time;
     private TimerService t;
@@ -81,13 +91,70 @@ public class TempoBean implements TempoBeanLocal {
     @Timeout
     public void timeout(Timer timer){
         time.setUnidade(time.getUnidade()+valor_atual);
-        this.removeTodasViagensAposHoraTerminar(time.getUnidade());
+        this.verificaViagensPartiramELeilao();
+        //this.removeTodasViagensAposHoraTerminar(time.getUnidade());
         //logger.info("\nAcabou o tempo\n");
     }
     
     @Override
     public int getTempoAtual(){
         return this.time.getUnidade();
+    }
+    
+    @Override
+    public boolean verificaViagensPartiramELeilao(){
+        
+        try{
+           
+            /*BUSCAR TODAS AS VIAGENS*/
+            List<Viagens> todasViagens=this.viagens.findAll();
+            if(todasViagens.isEmpty()==true){
+                return false;
+            }
+            
+            /*VERIFICACAO DE QUAIS JA PARTIRAM*/
+            for(Viagens x : todasViagens){
+                if(x.getHoraPartida()<= this.getTempoAtual() && (x.getEstadoViagem().equals("Em Processo")==true || x.getEstadoViagem().equals("Em leilao")==true)){
+                    List<BilheteDTO> retorno_bilhetes_leilao=this.leilao.retornoBilhetesGanhosLeilaoPorViagem(x);
+                    if(retorno_bilhetes_leilao!=null){
+                        for(BilheteDTO k : retorno_bilhetes_leilao){
+                            Bilhete adicionar= new Bilhete(k.getPreco_bilhete());
+                            adicionar.setLugar(this.bilhetes.count()+1);
+                            adicionar.setIdViagens(x);
+                            Cliente cc=this.cliente.find(k.getCli().getId());
+                            if(cc!=null){
+                                adicionar.setIdCliente(cc);
+                            }
+                            
+                            x.setEstadoViagem("Em Viagem");
+                            x.getBilheteCollection().add(adicionar);
+                            this.viagens.edit(x);
+                            this.bilhetes.create(adicionar);
+                        }
+                    }
+                    
+                    x.setEstadoViagem("Em Viagem");
+                    this.viagens.edit(x);
+                    Future<Boolean> envio_log=this.logs.sendToQueue("Partida da Viagem"+x.getIdViagens());
+                }
+            }
+            
+            /*VERIFICACAO DE QUAIS JA CONCLUIRAM*/
+            for(Viagens x : todasViagens){
+                if(x.getHoraChegada()<=this.getTempoAtual() && x.getEstadoViagem().equals("Em Viagem")==true){
+                    x.setEstadoViagem("Concluida");
+                    this.viagens.edit(x);
+                    Future<Boolean> envio_log=this.logs.sendToQueue("Conclusao da Viagem"+x.getIdViagens());
+                }
+            }
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        return true;
     }
     
     @Override

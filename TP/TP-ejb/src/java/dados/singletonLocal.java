@@ -73,7 +73,10 @@ public class singletonLocal implements singletonLocalLocal {
 
     @EJB
     BagagensFacadeLocal bagagem;
-
+    
+    @EJB
+    leilaoLocal leilao;
+    
     @Override
     public String showOla() {
         return "Ola";
@@ -657,7 +660,7 @@ public class singletonLocal implements singletonLocalLocal {
                 BilheteDTO w=new BilheteDTO(x.getPrecoBilhete());
                 w.setViagem(new ViagemDTO(x.getIdViagens().getIdViagens()));
                 w.setLugar(x.getLugar());
-               lista_bilhetes.add(w);
+                lista_bilhetes.add(w);
                 
             }
             return lista_bilhetes;
@@ -1052,32 +1055,49 @@ public class singletonLocal implements singletonLocalLocal {
            Viagens viag_ret=this.viagens.find(id_viagem);
            Cliente cli_ret=this.cliente.find(id_cliente);
             
-//           if(viag_ret==null || cli_ret==null){
-//               return false;
-//           }
-//           
-//            /*VERIFICAR SE A LOTACAO AINDA NAO FOI ESGOTADA*/
-//            if(viag_ret.getIdAviao().getNumLugares()==this.viagens.count()){/*SE JA ATINGIU A LOTACAO MAXIMA, NAO DEIXA INSERIR MAIS*/
-//                    return false;
-//            }
-//           
-//           /*VERIFICAR SE O CLIENTE POSSUI DINHEIRO, PARA EFETUAR A COMPRA DO BILHETE*/
-//           if(cli_ret.getConta()<viag_ret.getPreco()){/*CASO NAO TENHA DINHEIRO, NAO PODE EFETUAR A COMPRA DO BILHETE*/
-//               return false;
-//           }
+           if(viag_ret==null || cli_ret==null){
+               return false;
+           }
+           
+            /*VERIFICAR SE A LOTACAO AINDA NAO FOI ESGOTADA*/
+            if(viag_ret.getIdAviao().getNumLugares()==this.viagens.count()){/*SE JA ATINGIU A LOTACAO MAXIMA, NAO DEIXA INSERIR MAIS*/
+                    return false;
+            }
+            
+            /*O INSERE BILHETE SO FUNCIONA PARA VIAGENS QUE ESTAO EM PROCESSAMENTO*/
+            if(viag_ret.getEstadoViagem().equals("Em Processo")==false){
+                return false;
+            }
+            
+            /*VERIFICAR SE O CLIENTE POSSUI DINHEIRO, PARA EFETUAR A COMPRA DO BILHETE*/
+            if(cli_ret.getConta()<viag_ret.getPreco()){/*CASO NAO TENHA DINHEIRO, NAO PODE EFETUAR A COMPRA DO BILHETE*/
+               return false;
+            }
            
            /*CASO TENHA DINHEIRO FAZ A INSERCAO DO BILHETE*/
            Bilhete bil_insert=new Bilhete(viag_ret.getPreco());
            bil_insert.setLugar(this.bilhete.count()+1);
            bil_insert.setIdCliente(cli_ret);
            bil_insert.setIdViagens(viag_ret);
-           
+                                        
            /*CRIA BILHETE*/
            this.bilhete.create(bil_insert);
-           viag_ret.getBilheteCollection().add(bil_insert);
+           
+           /*ADICAO DO BILHETE NA VIAGEM*/
+            viag_ret.getBilheteCollection().add(bil_insert);
+  
+           
+           /*DEPOIS DE EFETUAR A INSERCAO DOS BILHETES, VERIFICAR SE A VIAGEM, JA ATINGIU O LIMITE, E PASSA DPS A LEILAO*/
+           if(viag_ret.getBilheteCollection().size()>=(viag_ret.getIdAviao().getNumLugares()*0.5)){
+            viag_ret.setEstadoViagem("Em leilao");
+           }
+           
+           /*EDIT DA VIAGEM*/
            this.viagens.edit(viag_ret);
+           
            /*RETIRA DINHEIRO DA CONTA DO UTILIZADOR, E ATUALIZA O PARAMETRO NA BD*/
            cli_ret.setConta(cli_ret.getConta()-viag_ret.getPreco());
+           cli_ret.getBilheteCollection().add(bil_insert);
            this.cliente.edit(cli_ret);
            
         }
@@ -1095,7 +1115,71 @@ public class singletonLocal implements singletonLocalLocal {
         
         return true;
     }
-
+    
+    @Override
+    public boolean insereBilheteLeilao(int id_viagem, int id_cliente, int preco_leiloado){
+        
+        try{
+            
+           /*VERIFICAR INICIALMENTE SE EXISTE O CLIENTE E A VIAGEM, SO SE EXISTIREM AMBAS É QUE É POSSIVEL A INSERCAO DO BILHETE*/
+           Viagens viag_ret=this.viagens.find(id_viagem);
+           Cliente cli_ret=this.cliente.find(id_cliente);
+            
+           if(viag_ret==null || cli_ret==null){
+               return false;
+           }
+           
+            /*VERIFICAR SE A LOTACAO AINDA NAO FOI ESGOTADA*/
+            if(viag_ret.getIdAviao().getNumLugares()==viag_ret.getBilheteCollection().size()){/*SE JA ATINGIU A LOTACAO MAXIMA, NAO DEIXA INSERIR MAIS*/
+                    return false;
+            }
+            
+            /*O INSERE BILHETE SO FUNCIONA PARA VIAGENS QUE ESTAO EM LEILAO*/
+            if(viag_ret.getEstadoViagem().equals("Em leilao")==false){
+                return false;
+            }
+            
+            /*CRIA BILHETE E PASSA AO LEILAO*/
+            BilheteDTO passar_leilao= new BilheteDTO(preco_leiloado);
+            ClienteDTO cliente_leilao=new ClienteDTO(cli_ret.getNomeCliente(), cli_ret.getEmailCliente());
+            cliente_leilao.setId(cli_ret.getIdCliente());
+            cliente_leilao.setConta(cli_ret.getConta());
+            ViagemDTO viagem_leilao=new ViagemDTO(viag_ret.getHoraPartida(), viag_ret.getHoraChegada());
+            viagem_leilao.setId(viag_ret.getIdViagens());
+            passar_leilao.setCli(cliente_leilao);
+            passar_leilao.setViagem(viagem_leilao);
+            
+            return this.leilao.adicionaBilheteLeilao(passar_leilao);
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+    }
+    
+    @Override
+    public String verificaEstadoViagem(int vi){
+        
+        try{
+            
+            /*VERIFICA ESTADO DA VIAGEM*/
+            Viagens todas_viagens=this.viagens.find(vi);
+            
+            if(todas_viagens==null){
+                return "";
+            }
+            
+            return todas_viagens.getEstadoViagem();
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return "";
+        }
+        
+    }
+    
     @Override
     public boolean apagaBilhete(int id) {
 
@@ -1588,14 +1672,19 @@ public class singletonLocal implements singletonLocalLocal {
                 return null;
             }
             
+            LOGGER.info(""+viag_ret.getBilheteCollection().size());
+            
             ViagemDTO vi=new ViagemDTO(viag_ret.getHoraPartida(), viag_ret.getHoraChegada());
             vi.setPart(new PartidaDTO(viag_ret.getIdPartida().getCidadePartida(), viag_ret.getIdPartida().getPontMedia()));
             vi.setDest(new DestinoDTO(viag_ret.getIdDestino().getCidadeDestino(),viag_ret.getIdDestino().getPontuacaoMedia()));
             List<BilheteDTO> novos_bilhete=new ArrayList<BilheteDTO>();
             for(Bilhete x : viag_ret.getBilheteCollection()){
-                novos_bilhete.add(this.seleccionaBilhete(x.getIdBilhete()));
+                LOGGER.info("Entrei");
+                BilheteDTO novo=this.seleccionaBilhete(x.getIdBilhete());
+                vi.getBilhetes().add(novo);
             }
             
+            //vi.setBilhetes(novos_bilhete);
             return vi;
             
         }

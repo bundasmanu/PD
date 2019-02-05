@@ -19,5 +19,6 @@ public interface BilheteRemotoFunc {
     /*UPDATE ACHO QUE NAO FAZ SENTIDO PORQUE O PRECO NAO PODE SER ALTERADO DPS DE O BILHETE ESTAR COMPRADO*/ 
     public BilheteDTO selectBilhete(int id_bilhete);
     public List<BilheteDTO> selectAllBilhetes();
+    public boolean insertBilheteLeilao(int id_viagem, int id_cliente, int preco_leiloado);
     
 }

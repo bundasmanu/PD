@@ -147,6 +147,9 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     public boolean insertBilhete(int id_viagem, int id_cliente);
     
     @Override
+    public boolean insertBilheteLeilao(int id_viagem, int id_cliente, int preco_leiloado);
+    
+    @Override
     public boolean deleteBilhete(int id);
     
     @Override
@@ -157,6 +160,9 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     
     @Override
     public boolean insertViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada, int preco); /*PODERIA SER UTILIZADO O NOME AVIAO E OS NOMES DAS CIDADES, PORQUE SAO UNICAS*/
+    
+    @Override
+    public String verificaEstadoViagem(int vi);
     
     @Override
     public boolean deleteViagem(int idViagem);
