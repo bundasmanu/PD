@@ -49,14 +49,25 @@ public class ClienteFacade extends AbstractFacade<Cliente> implements ClienteFac
 
     @Override
     public List<Companhia> findAllCompaniesFromClient(int id_cliente) {
-        return em.createQuery("SELECT DISTINCT c.* \n"
-                + "FROM bilhete b \n"
-                + "INNER JOIN Viagens v ON b.id_viagens=v.id_viagens \n"
-                + "INNER JOIN Aviao a ON v.id_aviao=a.id_aviao\n"
-                + "INNER JOIN Companhia c ON a.id_companhia=c.id_companhia\n"
-                + "WHERE id_cliente= :id_cliente")
-                .setParameter("id_cliente", id_cliente)
-                .getResultList();
+        try{
+            
+            String query_param=("SELECT DISTINCT d "
+                 + "FROM Bilhete b " 
+                 + "INNER JOIN Cliente c ON b.idCliente=c "
+                 +" INNER JOIN Viagens v ON b.idViagens=v "
+                 +" INNER JOIN Aviao a on v.idAviao=a"   
+                 +" INNER JOIN Companhia d ON a.idCompanhia=d "
+                 + " WHERE c.idCliente= '"+id_cliente+"'");
+            Query qu=this.em.createQuery(query_param);
+            List<Companhia> comp=(List<Companhia>)qu.getResultList();
+            
+            return comp;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+            
     }
 
     @Override
@@ -71,13 +82,16 @@ public class ClienteFacade extends AbstractFacade<Cliente> implements ClienteFac
 //                .setParameter("id_cliente", id_cliente)
 //                .getResultList();
          try{
-              return em.createQuery("SELECT DISTINCT d "
-                + "FROM Bilhete b "
-                 +"INNER JOIN Viagens v ON b.idViagens=v.idViagens "
-                 +"INNER JOIN Destinos d ON v.idDestino=b.idDestino "
-                + "WHERE b.idCliente= :id_cliente")
-                .setParameter("id_cliente", id_cliente)
-                .getResultList();
+            String query_param=("SELECT DISTINCT d "
+                 + "FROM Bilhete b "
+                 + "INNER JOIN Cliente c ON b.idCliente=c "
+                 +" INNER JOIN Viagens v ON b.idViagens=v "
+                 +" INNER JOIN Destinos d ON v.idDestino=d "
+                 + "WHERE c.idCliente= '"+id_cliente+"'");
+            Query qu=this.em.createQuery(query_param);
+            List<Destinos> lista_retorno=(List<Destinos>)qu.getResultList();
+            
+            return lista_retorno;
          }
          catch(Exception e){
              System.out.println(""+e.getMessage());

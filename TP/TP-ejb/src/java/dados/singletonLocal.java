@@ -1868,28 +1868,58 @@ public class singletonLocal implements singletonLocalLocal {
 
     @Override
     public List<CompanhiaDTO> selectAllCompaniesFromClient(int id_cliente) {
-        List<Companhia> lista_companhias= this.cliente.findAllCompaniesFromClient(id_cliente);
-        List<CompanhiaDTO> lista= new ArrayList<CompanhiaDTO>();
         
-        for(Companhia x: lista_companhias){
-            lista.add(new CompanhiaDTO(x.getNomeCompanhia(),x.getPontuacaoMedia()));
+        try{
+            List<Companhia> lista_companhias= this.cliente.findAllCompaniesFromClient(id_cliente);
+            
+            if(lista_companhias==null){
+                return null;
+            }
+            
+            List<CompanhiaDTO> lista= new ArrayList<CompanhiaDTO>();
+        
+            for(Companhia x: lista_companhias){
+                CompanhiaDTO comp=this.selectCompanhia(x.getNomeCompanhia());
+                if(comp!=null){
+                    lista.add(comp);
+                }
+            }
+        
+            return lista;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
         }
         
-        return lista;
     }
 
     @Override
     public List<DestinoDTO> selectAllDestiniesFromClient(int id_cliente) {
-        List<Destinos> lista_destinos= this.cliente.findAllDestiniesFromCliente(id_cliente);
-        List<DestinoDTO> lista= new ArrayList<DestinoDTO>();
-        
-        for(Destinos d: lista_destinos){
-            List<DestinoDTO> destino=selectAllDestiniesFromClient(id_cliente);
-            for(int i=0;i<destino.size();i++){
-             lista.add(destino.get(i));
+        try{
+            List<Destinos> lista_destinos= this.cliente.findAllDestiniesFromCliente(id_cliente);
+            
+            if(lista_destinos==null){
+                LOGGER.info("retornou null sem dados");
+                return null;
             }
+            
+            LOGGER.info("para aqui");
+            List<DestinoDTO> lista= new ArrayList<DestinoDTO>();
+        
+            for(Destinos d: lista_destinos){
+                DestinoDTO destino=this.selectDestino(d.getCidadeDestino());
+                    if(destino!=null){
+                        lista.add(destino);
+                }
+            }
+            
+            return lista; 
         }
-        return lista;
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
     
     @Override

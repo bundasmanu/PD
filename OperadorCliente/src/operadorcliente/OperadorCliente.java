@@ -910,7 +910,7 @@ public class OperadorCliente {
                 System.out.println("Destino do cliente "+ id);
                 
                 for(int i=0;i<destinos.size();i++){
-                    System.out.println("Cidade de destino: "+destinos.get(i).toString());
+                    System.out.println("Cidade de destino: "+destinos.get(i).getCidade());
                 }
             }catch(Exception e){
                 System.out.println(e.getMessage());
