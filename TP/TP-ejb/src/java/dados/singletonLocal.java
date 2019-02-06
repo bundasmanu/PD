@@ -851,7 +851,7 @@ public class singletonLocal implements singletonLocalLocal {
             Pontuacao pont_insert=new Pontuacao(valor);
             pont_insert.setIdCliente(c);/*DEFINIR QUAL O CLIENTE*/
 
- /*INSERCAO DA COLECCAO NAS PARTIDAS*/
+            /*INSERCAO DA COLECCAO NAS PARTIDAS*/
             Collection<Partidas> colect_part = new ArrayList<Partidas>();
             colect_part.add(part);
             pont_insert.setPartidasCollection(colect_part);

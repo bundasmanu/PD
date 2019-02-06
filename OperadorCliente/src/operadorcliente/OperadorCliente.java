@@ -916,14 +916,14 @@ public class OperadorCliente {
                 System.out.println(e.getMessage());
             }
             break;
-             case '4':
+        case '4':
             try{
                 System.out.println("\nQual o id do cliente:");
                 int id= sc.nextInt();
                 List<CompanhiaDTO> companhias= rf.selectAllCompaniesFromClient(id);
                 System.out.println("Companhias do cliente "+ id);
                 for(int i=0;i<companhias.size();i++){
-                    System.out.println("Nome da companhia: "+companhias.get(i).toString());
+                    System.out.println("Nome da companhia: "+companhias.get(i).toString());/*MELHORAR O TOSTRING()*/
                 }
             }catch(Exception e){
                 System.out.println(e.getMessage());
