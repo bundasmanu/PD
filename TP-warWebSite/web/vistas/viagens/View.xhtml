@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewViagensTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewViagensLabel_idViagens}"/>
+                    <h:outputText value="#{viagensController.selected.idViagens}" title="#{bundle.ViewViagensTitle_idViagens}"/>
+                    <h:outputText value="#{bundle.ViewViagensLabel_horaChegada}"/>
+                    <h:outputText value="#{viagensController.selected.horaChegada}" title="#{bundle.ViewViagensTitle_horaChegada}"/>
+                    <h:outputText value="#{bundle.ViewViagensLabel_horaPartida}"/>
+                    <h:outputText value="#{viagensController.selected.horaPartida}" title="#{bundle.ViewViagensTitle_horaPartida}"/>
+                    <h:outputText value="#{bundle.ViewViagensLabel_preco}"/>
+                    <h:outputText value="#{viagensController.selected.preco}" title="#{bundle.ViewViagensTitle_preco}"/>
+                    <h:outputText value="#{bundle.ViewViagensLabel_idAviao}"/>
+                    <h:outputText value="#{viagensController.selected.idAviao}" title="#{bundle.ViewViagensTitle_idAviao}"/>
+                    <h:outputText value="#{bundle.ViewViagensLabel_idDestino}"/>
+                    <h:outputText value="#{viagensController.selected.idDestino}" title="#{bundle.ViewViagensTitle_idDestino}"/>
+                    <h:outputText value="#{bundle.ViewViagensLabel_idPartida}"/>
+                    <h:outputText value="#{viagensController.selected.idPartida}" title="#{bundle.ViewViagensTitle_idPartida}"/>
+                    <h:outputText value="#{bundle.ViewViagensLabel_estadoViagem}"/>
+                    <h:outputText value="#{viagensController.selected.estadoViagem}" title="#{bundle.ViewViagensTitle_estadoViagem}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{viagensController.destroyAndView}" value="#{bundle.ViewViagensDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewViagensEditLink}"/>
+                <br />
+                <h:commandLink action="#{viagensController.prepareCreate}" value="#{bundle.ViewViagensCreateLink}" />
+                <br />
+                <h:commandLink action="#{viagensController.prepareList}" value="#{bundle.ViewViagensShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewViagensIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

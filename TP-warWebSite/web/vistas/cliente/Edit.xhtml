@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditClienteTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditClienteLabel_idCliente}" for="idCliente" />
+                    <h:inputText id="idCliente" value="#{clienteController.selected.idCliente}" title="#{bundle.EditClienteTitle_idCliente}" required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_idCliente}"/>
+                    <h:outputLabel value="#{bundle.EditClienteLabel_nomeCliente}" for="nomeCliente" />
+                    <h:inputText id="nomeCliente" value="#{clienteController.selected.nomeCliente}" title="#{bundle.EditClienteTitle_nomeCliente}" required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_nomeCliente}"/>
+                    <h:outputLabel value="#{bundle.EditClienteLabel_passCliente}" for="passCliente" />
+                    <h:inputText id="passCliente" value="#{clienteController.selected.passCliente}" title="#{bundle.EditClienteTitle_passCliente}" required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_passCliente}"/>
+                    <h:outputLabel value="#{bundle.EditClienteLabel_emailCliente}" for="emailCliente" />
+                    <h:inputText id="emailCliente" value="#{clienteController.selected.emailCliente}" title="#{bundle.EditClienteTitle_emailCliente}" required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_emailCliente}"/>
+                    <h:outputLabel value="#{bundle.EditClienteLabel_conta}" for="conta" />
+                    <h:inputText id="conta" value="#{clienteController.selected.conta}" title="#{bundle.EditClienteTitle_conta}" />
+                </h:panelGrid>
+                <h:commandLink action="#{clienteController.update}" value="#{bundle.EditClienteSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditClienteViewLink}"/>
+                <br />
+                <h:commandLink action="#{clienteController.prepareList}" value="#{bundle.EditClienteShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditClienteIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

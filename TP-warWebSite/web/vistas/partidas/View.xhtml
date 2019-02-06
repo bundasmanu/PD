@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewPartidasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewPartidasLabel_idPartida}"/>
+                    <h:outputText value="#{partidasController.selected.idPartida}" title="#{bundle.ViewPartidasTitle_idPartida}"/>
+                    <h:outputText value="#{bundle.ViewPartidasLabel_cidadePartida}"/>
+                    <h:outputText value="#{partidasController.selected.cidadePartida}" title="#{bundle.ViewPartidasTitle_cidadePartida}"/>
+                    <h:outputText value="#{bundle.ViewPartidasLabel_pontMedia}"/>
+                    <h:outputText value="#{partidasController.selected.pontMedia}" title="#{bundle.ViewPartidasTitle_pontMedia}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{partidasController.destroyAndView}" value="#{bundle.ViewPartidasDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewPartidasEditLink}"/>
+                <br />
+                <h:commandLink action="#{partidasController.prepareCreate}" value="#{bundle.ViewPartidasCreateLink}" />
+                <br />
+                <h:commandLink action="#{partidasController.prepareList}" value="#{bundle.ViewPartidasShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewPartidasIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

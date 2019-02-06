@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditViagensTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditViagensLabel_idViagens}" for="idViagens" />
+                    <h:inputText id="idViagens" value="#{viagensController.selected.idViagens}" title="#{bundle.EditViagensTitle_idViagens}" required="true" requiredMessage="#{bundle.EditViagensRequiredMessage_idViagens}"/>
+                    <h:outputLabel value="#{bundle.EditViagensLabel_horaChegada}" for="horaChegada" />
+                    <h:inputText id="horaChegada" value="#{viagensController.selected.horaChegada}" title="#{bundle.EditViagensTitle_horaChegada}" />
+                    <h:outputLabel value="#{bundle.EditViagensLabel_horaPartida}" for="horaPartida" />
+                    <h:inputText id="horaPartida" value="#{viagensController.selected.horaPartida}" title="#{bundle.EditViagensTitle_horaPartida}" />
+                    <h:outputLabel value="#{bundle.EditViagensLabel_preco}" for="preco" />
+                    <h:inputText id="preco" value="#{viagensController.selected.preco}" title="#{bundle.EditViagensTitle_preco}" required="true" requiredMessage="#{bundle.EditViagensRequiredMessage_preco}"/>
+                    <h:outputLabel value="#{bundle.EditViagensLabel_idAviao}" for="idAviao" />
+                    <h:selectOneMenu id="idAviao" value="#{viagensController.selected.idAviao}" title="#{bundle.EditViagensTitle_idAviao}" required="true" requiredMessage="#{bundle.EditViagensRequiredMessage_idAviao}">
+                        <f:selectItems value="#{aviaoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditViagensLabel_idDestino}" for="idDestino" />
+                    <h:selectOneMenu id="idDestino" value="#{viagensController.selected.idDestino}" title="#{bundle.EditViagensTitle_idDestino}" required="true" requiredMessage="#{bundle.EditViagensRequiredMessage_idDestino}">
+                        <f:selectItems value="#{destinosController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditViagensLabel_idPartida}" for="idPartida" />
+                    <h:selectOneMenu id="idPartida" value="#{viagensController.selected.idPartida}" title="#{bundle.EditViagensTitle_idPartida}" required="true" requiredMessage="#{bundle.EditViagensRequiredMessage_idPartida}">
+                        <f:selectItems value="#{partidasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditViagensLabel_estadoViagem}" for="estadoViagem" />
+                    <h:inputText id="estadoViagem" value="#{viagensController.selected.estadoViagem}" title="#{bundle.EditViagensTitle_estadoViagem}" />
+                </h:panelGrid>
+                <h:commandLink action="#{viagensController.update}" value="#{bundle.EditViagensSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditViagensViewLink}"/>
+                <br />
+                <h:commandLink action="#{viagensController.prepareList}" value="#{bundle.EditViagensShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditViagensIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

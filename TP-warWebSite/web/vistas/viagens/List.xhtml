@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListViagensTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListViagensEmpty}" rendered="#{viagensController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{viagensController.items.rowCount > 0}">
+                    <h:outputText value="#{viagensController.pagination.pageFirstItem + 1}..#{viagensController.pagination.pageLastItem + 1}/#{viagensController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{viagensController.previous}" value="#{bundle.Previous} #{viagensController.pagination.pageSize}" rendered="#{viagensController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{viagensController.next}" value="#{bundle.Next} #{viagensController.pagination.pageSize}" rendered="#{viagensController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{viagensController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListViagensTitle_idViagens}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idViagens}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListViagensTitle_horaChegada}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horaChegada}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListViagensTitle_horaPartida}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horaPartida}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListViagensTitle_preco}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.preco}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListViagensTitle_idAviao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idAviao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListViagensTitle_idDestino}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idDestino}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListViagensTitle_idPartida}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idPartida}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListViagensTitle_estadoViagem}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estadoViagem}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{viagensController.prepareView}" value="#{bundle.ListViagensViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{viagensController.prepareEdit}" value="#{bundle.ListViagensEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{viagensController.destroy}" value="#{bundle.ListViagensDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{viagensController.prepareCreate}" value="#{bundle.ListViagensCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListViagensIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreatePontuacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreatePontuacaoLabel_idPontuacao}" for="idPontuacao" />
+                    <h:inputText id="idPontuacao" value="#{pontuacaoController.selected.idPontuacao}" title="#{bundle.CreatePontuacaoTitle_idPontuacao}" required="true" requiredMessage="#{bundle.CreatePontuacaoRequiredMessage_idPontuacao}"/>
+                    <h:outputLabel value="#{bundle.CreatePontuacaoLabel_valor}" for="valor" />
+                    <h:inputText id="valor" value="#{pontuacaoController.selected.valor}" title="#{bundle.CreatePontuacaoTitle_valor}" required="true" requiredMessage="#{bundle.CreatePontuacaoRequiredMessage_valor}"/>
+                    <h:outputLabel value="#{bundle.CreatePontuacaoLabel_idCliente}" for="idCliente" />
+                    <h:selectOneMenu id="idCliente" value="#{pontuacaoController.selected.idCliente}" title="#{bundle.CreatePontuacaoTitle_idCliente}" required="true" requiredMessage="#{bundle.CreatePontuacaoRequiredMessage_idCliente}">
+                        <f:selectItems value="#{clienteController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{pontuacaoController.create}" value="#{bundle.CreatePontuacaoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{pontuacaoController.prepareList}" value="#{bundle.CreatePontuacaoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreatePontuacaoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditBilheteTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditBilheteLabel_idBilhete}" for="idBilhete" />
+                    <h:inputText id="idBilhete" value="#{bilheteController.selected.idBilhete}" title="#{bundle.EditBilheteTitle_idBilhete}" required="true" requiredMessage="#{bundle.EditBilheteRequiredMessage_idBilhete}"/>
+                    <h:outputLabel value="#{bundle.EditBilheteLabel_precoBilhete}" for="precoBilhete" />
+                    <h:inputText id="precoBilhete" value="#{bilheteController.selected.precoBilhete}" title="#{bundle.EditBilheteTitle_precoBilhete}" required="true" requiredMessage="#{bundle.EditBilheteRequiredMessage_precoBilhete}"/>
+                    <h:outputLabel value="#{bundle.EditBilheteLabel_lugar}" for="lugar" />
+                    <h:inputText id="lugar" value="#{bilheteController.selected.lugar}" title="#{bundle.EditBilheteTitle_lugar}" />
+                    <h:outputLabel value="#{bundle.EditBilheteLabel_idCliente}" for="idCliente" />
+                    <h:selectOneMenu id="idCliente" value="#{bilheteController.selected.idCliente}" title="#{bundle.EditBilheteTitle_idCliente}" required="true" requiredMessage="#{bundle.EditBilheteRequiredMessage_idCliente}">
+                        <f:selectItems value="#{clienteController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditBilheteLabel_idViagens}" for="idViagens" />
+                    <h:selectOneMenu id="idViagens" value="#{bilheteController.selected.idViagens}" title="#{bundle.EditBilheteTitle_idViagens}" required="true" requiredMessage="#{bundle.EditBilheteRequiredMessage_idViagens}">
+                        <f:selectItems value="#{viagensController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{bilheteController.update}" value="#{bundle.EditBilheteSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditBilheteViewLink}"/>
+                <br />
+                <h:commandLink action="#{bilheteController.prepareList}" value="#{bundle.EditBilheteShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditBilheteIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

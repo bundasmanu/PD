@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListPartidasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListPartidasEmpty}" rendered="#{partidasController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{partidasController.items.rowCount > 0}">
+                    <h:outputText value="#{partidasController.pagination.pageFirstItem + 1}..#{partidasController.pagination.pageLastItem + 1}/#{partidasController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{partidasController.previous}" value="#{bundle.Previous} #{partidasController.pagination.pageSize}" rendered="#{partidasController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{partidasController.next}" value="#{bundle.Next} #{partidasController.pagination.pageSize}" rendered="#{partidasController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{partidasController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPartidasTitle_idPartida}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idPartida}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPartidasTitle_cidadePartida}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cidadePartida}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPartidasTitle_pontMedia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pontMedia}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{partidasController.prepareView}" value="#{bundle.ListPartidasViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{partidasController.prepareEdit}" value="#{bundle.ListPartidasEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{partidasController.destroy}" value="#{bundle.ListPartidasDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{partidasController.prepareCreate}" value="#{bundle.ListPartidasCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListPartidasIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

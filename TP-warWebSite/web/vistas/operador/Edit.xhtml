@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditOperadorTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditOperadorLabel_idOperador}" for="idOperador" />
+                    <h:inputText id="idOperador" value="#{operadorController.selected.idOperador}" title="#{bundle.EditOperadorTitle_idOperador}" required="true" requiredMessage="#{bundle.EditOperadorRequiredMessage_idOperador}"/>
+                    <h:outputLabel value="#{bundle.EditOperadorLabel_nomeOperador}" for="nomeOperador" />
+                    <h:inputText id="nomeOperador" value="#{operadorController.selected.nomeOperador}" title="#{bundle.EditOperadorTitle_nomeOperador}" required="true" requiredMessage="#{bundle.EditOperadorRequiredMessage_nomeOperador}"/>
+                    <h:outputLabel value="#{bundle.EditOperadorLabel_emailOperador}" for="emailOperador" />
+                    <h:inputText id="emailOperador" value="#{operadorController.selected.emailOperador}" title="#{bundle.EditOperadorTitle_emailOperador}" required="true" requiredMessage="#{bundle.EditOperadorRequiredMessage_emailOperador}"/>
+                    <h:outputLabel value="#{bundle.EditOperadorLabel_passOperador}" for="passOperador" />
+                    <h:inputText id="passOperador" value="#{operadorController.selected.passOperador}" title="#{bundle.EditOperadorTitle_passOperador}" required="true" requiredMessage="#{bundle.EditOperadorRequiredMessage_passOperador}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{operadorController.update}" value="#{bundle.EditOperadorSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditOperadorViewLink}"/>
+                <br />
+                <h:commandLink action="#{operadorController.prepareList}" value="#{bundle.EditOperadorShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditOperadorIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

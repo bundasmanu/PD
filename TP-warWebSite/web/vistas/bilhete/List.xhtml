@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListBilheteTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListBilheteEmpty}" rendered="#{bilheteController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{bilheteController.items.rowCount > 0}">
+                    <h:outputText value="#{bilheteController.pagination.pageFirstItem + 1}..#{bilheteController.pagination.pageLastItem + 1}/#{bilheteController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{bilheteController.previous}" value="#{bundle.Previous} #{bilheteController.pagination.pageSize}" rendered="#{bilheteController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{bilheteController.next}" value="#{bundle.Next} #{bilheteController.pagination.pageSize}" rendered="#{bilheteController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{bilheteController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListBilheteTitle_idBilhete}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idBilhete}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListBilheteTitle_precoBilhete}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.precoBilhete}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListBilheteTitle_lugar}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.lugar}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListBilheteTitle_idCliente}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idCliente}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListBilheteTitle_idViagens}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idViagens}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{bilheteController.prepareView}" value="#{bundle.ListBilheteViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{bilheteController.prepareEdit}" value="#{bundle.ListBilheteEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{bilheteController.destroy}" value="#{bundle.ListBilheteDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{bilheteController.prepareCreate}" value="#{bundle.ListBilheteCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListBilheteIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

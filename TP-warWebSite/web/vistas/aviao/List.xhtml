@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListAviaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListAviaoEmpty}" rendered="#{aviaoController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{aviaoController.items.rowCount > 0}">
+                    <h:outputText value="#{aviaoController.pagination.pageFirstItem + 1}..#{aviaoController.pagination.pageLastItem + 1}/#{aviaoController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{aviaoController.previous}" value="#{bundle.Previous} #{aviaoController.pagination.pageSize}" rendered="#{aviaoController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{aviaoController.next}" value="#{bundle.Next} #{aviaoController.pagination.pageSize}" rendered="#{aviaoController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{aviaoController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListAviaoTitle_idAviao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idAviao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListAviaoTitle_nomeAviao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nomeAviao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListAviaoTitle_numLugares}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.numLugares}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListAviaoTitle_idCompanhia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idCompanhia}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{aviaoController.prepareView}" value="#{bundle.ListAviaoViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{aviaoController.prepareEdit}" value="#{bundle.ListAviaoEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{aviaoController.destroy}" value="#{bundle.ListAviaoDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{aviaoController.prepareCreate}" value="#{bundle.ListAviaoCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListAviaoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

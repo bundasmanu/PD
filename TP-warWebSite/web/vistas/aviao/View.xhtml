@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewAviaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewAviaoLabel_idAviao}"/>
+                    <h:outputText value="#{aviaoController.selected.idAviao}" title="#{bundle.ViewAviaoTitle_idAviao}"/>
+                    <h:outputText value="#{bundle.ViewAviaoLabel_nomeAviao}"/>
+                    <h:outputText value="#{aviaoController.selected.nomeAviao}" title="#{bundle.ViewAviaoTitle_nomeAviao}"/>
+                    <h:outputText value="#{bundle.ViewAviaoLabel_numLugares}"/>
+                    <h:outputText value="#{aviaoController.selected.numLugares}" title="#{bundle.ViewAviaoTitle_numLugares}"/>
+                    <h:outputText value="#{bundle.ViewAviaoLabel_idCompanhia}"/>
+                    <h:outputText value="#{aviaoController.selected.idCompanhia}" title="#{bundle.ViewAviaoTitle_idCompanhia}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{aviaoController.destroyAndView}" value="#{bundle.ViewAviaoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewAviaoEditLink}"/>
+                <br />
+                <h:commandLink action="#{aviaoController.prepareCreate}" value="#{bundle.ViewAviaoCreateLink}" />
+                <br />
+                <h:commandLink action="#{aviaoController.prepareList}" value="#{bundle.ViewAviaoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewAviaoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

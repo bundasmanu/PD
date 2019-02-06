@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.PaginaLogin}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="Painel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form id="form">
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="email" value="Email:" />
+                    <h:inputText id="email" value="#{loginBean.mail}" 
+                                 required="true"
+                                 requiredMessage="O campo email é obrigatório"/>
+                                 
+                    <h:outputLabel for="password" value="Password:" />
+                    <h:inputSecret id="password" value="#{loginBean.pwd}"
+                                 required="true"
+                                    requiredMessage="O campo Password é obrigatório" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{loginBean.login}" value="#{bundle.EfetuaLogin}">
+
+                </h:commandLink>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.VoltarAtras}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+    
+</html>
