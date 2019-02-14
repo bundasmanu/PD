@@ -23,7 +23,7 @@
                     <h:selectOneMenu id="idCliente" value="#{pontuacaoController.selected.idCliente}" title="#{bundle.CreatePontuacaoTitle_idCliente}" required="true" requiredMessage="#{bundle.CreatePontuacaoRequiredMessage_idCliente}">
                         <f:selectItems value="#{clienteController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
-                </h:panelGrid>
+                </h:panelGrid> 
                 <br />
                 <h:commandLink action="#{pontuacaoController.create}" value="#{bundle.CreatePontuacaoSaveLink}" />
                 <br />
