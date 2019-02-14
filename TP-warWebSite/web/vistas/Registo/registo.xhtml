@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.RegistoPlataforma}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form id="formRegisto">
+                <h:outputLabel id="lblEmail" value="Insira o seu email:"></h:outputLabel>
+                <h:inputText id="txtEmail" value="#{registoBean.email}" required="true" requiredMessage="Obrigatorio"></h:inputText>
+                <h:outputLabel id="lblNome" value="Insira o seu nome:"></h:outputLabel>
+                <h:inputText id="txtNome" value="#{registoBean.nome}" required="true" requiredMessage="Obrigatorio"></h:inputText>
+                <h:outputLabel id="lblPass" value="Insira a sua password:"></h:outputLabel>
+                <h:inputSecret id="txtPass" value="#{registoBean.pass}" required="true" requiredMessage="Obrigatorio">
+                        <f:ajax event="blur" execute="txtPass txtNovoPass" render="m_password"/>
+                </h:inputSecret>
+                <h:message id="m_password" for="txtPass" />
+                <h:outputLabel id="lblNovoPass" value="Confirme a sua password:"></h:outputLabel>
+                <h:inputSecret id="txtNovoPass" value="#{registoBean.passConfirmar}" required="true" requiredMessage="Obrigatorio" >
+                        <f:validator validatorId="confirmPasswordValidator"/>
+                        <f:attribute name="confirm" value="#{confirmPassword.submittedValue}"/>
+                        <f:ajax event="blur" execute="txtPass txtNovoPass" render="m_password_confirm"/>
+                </h:inputSecret>
+                <h:commandButton id="btnConfirmar" value="Confirmar" action="#{registoBean.aplicaRegistoCli()}">
+                </h:commandButton>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+    
+</html>

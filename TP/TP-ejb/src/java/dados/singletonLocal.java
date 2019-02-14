@@ -24,6 +24,7 @@ import tpdtos.BilheteDTO;
 import tpdtos.ClienteDTO;
 import tpdtos.CompanhiaDTO;
 import tpdtos.DestinoDTO;
+import tpdtos.LogDTO;
 import tpdtos.OperadorDTO;
 import tpdtos.PartidaDTO;
 import tpdtos.PontuacaoDTO;
@@ -76,6 +77,9 @@ public class singletonLocal implements singletonLocalLocal {
     
     @EJB
     leilaoLocal leilao;
+    
+    @EJB
+    LogsFacadeLocal logsTab;
     
     @Override
     public String showOla() {
@@ -1774,6 +1778,22 @@ public class singletonLocal implements singletonLocalLocal {
     }
     
     @Override
+    public boolean lugaresVagosViagem(int idViagem, int numeroLugaresPretendidos){
+        
+        try{
+            
+            /*CHAMADA DA QUERY QUE ESTA NA ENTIDADE VIAGENS*/
+            return this.viagens.viagemLugaresVagos(idViagem, numeroLugaresPretendidos);
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+    }
+    
+    @Override
     public List<ViagemDTO> seleccionaViagensPorDestino(String dest){
         
         try{
@@ -1954,6 +1974,31 @@ public class singletonLocal implements singletonLocalLocal {
             }
             
             return retorno_viagens;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+    }
+    
+    @Override
+    public List<LogDTO> obtemLogs(){
+        
+        try{
+            
+            List<Logs> logsRet=logsTab.findAll();
+            
+            if(logsRet==null){
+                return null;
+            }
+            
+            List<LogDTO> retorno_logs=new ArrayList<LogDTO>();
+            for(Logs x : logsRet){
+                retorno_logs.add(new LogDTO(x.getInfoLog(),x.getDataLog()));
+            }
+            
+            return retorno_logs;
         }
         catch(Exception e){
             System.out.println(e.getMessage());

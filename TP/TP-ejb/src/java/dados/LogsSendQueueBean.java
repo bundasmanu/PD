@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +23,7 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.AsyncResult;
 import javax.ejb.Asynchronous;
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -47,6 +51,9 @@ public class LogsSendQueueBean implements LogsSendQueueBeanLocal, Serializable {
     @Resource(mappedName = "jms/logsqueue")
     private Queue queue;
     
+    @EJB
+    LogsFacadeLocal logs;
+    
     @Override
     @Asynchronous
     public Future<Boolean> sendToQueue(String text){
@@ -58,7 +65,7 @@ public class LogsSendQueueBean implements LogsSendQueueBeanLocal, Serializable {
             /*ENVIO PARA A QUEUE*/
             context.createProducer().send((Destination) queue, mymsg); /*SE ESTOIRAR AQUI NAO FAZ O ENVIO PARA O FICHEIRO, QUE É O QUE SE PRETENDE*/
             /*ENVIO PARA O FICHEIRO*/
-            //this.acrescentaLogsFicheiro(text);
+            this.acrescentaLogTabela(text);/*ACRESENTO DO LOG A TABELA*/
             
             return new AsyncResult<>(true);
         }
@@ -67,6 +74,20 @@ public class LogsSendQueueBean implements LogsSendQueueBeanLocal, Serializable {
             return new AsyncResult<>(false);
         }
         
+    }
+    
+    public void acrescentaLogTabela(String info){
+        
+       try{
+           
+           Logs l=new Logs(info, new Date());
+           logs.create(l);
+           
+       }
+       catch(Exception e){
+           System.out.println(e.getMessage());
+       } 
+       
     }
     
     @Override

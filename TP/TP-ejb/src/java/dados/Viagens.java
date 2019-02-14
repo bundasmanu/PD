@@ -32,7 +32,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Viagens.findAll", query = "SELECT v FROM Viagens v")
     , @NamedQuery(name = "Viagens.findByIdViagens", query = "SELECT v FROM Viagens v WHERE v.idViagens = :idViagens")
     , @NamedQuery(name = "Viagens.findByHoraChegada", query = "SELECT v FROM Viagens v WHERE v.horaChegada = :horaChegada")
-    , @NamedQuery(name = "Viagens.findByHoraPartida", query = "SELECT v FROM Viagens v WHERE v.horaPartida = :horaPartida")
+    , @NamedQuery(name = "Viagens.findByHoraPartida", query = "SELECT v FROM Viagens v WHERE v.horaPartida = :horaPartida")  
     , @NamedQuery(name = "Viagens.findByPreco", query = "SELECT v FROM Viagens v WHERE v.preco = :preco")})
 public class Viagens implements Serializable {
 
