@@ -43,6 +43,8 @@ public class AviaoController implements Serializable {
     private AviaoFacadeLocal getFacade() {
         return aviaoFacade;
     }
+    
+    
 
     public PaginationHelper getPagination() {
         if (pagination == null) {

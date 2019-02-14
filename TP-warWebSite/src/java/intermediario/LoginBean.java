@@ -5,6 +5,7 @@
  */
 package intermediario;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.ManagedBean;
@@ -98,6 +99,15 @@ public class LoginBean implements Serializable{
         this.resetValues();
         return "/vistas/login/confirmar.xhtml?faces-redirect=true?";
     }
+    
+    public String logout() throws IOException{
+        FacesContext context= FacesContext.getCurrentInstance();
+        context.getExternalContext().invalidateSession();
+       return "/vistas/login/login.xhtml?faces-redirect=true?";
+    }
 
 }
+    
+
+
     

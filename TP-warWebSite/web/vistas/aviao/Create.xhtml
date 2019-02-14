@@ -10,7 +10,32 @@
             <h:outputText value="#{bundle.Pagina_Principal}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateAviaoLabel_idAviao}" for="idAviao" />
+                    <h:inputText id="idAviao" value="#{aviaoController.selected.idAviao}" title="#{bundle.CreateAviaoTitle_idAviao}" required="true" requiredMessage="#{bundle.CreateAviaoRequiredMessage_idAviao}"/>
+                    <h:outputLabel value="#{bundle.CreateAviaoLabel_nomeAviao}" for="nomeAviao" />
+                    <h:inputText id="nomeAviao" value="#{aviaoController.selected.nomeAviao}" title="#{bundle.CreateAviaoTitle_nomeAviao}" required="true" requiredMessage="#{bundle.CreateAviaoRequiredMessage_nomeAviao}"/>
+                    <h:outputLabel value="#{bundle.CreateAviaoLabel_numLugares}" for="numLugares" />
+                    <h:inputText id="numLugares" value="#{aviaoController.selected.numLugares}" title="#{bundle.CreateAviaoTitle_numLugares}" required="true" requiredMessage="#{bundle.CreateAviaoRequiredMessage_numLugares}"/>
+                    
+                    <h:outputLabel value="#{bundle.CreateAviaoLabel_idCompanhia}" for="idCompanhia" />
+                    <h:selectOneMenu id="idCompanhia" value="#{companhiaController.selected.idCompanhia}" title="#{bundle.CreateAviaoTitle_idCompanhia}" required="true" requiredMessage="#{bundle.CreateAviaoRequiredMessage_idCompanhia}">
+                        <f:selectItems value="#{companhiaController.itemsAvailableSelectOne}"  />
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{aviaoController.create}" value="#{bundle.CreateAviaoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{aviaoController.prepareList}" value="#{bundle.CreateAviaoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateAviaoIndexLink}"/>
+            </h:form>
         </ui:define>
     </ui:composition>
 

@@ -24,7 +24,7 @@
                         <f:selectItems value="#{clienteController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
                     <h:outputLabel value="#{bundle.CreateBagagensLabel_idViagens}" for="idViagens" />
-                    <h:selectOneMenu id="idViagens" value="#{bagagensController.selected.idViagens}" title="#{bundle.CreateBagagensTitle_idViagens}" required="true" requiredMessage="#{bundle.CreateBagagensRequiredMessage_idViagens}">
+                    <h:selectOneMenu id="idViagens" value="#{bagagensCoCrntroller.selected.idViagens}" title="#{bundle.CreateBagagensTitle_idViagens}" required="true" requiredMessage="#{bundle.CreateBagagensRequiredMessage_idViagens}">
                         <f:selectItems value="#{viagensController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
                 </h:panelGrid>
