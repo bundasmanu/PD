@@ -40,7 +40,8 @@ public class LoginBean implements Serializable{
     
     private String pwd;
     private String msg;
-    private String mail; 
+    private String mail;
+    private int id;
     
     @EJB
     intermedioLogicaLocal acessoLogica;
@@ -74,7 +75,15 @@ public class LoginBean implements Serializable{
     public void setMail(String user) {
         this.mail = user;
     }
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void resetValues(){
         this.mail="";
         this.pwd="";
@@ -83,8 +92,16 @@ public class LoginBean implements Serializable{
     /*VERIFICA SE É CLIENTE, A PESSOA QUE ESTA A TENTAR EFETUAR*/
     public boolean validarUser(String email,String pass){
         
-        return this.acessoLogica.getSingletonLogica().validaLogin(email, pass);
+        boolean retorno=this.acessoLogica.getSingletonLogica().validaLogin(email, pass);
+        if(retorno==true){
+            ClienteDTO cli=this.acessoLogica.getSingletonLogica().seleccionaCliente(email);
+            if(cli!=null){
+                this.setId(cli.getId());
+                return true;
+            }
+        }
         
+        return false;
     }
     
     /*VERIFICA SE É OPERADOR, A PESSOA QUE ESTA A TENTAR EFETUAR*/
@@ -100,7 +117,7 @@ public class LoginBean implements Serializable{
     
     public String logout(){
         SessionContext.getInstance().encerrarSessao();
-        return "index.xhtml?faces-redirect=true?";
+        return "/index.xhtml?faces-redirect=true?";
     }
     
     public Cliente buscaCli(){
@@ -123,6 +140,7 @@ public class LoginBean implements Serializable{
             
                 context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sucesso", "Login validado!"));
                 SessionContext.getInstance().setAttribute("cli", this.mail);
+                
             }
             else{
              

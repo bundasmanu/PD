@@ -5,11 +5,13 @@
  */
 package intermediario;
 
+import controladores.PartidasController;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -29,7 +31,10 @@ public class PartidasBean implements Serializable{
     private int id_partida;
     private String cidade_partida;
     private float pont_media;
-
+    
+    @Inject
+    PartidasController partidas;
+    
     public int getId_partida() {
         return id_partida;
     }
@@ -52,6 +57,14 @@ public class PartidasBean implements Serializable{
 
     public void setPont_media(float pont_media) {
         this.pont_media = pont_media;
+    }
+
+    public PartidasController getPartidas() {
+        return partidas;
+    }
+
+    public void setPartidas(PartidasController partidas) {
+        this.partidas = partidas;
     }
     
 }

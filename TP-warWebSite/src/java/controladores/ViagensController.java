@@ -17,6 +17,8 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import dados.*;
+import java.util.List;
+import tpdtos.ViagemDTO;
 
 @Named("viagensController")
 @SessionScoped
@@ -179,7 +181,7 @@ public class ViagensController implements Serializable {
         recreateModel();
         return "List";
     }
-
+    
     public SelectItem[] getItemsAvailableSelectMany() {
         return JsfUtil.getSelectItems(viagensFacade.findAll(), false);
     }
@@ -187,7 +189,7 @@ public class ViagensController implements Serializable {
     public SelectItem[] getItemsAvailableSelectOne() {
         return JsfUtil.getSelectItems(viagensFacade.findAll(), true);
     }
-
+    
     public Viagens getViagens(java.lang.Integer id) {
         return viagensFacade.find(id);
     }

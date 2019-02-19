@@ -712,7 +712,9 @@ public class singletonLocal implements singletonLocalLocal {
 
             /*SE EXISTIR*/
             ClienteDTO cli = new ClienteDTO(retorno_cliente.getNomeCliente(), retorno_cliente.getEmailCliente());
-
+            cli.setId(retorno_cliente.getIdCliente());
+            cli.setConta(retorno_cliente.getConta());
+            
             /*TRANSFORMAR OS BILHETES, BAGAGENS E PONTUACOES E ADICIONAR AO CLIENTE DTO*/
             if (retorno_cliente.getBagagensCollection().isEmpty() == false) {
                 for (Bagagens x : retorno_cliente.getBagagensCollection()) {
@@ -1794,6 +1796,35 @@ public class singletonLocal implements singletonLocalLocal {
     }
     
     @Override
+    public List<ViagemDTO> getViagemBarataDestino(){
+        
+        try{
+            
+            List<ViagemDTO> retorno_viagens=this.viagens.viagensMaisBaratasDestinos();
+            if(retorno_viagens!=null){
+                
+                List<ViagemDTO> viagens_finais=new ArrayList<ViagemDTO>();
+                for(ViagemDTO x : retorno_viagens){
+                    ViagemDTO viag=this.seleccionaViagem(x.getId());
+                    if(viag!=null){
+                        viag.setNumeroVagas(x.getNumeroVagas());
+                        viagens_finais.add(viag);
+                    }
+                }
+                
+                return retorno_viagens;
+            }
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+        return null;
+    }
+    
+    @Override
     public List<ViagemDTO> seleccionaViagensPorDestino(String dest){
         
         try{
@@ -1999,6 +2030,32 @@ public class singletonLocal implements singletonLocalLocal {
             }
             
             return retorno_logs;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+    }
+    
+    @Override
+    public List<ViagemDTO> getViagensEmLeilao(){
+        
+        try{
+            
+            /*OBTENCAO DAS VIAGENS QUE ESTAO EM LEILAO*/
+            List<Viagens> retorno_viagens_em_leilao=this.viagens.getViagemLeilao();
+            
+            if(retorno_viagens_em_leilao==null){
+                return null;
+            }
+            
+            List<ViagemDTO> retorno_viagens=new ArrayList<ViagemDTO>();
+            for(Viagens x : retorno_viagens_em_leilao){
+                retorno_viagens.add(this.seleccionaViagem(x.getIdViagens()));
+            }
+            
+            return retorno_viagens;
         }
         catch(Exception e){
             System.out.println(e.getMessage());

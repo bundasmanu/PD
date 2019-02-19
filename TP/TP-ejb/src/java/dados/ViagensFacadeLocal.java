@@ -7,6 +7,7 @@ package dados;
 
 import java.util.List;
 import javax.ejb.Local;
+import tpdtos.ViagemDTO;
 
 /**
  *
@@ -30,6 +31,10 @@ public interface ViagensFacadeLocal {
     List<Viagens> findViagensParametrizaveis(int dest, int minPreco, int maxPreco, int maxVagas);
             
     public boolean viagemLugaresVagos(int idViagem, int numeroVagas);
+    
+    List<ViagemDTO> viagensMaisBaratasDestinos();
+    
+    List<Viagens> getViagemLeilao();
     
     List<Viagens> findAll();
 

@@ -23,6 +23,7 @@ public class ViagemDTO implements Serializable{
     int hora_cheg;
     int preco;
     String estado_viagem;
+    private int numeroVagas;
     List<BilheteDTO> bilhetes;
     List<BagagemDTO> bagagens;
     PartidaDTO part; /*NESTE CASO E IMPORTANTE A SUA PRESENCA*/
@@ -117,6 +118,14 @@ public class ViagemDTO implements Serializable{
         this.estado_viagem = estado_viagem;
     }
 
+    public int getNumeroVagas() {
+        return numeroVagas;
+    }
+
+    public void setNumeroVagas(int numeroVagas) {
+        this.numeroVagas = numeroVagas;
+    }
+    
     @Override
     public String toString(){
         

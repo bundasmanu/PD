@@ -5,11 +5,13 @@
  */
 package intermediario;
 
+import controladores.DestinosController;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -30,6 +32,9 @@ public class DestinosBean implements Serializable{
     private String cidade_destino;
     private float pontuacao_media;
 
+    @Inject
+    DestinosController destinos;
+    
     public int getId_destino() {
         return id_destino;
     }
@@ -53,5 +58,13 @@ public class DestinosBean implements Serializable{
     public void setPontuacao_media(float pontuacao_media) {
         this.pontuacao_media = pontuacao_media;
     }
-    
+
+    public DestinosController getDestinos() {
+        return destinos;
+    }
+
+    public void setDestinos(DestinosController destinos) {
+        this.destinos = destinos;
+    }
+ 
 }
