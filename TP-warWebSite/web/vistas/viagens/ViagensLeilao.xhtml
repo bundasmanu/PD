@@ -16,9 +16,9 @@ and open the template in the editor.
             <h:outputText value="Viagens em Leilao"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:outputText escape="false" value="Sem Viagens Leilao" rendered="#{viagensLeilao.viagensLeilao.size()==0}"/>
+            <h:outputText value="Sem Viagens Leilao" rendered="#{empty viagensLeilao.viagensLeilao}"/>
             <h:form>
-                <h:dataTable value="#{viagensLeilao.viagensLeilao}" var="mor" rendered="#{viagensLeilao.viagensLeilao.size()>0}">
+                <h:dataTable value="#{viagensLeilao.viagensLeilao}" var="mor" rendered="#{not empty viagensLeilao.viagensLeilao}">
                     <h:column>
                         <f:facet name="header">ID</f:facet>
                         #{mor.id}
