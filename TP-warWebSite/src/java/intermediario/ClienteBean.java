@@ -77,6 +77,11 @@ public class ClienteBean implements Serializable{
         this.conta = conta;
     }
     
+    public int ObtemIdCliente(){
+        int id_cliente=(int)SessionContext.getInstance().getAttribute("id");
+        return id_cliente;
+    }
+    
     public ClienteDTO obtemInfoCliente(){
         
         /*DEPOIS DE FAZER LOGIN, SEI QUAL É O UTILIZADOR, E ENCONTRA-SE DEFINIDO NA CLASSE SESSIONCONTEXT*/
