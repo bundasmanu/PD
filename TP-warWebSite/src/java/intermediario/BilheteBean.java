@@ -12,6 +12,7 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import tpdtos.BilheteDTO;
 
 /**
@@ -21,20 +22,24 @@ import tpdtos.BilheteDTO;
 @Named(value = "bilheteBean")
 @ManagedBean
 @SessionScoped
-public class BilheteBean implements Serializable{
+public class BilheteBean implements Serializable {
 
     /**
      * Creates a new instance of BilheteBean
      */
     @EJB
     intermedioLogicaLocal acessoLogica;
-    
+
+    @Inject
+    ClienteBean cliente;
+
     public BilheteBean() {
     }
-    
+
     private int id;
     private int preco_bilhete;
     private int lugar;
+    
 
     public int getId() {
         return id;
@@ -59,17 +64,16 @@ public class BilheteBean implements Serializable{
     public void setLugar(int lugar) {
         this.lugar = lugar;
     }
-    
-//    public List<BilheteDTO> selecionaTodosBilhetesDeUmCliente(){
-//        String cli=(String)SessionContext.getInstance().getAttribute("cli");
-//        
-//        List<BilheteDTO> bilhetes= this.acessoLogica.getSingletonLogica().selectAllBilhetesFromACliente();
-//        if(bilhetes==null){
-//            return null;
-//        }
-//        
-//        return bilhetes;
-//   }
-//    
-    
+
+    public List<BilheteDTO> selecionaTodosBilhetesDeUmCliente() {
+        String cli = (String) SessionContext.getInstance().getAttribute("cli");
+        int id_cliente = this.cliente.getId_cliente();
+        List<BilheteDTO> bilhetes = this.acessoLogica.getSingletonLogica().selectAllBilhetesFromACliente(id_cliente);
+        if (bilhetes == null) {
+            return null;
+        }
+
+        return bilhetes;
+    }
+
 }
