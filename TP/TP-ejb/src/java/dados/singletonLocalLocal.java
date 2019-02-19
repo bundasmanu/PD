@@ -111,7 +111,7 @@ public interface singletonLocalLocal {
     public boolean insertBagagem(int peso_bagagem,int id_viagem, int id_cliente);
     public boolean deleteBagagem(int id_bagagem);
     public boolean updateBagagem(int id_bagagem, int novo_peso);
-    public String selecionaBagagem(int id_bagagem);
+    public List<BagagemDTO> SelecionaBagagens(String email_cliente);
     public List<BagagemDTO> selecionaAllBagagens();
     
     

@@ -6,10 +6,13 @@
 package intermediario;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.ManagedBean;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
+import tpdtos.BilheteDTO;
 
 /**
  *
@@ -23,6 +26,9 @@ public class BilheteBean implements Serializable{
     /**
      * Creates a new instance of BilheteBean
      */
+    @EJB
+    intermedioLogicaLocal acessoLogica;
+    
     public BilheteBean() {
     }
     
@@ -54,6 +60,16 @@ public class BilheteBean implements Serializable{
         this.lugar = lugar;
     }
     
-    
+//    public List<BilheteDTO> selecionaTodosBilhetesDeUmCliente(){
+//        String cli=(String)SessionContext.getInstance().getAttribute("cli");
+//        
+//        List<BilheteDTO> bilhetes= this.acessoLogica.getSingletonLogica().selectAllBilhetesFromACliente();
+//        if(bilhetes==null){
+//            return null;
+//        }
+//        
+//        return bilhetes;
+//   }
+//    
     
 }

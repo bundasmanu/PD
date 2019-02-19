@@ -21,7 +21,7 @@ import tpdtos.ClienteDTO;
 @ManagedBean
 @SessionScoped
 public class ClienteBean implements Serializable{
-
+    
     /**
      * Creates a new instance of ClienteBean
      */

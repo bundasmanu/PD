@@ -14,7 +14,7 @@
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="2" rendered="#{userBean.isOperator()}">
                     <h:outputLabel value="#{bundle.CreatePartidasLabel_idPartida}" for="idPartida" />
                     <h:inputText id="idPartida" value="#{partidasController.selected.idPartida}" title="#{bundle.CreatePartidasTitle_idPartida}" required="true" requiredMessage="#{bundle.CreatePartidasRequiredMessage_idPartida}"/>
                     <h:outputLabel value="#{bundle.CreatePartidasLabel_cidadePartida}" for="cidadePartida" />
@@ -23,10 +23,10 @@
                     <h:inputText id="pontMedia" value="#{partidasController.selected.pontMedia}" title="#{bundle.CreatePartidasTitle_pontMedia}" required="true" requiredMessage="#{bundle.CreatePartidasRequiredMessage_pontMedia}"/>
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{partidasController.create}" value="#{bundle.CreatePartidasSaveLink}" />
+                <h:commandLink action="#{partidasController.create}" value="#{bundle.CreatePartidasSaveLink}"  rendered="#{userBean.isOperator()}" />
                 <br />
                 <br />
-                <h:commandLink action="#{partidasController.prepareList}" value="#{bundle.CreatePartidasShowAllLink}" immediate="true"/>
+                <h:commandLink action="#{partidasController.prepareList}" value="#{bundle.CreatePartidasShowAllLink}" rendered="#{userBean.isOperator() or userBean.isClient()}" immediate="true"/>
                 <br />
                 <br />
                 <h:link outcome="/index" value="#{bundle.CreatePartidasIndexLink}"/>

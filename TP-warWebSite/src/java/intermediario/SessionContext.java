@@ -43,5 +43,7 @@ public class SessionContext {
     public void setAttribute(String name, Object value){ 
         currentExternalContext().getSessionMap().put(name, value); 
     } 
+    
+   
 }
 

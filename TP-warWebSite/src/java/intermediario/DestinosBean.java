@@ -8,9 +8,14 @@ package intermediario;
 import controladores.DestinosController;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
+import tpdtos.DestinoDTO;
 import javax.inject.Inject;
 
 /**
@@ -20,11 +25,16 @@ import javax.inject.Inject;
 @Named(value = "destinosBean")
 @ManagedBean
 @SessionScoped
+@DeclareRoles({"Operador"})
 public class DestinosBean implements Serializable{
 
     /**
      * Creates a new instance of DestinosBean
      */
+    
+     @EJB
+    intermedioLogicaLocal acessoLogica;
+     
     public DestinosBean() {
     }
     

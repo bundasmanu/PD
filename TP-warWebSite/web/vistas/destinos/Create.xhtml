@@ -14,7 +14,7 @@
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="2" rendered="#{userBean.isOperator()}">
                     <h:outputLabel value="#{bundle.CreateDestinosLabel_idDestino}" for="idDestino" />
                     <h:inputText id="idDestino" value="#{destinosController.selected.idDestino}" title="#{bundle.CreateDestinosTitle_idDestino}" required="true" requiredMessage="#{bundle.CreateDestinosRequiredMessage_idDestino}"/>
                     <h:outputLabel value="#{bundle.CreateDestinosLabel_cidadeDestino}" for="cidadeDestino" />
@@ -23,10 +23,10 @@
                     <h:inputText id="pontuacaoMedia" value="#{destinosController.selected.pontuacaoMedia}" title="#{bundle.CreateDestinosTitle_pontuacaoMedia}" required="true" requiredMessage="#{bundle.CreateDestinosRequiredMessage_pontuacaoMedia}"/>
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{destinosController.create}" value="#{bundle.CreateDestinosSaveLink}" />
+                <h:commandLink action="#{destinosController.create}" value="#{bundle.CreateDestinosSaveLink}" rendered="#{userBean.isOperator()}"/>
                 <br />
                 <br />
-                <h:commandLink action="#{destinosController.prepareList}" value="#{bundle.CreateDestinosShowAllLink}" immediate="true"/>
+                <h:commandLink action="#{destinosController.prepareList}" value="#{bundle.CreateDestinosShowAllLink}" rendered="#{userBean.isOperator() or userBean.isClient()}" immediate="true"/>
                 <br />
                 <br />
                 <h:link outcome="/index" value="#{bundle.CreateDestinosIndexLink}"/>

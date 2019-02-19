@@ -8,6 +8,7 @@ package intermediario;
 import controladores.AviaoController;
 import controladores.ClienteController;
 import dados.Cliente;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.ManagedBean;
@@ -115,10 +116,10 @@ public class LoginBean implements Serializable{
         return (String)SessionContext.getInstance().getAttribute("cli");
     }
     
-    public String logout(){
-        SessionContext.getInstance().encerrarSessao();
-        return "/index.xhtml?faces-redirect=true?";
-    }
+//    public String logout(){
+//        SessionContext.getInstance().encerrarSessao();
+//        return "/index.xhtml?faces-redirect=true?";
+//    }
     
     public Cliente buscaCli(){
         return this.c.getCliente(1); //-->PORQUE NAO FUNCIONA
@@ -134,20 +135,32 @@ public class LoginBean implements Serializable{
             if (logged_cliente==false && logged_operador==false) {
                 context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Login inválido!"));
                 this.resetValues();
+                //SessionContext.getInstance().setAttribute("Role", "Visitante");
                 return null; //-->mesma página 
             }
-            else if(logged_cliente==true){
+            //garante que é um cliente e não um operador
+            else if(logged_cliente==true && logged_operador==false){
             
                 context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sucesso", "Login validado!"));
                 SessionContext.getInstance().setAttribute("cli", this.mail);
-                
+                //associar role á sessão
+                SessionContext.getInstance().setAttribute("Role", "Cliente");
             }
-            else{
+            //garante que é um operador e não é um cliente
+            else if(logged_cliente==false && logged_operador==true){
              
                 context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sucesso", "Login validado!"));
                 SessionContext.getInstance().setAttribute("operador", this.mail);
+                //associar role á sessão
+                SessionContext.getInstance().setAttribute("cli", this.mail);
+                //COMENTEI PQ Um operador diferente de cliente
+                SessionContext.getInstance().setAttribute("Role", "Operador");
                 
             }
+            //este else é no contexto de o utilizador estar como operador,mas não como cliente q é uma condicao impossivel
+//            else{
+//                throw new Exception("O utilizador está registado na tabela operadores mas sem registo de user.Contacte o administrador de sistema");
+//            }
             //context.getExternalContext().getSessionMap().put("cli", this.mail);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -157,6 +170,15 @@ public class LoginBean implements Serializable{
         this.resetValues();
         return "/vistas/cliente/infoCliente.xhtml?faces-redirect=true?";
     }
+    
+    public String logout() throws IOException{
+        FacesContext context= FacesContext.getCurrentInstance();
+        context.getExternalContext().invalidateSession();
+       return "/vistas/login/login.xhtml?faces-redirect=true?";
+    }
 
 }
+    
+
+
     

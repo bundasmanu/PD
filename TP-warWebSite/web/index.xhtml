@@ -1,10 +1,17 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
-        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <h:outputStylesheet name="#{resource['css/bootstrap.css']}"/>
+        <h:outputStylesheet name="css/font-awesome.min.css"/>
+
+        <h:outputStylesheet name="#{resource['css/jsfcrud.css']}"/>
+        <h:outputStylesheet name="#{resource['css/magnific-popup.css']}"/>
+        <h:outputStylesheet name="#{resource['css/style.css']}"/>
+        <h:outputStylesheet name="#{resource['css/style.css.map']}"/>
     </h:head>
     <h:body>
         Hello from Facelets
@@ -39,6 +46,61 @@
         <br />
         <h:link outcome="/vistas/viagens/ViagensLeilao" value="Viagens em Leilao"/>
         
+        <ui:composition template="/template.xhtml" >
+            <ui:define name="body">
+                <section class="home_banner_area">
+                    <div class="banner_inner">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <div class="banner_content">
+                                        <h3 class="text-uppercase">Seja bem-vindo</h3>
+                                        <h1 class="text-uppercase">à nossa agência de viagens</h1>
+                                        <div class="d-flex align-items-center">
+                                            <a class="primary_btn" href="faces/vistas/login/login.xhtml"><span>Login</span></a>
+                                            <a class="primary_btn tr-bg" href="faces/vistas/Registo/registo.xhtml"><span>Registo de um cliente</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="home_right_img">
+                                        <img class="" src="#{resource['img/banner/agencia_viagens.jpg']}" height="400" width="600" alt=""/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <ui:fragment rendered="#{userBean.isOperator() or userBean.isClient()}">
+                Hello from Facelets
+                <br />
+                <h:link outcome="/vistas/aviao/List" value="Show All Aviao Items"/>
+                <br />
+                <h:link outcome="/vistas/bagagens/List" value="Show All Bagagens Items"/>
+                <br />
+                <h:link outcome="/vistas/bilhete/List" value="Show All Bilhete Items"/>
+                <br />
+                <h:link outcome="/vistas/cliente/List" value="Show All Cliente Items"/>
+                <br />
+                <h:link outcome="/vistas/companhia/List" value="Show All Companhia Items"/>
+                <br />
+                <h:link outcome="/vistas/destinos/List" value="Show All Destinos Items"/>
+                <br />
+                <h:link outcome="/vistas/operador/List" value="Show All Operador Items"/>
+                <br />
+                <h:link outcome="/vistas/partidas/List" value="Show All Partidas Items"/>
+                <br />
+                <h:link outcome="/vistas/pontuacao/List" value="Show All Pontuacao Items"/>
+                <br />
+                <h:link outcome="/vistas/viagens/List" value="Show All Viagens Items"/>
+                <br />
+<!--                <h:link outcome="/vistas/login/login" value="Login"/>
+                <br />
+                <h:link outcome="/vistas/Registo/registo" value="Registo"/>-->
+                </ui:fragment>
+            </ui:define>
+
+        </ui:composition>
     </h:body>
 
 </html>

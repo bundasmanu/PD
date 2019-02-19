@@ -1369,8 +1369,33 @@ public class singletonLocal implements singletonLocalLocal {
     }
 
     @Override
-    public String selecionaBagagem(int id_bagagem) {
-        return "";
+    public List<BagagemDTO> SelecionaBagagens(String email_cliente){
+        try{
+        List<Bagagens> lista = this.bagagem.findAll();
+        if(lista.isEmpty()==true){
+            return null;
+        }
+        List<BagagemDTO> lista_bagagens= new ArrayList<BagagemDTO>();
+        Cliente encontrado= this.cliente.findbyEmail(email_cliente);
+        if(encontrado==null){
+            return null;
+        }
+        
+        if(encontrado.getBagagensCollection().isEmpty()==true){
+            return null;
+        }
+        
+        for(Bagagens x: encontrado.getBagagensCollection()){
+            BagagemDTO w= new BagagemDTO(x.getIdBagagens(),x.getPesoBagagens());
+            w.setViagem(new ViagemDTO(x.getIdViagens().getHoraPartida(),x.getIdViagens().getHoraChegada()));
+            lista_bagagens.add(w);
+        }
+        return lista_bagagens;
+        }catch(Exception e){
+            System.out.println(""+e.getMessage());
+            return null;
+        }
+        
     }
 
     @Override

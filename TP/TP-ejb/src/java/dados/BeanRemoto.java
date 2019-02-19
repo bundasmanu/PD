@@ -317,6 +317,11 @@ public class BeanRemoto implements BeanRemotoRemote {
     public boolean updateBagagem(int id_bagagem, int novo_peso) {
         return this.sing.updateBagagem(id_bagagem, novo_peso);
     }
+    
+    @Override
+    public List<BagagemDTO> SelecionaBagagens(String email_cliente){
+        return this.sing.SelecionaBagagens(email_cliente);
+    }
 
     @Override
     public List<BagagemDTO> selecionaAllBagagens() {

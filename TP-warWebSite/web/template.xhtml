@@ -6,14 +6,65 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title><ui:insert name="title">Default Title</ui:insert></title>
-        <h:outputStylesheet library="css" name="jsfcrud.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+            <link rel="icon" href="#{resource['img/favicon.png']}" type="/resources/img/png"></link>
+                
+                
+        <link rel="stylesheet" href="#{resource['css/bootstrap.css']}"></link>
+	<link rel="stylesheet" href="#{resource['vendors/linericon/style.css']}"></link>
+	<link rel="stylesheet" href="#{resource['css/font-awesome.min.css']}"></link>
+	<link rel="stylesheet" href="#{resource['vendors/owl-carousel/owl.carousel.min.css']}"></link>
+	<link rel="stylesheet" href="#{resource['css/magnific-popup.css']}"></link>
+	<link rel="stylesheet" href="#{resource['vendors/nice-select/css/nice-select.css']}"></link>
+<!--        <h:outputStylesheet library="css" name="jsfcrud.css"/>-->
+        <link rel="stylesheet" href="#{resource['css/style.css']}"></link>
     </h:head>
 
     <h:body>
-        <h1>
-            <ui:insert name="title">Default Title</ui:insert>
-        </h1>
+        <header class="header_area">
+            <div class="main_menu">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="container">
+                        <a class="navbar-brand logo_h" href="faces/index.xhtml">
+
+                            <h:graphicImage id="loading" value="#{resource['img/logo_viagens.png']}"  height="100" width="100" alt=""></h:graphicImage>     
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                        </button>
+                        	<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav justify-content-end">
+							<li class="nav-item active"><a class="nav-link" href="faces/index.xhtml">Home</a></li>
+							<li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+							<li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+							<li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
+									<li class="nav-item"><a class="nav-link" href="portfolio-details.html">Portfolio Details</a></li>
+								</ul>
+							</li>
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+									<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
+								</ul>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+
+						</ul>
+					</div>
+                    </div>
+                </nav>
+            </div>
+            
+            
+        </header>
+
         <p>
             <ui:insert name="body">Default Body</ui:insert>
         </p>

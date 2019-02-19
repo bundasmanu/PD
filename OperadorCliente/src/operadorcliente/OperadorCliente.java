@@ -509,7 +509,7 @@ public class OperadorCliente {
         char c;
         String option;
 
-        System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect All Bagagens\n");
+        System.out.println("\n(Q)uit, (I)nsert, (U)pdate, (D)elete, (S)elect All Bagagens,(E)Select All Bagagens From Client\n");
         option = sc.next().toUpperCase();
 
         if (option.length() >= 1) {
@@ -582,6 +582,22 @@ public class OperadorCliente {
                     System.out.println(e.getMessage());
                 }
                 break;
+            case 'E':
+                try{
+                    System.out.println("Introduza o email do cliente\n");
+                    String email_cli= sc.next();
+                   List<BagagemDTO> lista_bagagens= rf.SelecionaBagagens(email_cli);
+                   if(lista_bagagens==null){
+                       System.out.println("\nErro na operacao\n");
+                   }
+                   else{
+                       for(BagagemDTO x: lista_bagagens){
+                           System.out.println(x.toString());
+                       }
+                   }
+                }catch(Exception e){
+                    System.out.println(""+e.getMessage());
+                }
             case 'Q':
                 sair = true;
                 break;

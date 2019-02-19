@@ -17,5 +17,6 @@ public interface BagagensRemotoFunc {
     public boolean deleteBagagem(int id_bagagem);
     public boolean updateBagagem(int id_bagagem, int novo_peso);
     //public boolean selecionaBagagem(int id_bagagem);
+    public List<BagagemDTO> SelecionaBagagens(String email_cliente);
     public List<BagagemDTO> selecionaAllBagagens();
 }

@@ -14,7 +14,7 @@
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="2" rendered="#{userBean.isOperator()}">
                     <h:outputLabel value="#{bundle.CreateViagensLabel_idViagens}" for="idViagens" />
                     <h:inputText id="idViagens" value="#{viagensController.selected.idViagens}" title="#{bundle.CreateViagensTitle_idViagens}" required="true" requiredMessage="#{bundle.CreateViagensRequiredMessage_idViagens}"/>
                     <h:outputLabel value="#{bundle.CreateViagensLabel_horaChegada}" for="horaChegada" />
@@ -39,13 +39,13 @@
                     <h:inputText id="estadoViagem" value="#{viagensController.selected.estadoViagem}" title="#{bundle.CreateViagensTitle_estadoViagem}" />
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{viagensController.create}" value="#{bundle.CreateViagensSaveLink}" />
+                <h:commandLink action="#{viagensController.create}" value="#{bundle.CreateViagensSaveLink}" rendered="#{userBean.isOperator()}" />
                 <br />
                 <br />
-                <h:commandLink action="#{viagensController.prepareList}" value="#{bundle.CreateViagensShowAllLink}" immediate="true"/>
+                <h:commandLink action="#{viagensController.prepareList}" value="#{bundle.CreateViagensShowAllLink}" rendered="#{userBean.isOperator() or userBean.isClient()}" immediate="true"/>
                 <br />
                 <br />
-                <h:link outcome="/index" value="#{bundle.CreateViagensIndexLink}"/>
+                <h:link outcome="/index" value="#{bundle.CreateViagensIndexLink}" />
             </h:form>
         </ui:define>
     </ui:composition>

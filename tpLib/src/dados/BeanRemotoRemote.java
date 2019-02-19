@@ -205,6 +205,9 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     public List<BagagemDTO> selecionaAllBagagens();
     
     @Override
+    public List<BagagemDTO> SelecionaBagagens(String email_cliente);
+    
+    @Override
     public boolean insereDestino(DestinoDTO part);
     
     @Override
