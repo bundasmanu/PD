@@ -5,6 +5,7 @@
  */
 package intermediario;
 
+import dados.TempoBeanLocal;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import dados.singletonLocalLocal;
@@ -21,6 +22,9 @@ public class intermedioLogica implements intermedioLogicaLocal {
     
     @EJB
     singletonLocalLocal intermedio;
+    
+    @EJB
+    TempoBeanLocal cr;
     
     @Override
     public singletonLocalLocal getSingletonLogica(){

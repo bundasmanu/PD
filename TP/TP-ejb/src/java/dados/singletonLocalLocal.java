@@ -13,6 +13,7 @@ import tpdtos.BilheteDTO;
 import tpdtos.ClienteDTO;
 import tpdtos.CompanhiaDTO;
 import tpdtos.DestinoDTO;
+import tpdtos.LogDTO;
 import tpdtos.OperadorDTO;
 import tpdtos.PartidaDTO;
 import tpdtos.PontuacaoDTO;
@@ -95,6 +96,7 @@ public interface singletonLocalLocal {
     public List<ViagemDTO> seleccionaAllViagens();
     public String verificaEstadoViagem(int vi);
     public List<ViagemDTO> queryViagemParametrizalWebS(String dest, int minP, int maxP, int maxVagas);
+    public boolean lugaresVagosViagem(int idViagem, int numeroLugaresPretendidos);
     
     //parte dos bilhetes
     public boolean insereBilhete(int id_viagem, int id_cliente);
@@ -107,7 +109,7 @@ public interface singletonLocalLocal {
     public boolean insertBagagem(int peso_bagagem,int id_viagem, int id_cliente);
     public boolean deleteBagagem(int id_bagagem);
     public boolean updateBagagem(int id_bagagem, int novo_peso);
-    public String selecionaBagagem(int id_bagagem);
+    public List<BagagemDTO> SelecionaBagagens(String email_cliente);
     public List<BagagemDTO> selecionaAllBagagens();
     
     
@@ -116,5 +118,8 @@ public interface singletonLocalLocal {
     public boolean deleteDestino(String cidade);
     public List<DestinoDTO> selectAllDestinos();
     public DestinoDTO selectDestino(String cidade);
+    
+    //parte dos logs
+    public List<LogDTO> obtemLogs();
     
 }

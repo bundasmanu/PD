@@ -15,10 +15,35 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            60
         </session-timeout>
     </session-config>
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
+    <filter>  
+        <filter-name>sec</filter-name>  
+        <filter-class>intermediario.Myfilter</filter-class>  
+    </filter>  
+   
+    <filter-mapping>  
+        <filter-name>sec</filter-name>  
+        <url-pattern>/*</url-pattern>  
+    </filter-mapping>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/vistas/login/login.xhtml</form-login-page>
+            <form-error-page>/vistas/login/login.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+<!--    <security-role>
+        <role-name>Operador</role-name>
+    </security-role>
+    <security-role>
+        <role-name>Cliente</role-name>
+    </security-role>
+    <security-role>
+        <role-name>Visitante</role-name>
+    </security-role>-->
 </web-app>

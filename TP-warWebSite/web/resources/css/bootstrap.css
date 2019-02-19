@@ -175,6 +175,19 @@ sup {
     top: -.5em
 }
 
+#loading {
+    -webkit-animation: rotation 2s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+    }
+}
+
 a {
     color: #007bff;
     text-decoration: none;
@@ -4204,6 +4217,20 @@ input[type=submit].btn-block {
     line-height: inherit;
     white-space: nowrap
 }
+
+#loading{
+    -webkit-animation: rotation 2s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+    }
+}
+
 
 .navbar-brand:focus,
 .navbar-brand:hover {

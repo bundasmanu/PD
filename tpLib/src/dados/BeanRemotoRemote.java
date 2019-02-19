@@ -13,6 +13,7 @@ import tpdtos.BilheteDTO;
 import tpdtos.ClienteDTO;
 import tpdtos.CompanhiaDTO;
 import tpdtos.DestinoDTO;
+import tpdtos.LogDTO;
 import tpdtos.OperadorDTO;
 import tpdtos.PartidaDTO;
 import tpdtos.PontuacaoDTO;
@@ -186,6 +187,9 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     public List<ViagemDTO> selectViagensByDest(String dest);
     
     @Override
+    public boolean lugaresVagasViagem(int idViagem, int numeroVagasPretendidas);
+    
+    @Override
     public List<ViagemDTO> selectAllViagens();
     
     @Override
@@ -199,6 +203,9 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     
     @Override
     public List<BagagemDTO> selecionaAllBagagens();
+    
+    @Override
+    public List<BagagemDTO> SelecionaBagagens(String email_cliente);
     
     @Override
     public boolean insereDestino(DestinoDTO part);
@@ -215,4 +222,7 @@ public interface BeanRemotoRemote extends AviaoRemotoFunc, CompanhiaRemotoFunc, 
     public List<CompanhiaDTO> selectAllCompaniesFromClient(int id_cliente);
     
     public List<DestinoDTO> selectAllDestiniesFromClient(int id_cliente);
+    
+    public List<LogDTO> getLogs();
+    
 }

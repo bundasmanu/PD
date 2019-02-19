@@ -101,4 +101,25 @@ public class ViagensFacade extends AbstractFacade<Viagens> implements ViagensFac
         
     }
     
+    /*QUERY LUGARES VAGOS UMA VIAGEM*/
+    @Override
+    public boolean viagemLugaresVagos(int idViagem, int numeroVagas){
+        
+        try{
+            
+            /*SO RETORNA SE TIVER MAIS VAGAS, QUE AS PRETENDIDAS*/
+            String query_param="SELECT v FROM Viagens v inner join Aviao a on a=v.idAviao inner join Bilhete b on b=v.idViagens  where v.idViagens= "+idViagem+" and (a.numLugares - (select count(bi.idBilhete) as x from Bilhete bi join bi.idViagens vi on vi=v)>="+numeroVagas+")";
+            Query qu=this.em.createQuery(query_param);
+            int n=qu.getMaxResults();
+            if(n>0){
+                return true;
+            }
+            return false;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+    }
 }

@@ -30,7 +30,7 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Aviao.findAll", query = "SELECT a FROM Aviao a")
     , @NamedQuery(name = "Aviao.findByIdAviao", query = "SELECT a FROM Aviao a WHERE a.idAviao = :idAviao")
-    , @NamedQuery(name = "Aviao.findByNomeAviao", query = "SELECT a FROM Aviao a WHERE a.nomeAviao = :nomeAviao")
+    , @NamedQuery(name = "Aviao.findByNomeAviao", query = "SELECT a FROM Aviao a WHERE a.nomeAviao = :nomeAviao") 
     , @NamedQuery(name = "Aviao.findByNumLugares", query = "SELECT a FROM Aviao a WHERE a.numLugares = :numLugares")})
 public class Aviao implements Serializable {
 

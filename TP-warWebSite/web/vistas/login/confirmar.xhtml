@@ -16,10 +16,12 @@ and open the template in the editor.
             <h:outputText value="#{bundle.EntradaLogin}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:outputLabel for="email" value="Entrada no Site" />
-            <p>Welcome, #{loginBean.mail}</p>
-            <h:form id="form">
-                <h:commandButton value="logout" action="#{loginBean.logout}"/>
+            <h:form>
+                <h:outputLabel for="email" value="Bem Vindo Entrada no Site\n" />
+                <h:outputLabel id="fdd"  value="#{cli}"/>
+                <h:outputLabel id="fddd"  value="#{loginBean.myNameLogin()}"/>
+                <h:outputLabel id="fdddd" value="#{loginBean.buscaCli().nomeCliente}"></h:outputLabel>
+                <h:commandLink id="voltarAtras" value="Logout" action="#{loginBean.logout()}"></h:commandLink>
             </h:form>
         </ui:define>
     </ui:composition>

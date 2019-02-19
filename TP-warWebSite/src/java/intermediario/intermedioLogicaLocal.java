@@ -5,6 +5,7 @@
  */
 package intermediario;
 
+import dados.TempoBeanLocal;
 import dados.singletonLocalLocal;
 import javax.ejb.Local;
 

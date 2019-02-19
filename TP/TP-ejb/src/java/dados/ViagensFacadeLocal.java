@@ -29,6 +29,8 @@ public interface ViagensFacadeLocal {
     
     List<Viagens> findViagensParametrizaveis(int dest, int minPreco, int maxPreco, int maxVagas);
             
+    public boolean viagemLugaresVagos(int idViagem, int numeroVagas);
+    
     List<Viagens> findAll();
 
     List<Viagens> findRange(int[] range);

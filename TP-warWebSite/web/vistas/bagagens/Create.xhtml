@@ -14,7 +14,7 @@
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="2" rendered="#{userBean.isOperator()}">
                     <h:outputLabel value="#{bundle.CreateBagagensLabel_idBagagens}" for="idBagagens" />
                     <h:inputText id="idBagagens" value="#{bagagensController.selected.idBagagens}" title="#{bundle.CreateBagagensTitle_idBagagens}" required="true" requiredMessage="#{bundle.CreateBagagensRequiredMessage_idBagagens}"/>
                     <h:outputLabel value="#{bundle.CreateBagagensLabel_pesoBagagens}" for="pesoBagagens" />
@@ -29,10 +29,10 @@
                     </h:selectOneMenu>
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{bagagensController.create}" value="#{bundle.CreateBagagensSaveLink}" />
+                <h:commandLink action="#{bagagensController.create}" value="#{bundle.CreateBagagensSaveLink}" rendered="#{userBean.isOperator()}"/>
                 <br />
                 <br />
-                <h:commandLink action="#{bagagensController.prepareList}" value="#{bundle.CreateBagagensShowAllLink}" immediate="true"/>
+                <h:commandLink action="#{bagagensController.prepareList}" value="#{bundle.CreateBagagensShowAllLink}" rendered="#{userBean.isClient() or userBean.isOperator()}" immediate="true"/>
                 <br />
                 <br />
                 <h:link outcome="/index" value="#{bundle.CreateBagagensIndexLink}"/>

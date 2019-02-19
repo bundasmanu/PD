@@ -18,6 +18,7 @@ import tpdtos.BilheteDTO;
 import tpdtos.ClienteDTO;
 import tpdtos.CompanhiaDTO;
 import tpdtos.DestinoDTO;
+import tpdtos.LogDTO;
 import tpdtos.OperadorDTO;
 import tpdtos.PartidaDTO;
 import tpdtos.PontuacaoDTO;
@@ -293,6 +294,11 @@ public class BeanRemoto implements BeanRemotoRemote {
     }
     
     @Override
+    public boolean lugaresVagasViagem(int idViagem, int numeroVagasPretendidas){
+        return this.sing.lugaresVagosViagem(idViagem, numeroVagasPretendidas);
+    }
+    
+    @Override
     public List<BilheteDTO> selectAllBilhetesFromACliente(int id_cliente){
         return this.sing.selectAllBilhetesFromACliente(id_cliente);
     }
@@ -310,6 +316,11 @@ public class BeanRemoto implements BeanRemotoRemote {
     @Override
     public boolean updateBagagem(int id_bagagem, int novo_peso) {
         return this.sing.updateBagagem(id_bagagem, novo_peso);
+    }
+    
+    @Override
+    public List<BagagemDTO> SelecionaBagagens(String email_cliente){
+        return this.sing.SelecionaBagagens(email_cliente);
     }
 
     @Override
@@ -380,7 +391,10 @@ public class BeanRemoto implements BeanRemotoRemote {
     public boolean removeTodasViagensAposHoraTerminar(int hora_cheg) {
         return this.sing.removeTodasViagensAposHoraTerminar(hora_cheg);
     }*/
-
-   
+    
+    @Override
+    public List<LogDTO> getLogs(){
+       return this.sing.obtemLogs();
+    }
     
 }
