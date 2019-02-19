@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.InfoBilhete}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form>
+                <h:outputText value="#{clienteBean.id_cliente}"/>
+                <h:dataTable value="#{bilheteBean.selecionaTodosBilhetesDeUmCliente()}" var="bil">
+                    <h:column>
+                        <f:facet name="header">Lugar do bilhete</f:facet>
+
+                        #{bil.lugar}
+                    </h:column>
+                    <h:column>
+                            <f:facet name="header">Preço do bilhete</f:facet>
+                            #{bil.preco_bilhete}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Cidade de destino</f:facet>
+                            #{bil.viagem.dest.cidade}
+                    </h:column>
+
+                </h:dataTable>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

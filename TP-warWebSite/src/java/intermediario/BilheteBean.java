@@ -67,7 +67,7 @@ public class BilheteBean implements Serializable {
 
     public List<BilheteDTO> selecionaTodosBilhetesDeUmCliente() {
         String cli = (String) SessionContext.getInstance().getAttribute("cli");
-        int id_cliente = this.cliente.getId_cliente();
+        int id_cliente= (int) SessionContext.getInstance().getAttribute("id");
         List<BilheteDTO> bilhetes = this.acessoLogica.getSingletonLogica().selectAllBilhetesFromACliente(id_cliente);
         if (bilhetes == null) {
             return null;

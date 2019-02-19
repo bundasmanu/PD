@@ -98,6 +98,7 @@ public class LoginBean implements Serializable{
             ClienteDTO cli=this.acessoLogica.getSingletonLogica().seleccionaCliente(email);
             if(cli!=null){
                 this.setId(cli.getId());
+                 SessionContext.getInstance().setAttribute("id", this.getId());
                 return true;
             }
         }
