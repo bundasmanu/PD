@@ -122,4 +122,77 @@ public class ViagensFacade extends AbstractFacade<Viagens> implements ViagensFac
         }
         
     }
+    
+    @Override
+    public List<ViagemDTO> viagensMaisBaratasDestinos(){
+        
+        try{
+            
+            List<ViagemDTO> viagens=new ArrayList<ViagemDTO>();
+            List<Integer> numeroLugaresAviao=new ArrayList<Integer>();
+            
+            String query_retorna_dados="SELECT d.idDestino , a.numLugares, min(vi.idViagens), MIN(vi.preco)\n" +
+                                        "FROM Destinos d \n" +
+                                        "INNER JOIN Viagens vi\n" +
+                                        "ON (d = vi.idDestino)\n" +
+                                        "inner join Aviao a \n" +
+                                        "on a=vi.idAviao\n" +
+                                        "where vi.estadoViagem='Em Processo'\n" +
+                                        "GROUP BY d.idDestino, a.numLugares";
+            Query qu=this.em.createQuery(query_retorna_dados);
+            List<Object[]> lst=(List<Object[]>)qu.getResultList();
+            for (Object o[] : lst) {
+                numeroLugaresAviao.add((int)o[1]);
+                viagens.add(new ViagemDTO((int)o[2]));
+            }
+            
+            /*QUERY QUE VERIFICA QUANTOS BILHETES EXISTEM PARA AS VIAGENS MAIS BARATAS, POR DESTINO (UMA APENAS POR DESTINO)*/
+            List<Integer> numero_bilhetes_Viagem=new ArrayList<Integer>();
+            
+            for(ViagemDTO x : viagens){
+                String query_retona_numero_bilhetes_Viagem = "SELECT count(bi.idBilhete)\n"
+                        + "FROM Bilhete bi\n"
+                        + "inner join Viagens v\n"
+                        + "on bi.idViagens=v\n"
+                        + "where v.idViagens="+x.getId()+"";
+                Query qu2 = this.em.createQuery(query_retona_numero_bilhetes_Viagem);
+                //qu2.setParameter("valor_idViagem", x.getId());
+                Long ret_numeroBilhetes = (Long)qu2.getSingleResult();
+                Integer numeroBilhetes= (int) (long) ret_numeroBilhetes;
+                numero_bilhetes_Viagem.add(numeroBilhetes);
+            }
+            
+            /*SUBTRACCAO DOS LUGARES QUE O AVIAO QUE FAZ A VIAGEM (MAIS BARATA PARA CADA DESTINO= - BILHETES VENDIDOS*/
+            //List<Integer> lugares_vagos=new ArrayList<Integer>();
+            for(int i=0;i<numeroLugaresAviao.size();++i){
+                viagens.get(i).setNumeroVagas(numeroLugaresAviao.get(i)-numero_bilhetes_Viagem.get(i));
+            }
+            
+            return viagens;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+    }
+    
+    @Override
+    public List<Viagens> getViagemLeilao(){
+        
+        try{
+            
+            String query_viagens_leilao="select Viagens v from Viagens v where v.estadoViagem='Em leilao'";
+            Query q=this.em.createQuery(query_viagens_leilao);
+            List<Viagens> retorno_viagens_leilao=(List<Viagens>)q.getResultList();
+            
+            return retorno_viagens_leilao;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+    }
+    
 }

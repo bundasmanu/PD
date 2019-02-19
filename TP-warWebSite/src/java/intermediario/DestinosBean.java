@@ -5,7 +5,7 @@
  */
 package intermediario;
 
-import java.io.IOException;
+import controladores.DestinosController;
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
 import javax.annotation.security.DeclareRoles;
@@ -16,6 +16,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import tpdtos.DestinoDTO;
+import javax.inject.Inject;
 
 /**
  *
@@ -41,6 +42,9 @@ public class DestinosBean implements Serializable{
     private String cidade_destino;
     private float pontuacao_media;
 
+    @Inject
+    DestinosController destinos;
+    
     public int getId_destino() {
         return id_destino;
     }
@@ -64,15 +68,13 @@ public class DestinosBean implements Serializable{
     public void setPontuacao_media(float pontuacao_media) {
         this.pontuacao_media = pontuacao_media;
     }
-    
-    @RolesAllowed("Operador")
-    public boolean insereDestino(String Cidade_Destino,float PontuacaoMedia){
-        return this.acessoLogica.getSingletonLogica().insereDestino(new DestinoDTO(cidade_destino,PontuacaoMedia));
+
+    public DestinosController getDestinos() {
+        return destinos;
     }
-    
-    @RolesAllowed("Operador")
-    public void RedirectionaCriarDestino() throws IOException{
-        FacesContext.getCurrentInstance().getExternalContext().redirect("http://192.168.56.175:8080/TP-warWebSite/faces/vistas/destinos/Create.xhtml");
+
+    public void setDestinos(DestinosController destinos) {
+        this.destinos = destinos;
     }
-    
+ 
 }

@@ -20,6 +20,7 @@ import tpdtos.BilheteDTO;
 import tpdtos.ClienteDTO;
 import tpdtos.CompanhiaDTO;
 import tpdtos.DestinoDTO;
+import tpdtos.LogDTO;
 import tpdtos.OperadorDTO;
 import tpdtos.PartidaDTO;
 import tpdtos.PontuacaoDTO;
@@ -363,7 +364,7 @@ public class OperadorCliente {
         String user;
         Integer get_time;
         Integer novo_valor_tempo;
-        System.out.println("(Q)uit, (G)et Actual Time, (U)pdate Time\n");
+        System.out.println("(Q)uit, (G)et Actual Time, (U)pdate Time, (L)ogs\n");
         option = sc.next().toUpperCase();
 
         if (option.length() >= 1) {
@@ -389,6 +390,22 @@ public class OperadorCliente {
                 } catch (Exception e) {
                     System.out.println("" + e.getMessage());
                 }
+                break;
+            case 'L':
+                    try{
+                        List<LogDTO> logs_retorno=rf.getLogs();
+                        if(logs_retorno==null){
+                            System.out.println("\nSem logs\n");
+                        }
+                        else{
+                            for(LogDTO x : logs_retorno){
+                                System.out.println(x.toString());
+                            }
+                        }
+                    }
+                    catch(Exception e){
+                        System.out.println(e.getMessage());
+                    }
                 break;
             case 'Q':
                 try {
@@ -1599,6 +1616,18 @@ public class OperadorCliente {
                 }
                 catch(Exception e){
                     System.out.println(e.getMessage());
+                }
+                
+                break;
+            case '4':
+                
+                try{
+                    
+                    System.out.println(rf.lugaresVagasViagem(19, 0));
+                    
+                }
+                catch(Exception e){
+                    System.err.println(e.getMessage());
                 }
                 
                 break;

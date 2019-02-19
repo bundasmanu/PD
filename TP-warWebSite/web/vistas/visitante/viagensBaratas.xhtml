@@ -13,16 +13,20 @@ and open the template in the editor.
     
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.EntradaLogin}"></h:outputText>
+            <h:outputText value="#{bundle.ViagensBaratas}"></h:outputText>
         </ui:define>
         <ui:define name="body">
             <h:form>
-                <h:outputLabel for="email" value="Bem Vindo Entrada no Site\n" />
-                <h:outputLabel id="fdd"  value="#{cli}"/>
-                <h:outputLabel id="fddd"  value="#{loginBean.myNameLogin()}"/>
-                <h:outputLabel id="idCli" value="#{loginBean.id}"></h:outputLabel>
-                <h:outputLabel id="fdddd" value="#{loginBean.buscaCli().nomeCliente}"></h:outputLabel>
-                <h:commandLink id="voltarAtras" value="Logout" action="#{loginBean.logout()}"></h:commandLink>
+                <h:dataTable value="#{visitanteViagensBean.mostraInfoViagens()}" var="mor">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        #{mor.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Vagas</f:facet>
+                        #{mor.numeroVagas}
+                    </h:column>
+                </h:dataTable>
             </h:form>
         </ui:define>
     </ui:composition>
