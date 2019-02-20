@@ -182,7 +182,7 @@ public class ViagensFacade extends AbstractFacade<Viagens> implements ViagensFac
         
         try{
             
-            String query_viagens_leilao="select Viagens v from Viagens v where v.estadoViagem='Em leilao'";
+            String query_viagens_leilao="select v from Viagens v where v.estadoViagem='Em leilao'";
             Query q=this.em.createQuery(query_viagens_leilao);
             List<Viagens> retorno_viagens_leilao=(List<Viagens>)q.getResultList();
             

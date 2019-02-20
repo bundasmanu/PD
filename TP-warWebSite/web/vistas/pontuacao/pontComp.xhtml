@@ -13,25 +13,21 @@ and open the template in the editor.
     
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="Viagens em Leilao"></h:outputText>
+            <h:outputText value="Companhias a dar Pontuacao"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:outputText value="Sem Viagens Leilao" rendered="#{empty viagensLeilao.viagensLeilao}"/>
+            <h:outputText value="Ainda nao viajou" rendered="#{empty pontCompCli.companhiaPossoDarPontuacao}"/>
             <h:form>
-                <h:dataTable value="#{viagensLeilao.viagensLeilao}" var="mor" rendered="#{not empty viagensLeilao.viagensLeilao}">
+                <h:dataTable value="#{pontCompCli.companhiaPossoDarPontuacao}" var="mor" rendered="#{not empty pontCompCli.companhiaPossoDarPontuacao}">
                     <h:column>
-                        <f:facet name="header">ID</f:facet>
-                        #{mor.id}
+                        <f:facet name="header">Nome Companhia</f:facet>
+                        #{mor.nome}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Estado da Viagem</f:facet>
-                        #{mor.estado_viagem}
+                        <f:facet name="header">Pontuacao Media</f:facet>
+                        #{mor.pontuacao_media}
                     </h:column>
-                    <h:column>
-                        <f:facet name="header">Preco</f:facet>
-                        #{mor.preco}
-                    </h:column>
-                    <h:commandLink value="Inserir"/>
+                    <h:commandLink value="Inserir Pontuacao"/>
                 </h:dataTable>
             </h:form>
         </ui:define>
