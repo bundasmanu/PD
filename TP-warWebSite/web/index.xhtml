@@ -14,38 +14,7 @@
         <h:outputStylesheet name="#{resource['css/style.css.map']}"/>
     </h:head>
     <h:body>
-        Hello from Facelets
-        <br />
-        <h:link outcome="/vistas/aviao/List" value="Show All Aviao Items"/>
-        <br />
-        <h:link outcome="/vistas/bagagens/List" value="Show All Bagagens Items"/>
-        <br />
-        <h:link outcome="/vistas/bilhete/List" value="Show All Bilhete Items"/>
-        <br />
-        <h:link outcome="/vistas/cliente/List" value="Show All Cliente Items"/>
-        <br />
-        <h:link outcome="/vistas/companhia/List" value="Show All Companhia Items"/>
-        <br />
-        <h:link outcome="/vistas/destinos/List" value="Show All Destinos Items"/>
-        <br />
-        <h:link outcome="/vistas/operador/List" value="Show All Operador Items"/>
-        <br />
-        <h:link outcome="/vistas/partidas/List" value="Show All Partidas Items"/>
-        <br />
-        <h:link outcome="/vistas/pontuacao/List" value="Show All Pontuacao Items"/>
-        <br />
-        <h:link outcome="/vistas/viagens/List" value="Show All Viagens Items"/>
-        <br />
-        <h:link outcome="/vistas/login/login" value="Login"/>
-        <br />
-        <h:link outcome="/vistas/Registo/registo" value="Registo"/>
-        <br />
-        <h:link outcome="/vistas/visitante/viagensBaratas" value="Viagens Baratas"/>
-        <br />
-        <h:link outcome="/vistas/viagens/CriaViagem" value="Inserir Viagem"/>
-        <br />
-        <h:link outcome="/vistas/viagens/ViagensLeilao" value="Viagens em Leilao"/>
-        
+
         <ui:composition template="/template.xhtml" >
             <ui:define name="body">
                 <section class="home_banner_area">
@@ -72,36 +41,43 @@
                     </div>
                 </section>
                 <ui:fragment rendered="#{userBean.isOperator() or userBean.isClient()}">
-                Hello from Facelets
-                <br />
-                <h:link outcome="/vistas/aviao/List" value="Show All Aviao Items"/>
-                <br />
-                <h:link outcome="/vistas/bagagens/List" value="Show All Bagagens Items"/>
-                <br />
-                <h:link outcome="/vistas/bilhete/List" value="Show All Bilhete Items"/>
-                <br />
-                <h:link outcome="/vistas/cliente/List" value="Show All Cliente Items"/>
-                <br />
-                <h:link outcome="/vistas/companhia/List" value="Show All Companhia Items"/>
-                <br />
-                <h:link outcome="/vistas/destinos/List" value="Show All Destinos Items"/>
-                <br />
-                <h:link outcome="/vistas/operador/List" value="Show All Operador Items"/>
-                <br />
-                <h:link outcome="/vistas/partidas/List" value="Show All Partidas Items"/>
-                <br />
-                <h:link outcome="/vistas/pontuacao/List" value="Show All Pontuacao Items"/>
-                <br />
-                <h:link outcome="/vistas/viagens/List" value="Show All Viagens Items"/>
-                <br />
-<!--                <h:link outcome="/vistas/login/login" value="Login"/>
-                <br />
-                <h:link outcome="/vistas/Registo/registo" value="Registo"/>-->
-                </ui:fragment>
-            </ui:define>
-
-        </ui:composition>
-    </h:body>
-
-</html>
-
+                    Hello from Facelets
+                    <br />
+                    <h:link outcome="/vistas/aviao/List" value="Show All Aviao Items"/>
+                    <br />
+                    <h:link outcome="/vistas/bagagens/List" value="Show All Bagagens Items"/>
+                    <br />
+                    <h:link outcome="/vistas/bilhete/List" value="Show All Bilhete Items"/>
+                    <br />
+                    <h:link outcome="/vistas/cliente/List" value="Show All Cliente Items"/>
+                    <br />
+                    <h:link outcome="/vistas/companhia/List" value="Show All Companhia Items"/>
+                    <br />
+                    <h:link outcome="/vistas/destinos/List" value="Show All Destinos Items"/>
+                    <br />
+                    <h:link outcome="/vistas/operador/List" value="Show All Operador Items"/>
+                    <br />
+                    <h:link outcome="/vistas/partidas/List" value="Show All Partidas Items"/>
+                    <br />
+                    <h:link outcome="/vistas/pontuacao/List" value="Show All Pontuacao Items"/>
+                    <br />
+                    <h:link outcome="/vistas/viagens/List" value="Show All Viagens Items"/>
+                    <br />
+                    <!--                <h:link outcome="/vistas/login/login" value="Login"/>
+                                    <br />
+                                    <h:link outcome="/vistas/Registo/registo" value="Registo"/>
+                                    <br />-->
+                    <h:link outcome="/vistas/visitante/viagensBaratas" value="Viagens Baratas"/>
+                    <br />
+                    <h:link outcome="/vistas/viagens/CriaViagem" value="Inserir Viagem"/>
+                    <br />
+                    <h:link outcome="/vistas/viagens/ViagensLeilao" value="Viagens em Leilao"/>
+                                   
+                                    </ui:fragment>
+                                </ui:define>
+                    
+                            </ui:composition>
+                        </h:body>
+                    
+                    </html>
+                    

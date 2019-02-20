@@ -136,7 +136,6 @@ public class LoginBean implements Serializable{
             if (logged_cliente==false && logged_operador==false) {
                 context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Login inválido!"));
                 this.resetValues();
-                //SessionContext.getInstance().setAttribute("Role", "Visitante");
                 return null; //-->mesma página 
             }
             //garante que é um cliente e não um operador

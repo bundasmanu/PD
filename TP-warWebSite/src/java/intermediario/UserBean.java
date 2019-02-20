@@ -31,6 +31,8 @@ public class UserBean implements Serializable {
             return false;
         }
     }
+    
+    
 
     public boolean isClient() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -58,8 +60,8 @@ public class UserBean implements Serializable {
     }
      
          //caso nao esteja logado, é um visitante
-   public boolean isNotLoggedIn(){
-        return !isLoggedIn("");
-    }
+//   public boolean isNotLoggedIn(){
+//        return isVisitante() ;
+//    }
 
 }
