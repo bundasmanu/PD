@@ -7,16 +7,16 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-            <link rel="icon" href="#{resource['img/favicon.png']}" type="/resources/img/png"></link>
-                
-                
+        <link rel="icon" href="#{resource['img/favicon.png']}" type="/resources/img/png"></link>
+
+
         <link rel="stylesheet" href="#{resource['css/bootstrap.css']}"></link>
-	<link rel="stylesheet" href="#{resource['vendors/linericon/style.css']}"></link>
-	<link rel="stylesheet" href="#{resource['css/font-awesome.min.css']}"></link>
-	<link rel="stylesheet" href="#{resource['vendors/owl-carousel/owl.carousel.min.css']}"></link>
-	<link rel="stylesheet" href="#{resource['css/magnific-popup.css']}"></link>
-	<link rel="stylesheet" href="#{resource['vendors/nice-select/css/nice-select.css']}"></link>
-<!--        <h:outputStylesheet library="css" name="jsfcrud.css"/>-->
+        <link rel="stylesheet" href="#{resource['vendors/linericon/style.css']}"></link>
+        <link rel="stylesheet" href="#{resource['css/font-awesome.min.css']}"></link>
+        <link rel="stylesheet" href="#{resource['vendors/owl-carousel/owl.carousel.min.css']}"></link>
+        <link rel="stylesheet" href="#{resource['css/magnific-popup.css']}"></link>
+        <link rel="stylesheet" href="#{resource['vendors/nice-select/css/nice-select.css']}"></link>
+        <!--        <h:outputStylesheet library="css" name="jsfcrud.css"/>-->
         <link rel="stylesheet" href="#{resource['css/style.css']}"></link>
     </h:head>
 
@@ -30,39 +30,99 @@
                             <h:graphicImage id="loading" value="#{resource['img/logo_viagens.png']}"  height="100" width="100" alt=""></h:graphicImage>     
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                        <span class="icon-bar"></span>
-                                        <span class="icon-bar"></span>
-                                        <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
                         </button>
-                        	<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-						<ul class="nav navbar-nav menu_nav justify-content-end">
-							<li class="nav-item active"><a class="nav-link" href="faces/index.xhtml">Home</a></li>
-							<li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-							<li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
-							<li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
-									<li class="nav-item"><a class="nav-link" href="portfolio-details.html">Portfolio Details</a></li>
-								</ul>
-							</li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-									<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
-								</ul>
-							</li>
-							<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                            <ul class="nav navbar-nav menu_nav justify-content-end">
+                                <li class="nav-item active"><a class="nav-link" href="faces/index.xhtml" >Home</a></li>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Viagens</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isOperator() or userBean.isClient()}" outcome="/vistas/viagens/List" value="Lista de viagens"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/viagens/CriaViagem" value="Criar viagens"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/viagens/Edit" value="Atualizar viagens"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  outcome="/vistas/visitante/viagensBaratas" value="Consulta de voos baratos"/></a></li>
 
-						</ul>
-					</div>
+                                    </ul>
+                                </li>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bilhetes</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isOperator() or userBean.isClient()}" outcome="/vistas/bilhete/List" value="Lista de bilhetes"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/bilhete/Create" value="Criar bilhetes"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/bilhete/Edit" value="Atualizar bilhetes"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isClient()}" outcome="/vistas/bilhete/infoBilhetes" value="Visualizar seus bilhetes"/></a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Companhias</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isOperator() or userBean.isClient()}" outcome="/vistas/companhia/CriaCompanhia" value="Lista de companhias"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/companhia/Create" value="Criar companhias"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/companhia/Edit" value="Atualizar companhias"/></a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bagagens</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isOperator() or userBean.isClient()}" outcome="/vistas/bagagens/List" value="Lista de bagagens"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/bagagens/Create" value="Criar bagagens"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/bagagens/Edit" value="Atualizar bagagens"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isClient()}" outcome="/vistas/bagagens/infoBagagens" value="Visualizar suas bagagens"/></a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Aviao</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isOperator() or userBean.isClient()}" outcome="/vistas/aviao/List" value="Lista de avioes"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/aviao/Create" value="Criar avioes"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/aviao/Edit" value="Atualizar avioes"/></a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Partidas</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isOperator() or userBean.isClient()}" outcome="/vistas/partidas/List" value="Lista de partidas"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/partidas/Create" value="Criar partidas"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/partidas/Edit" value="Atualizar partidas"/></a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Destinos</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isOperator() or userBean.isClient()}" outcome="/vistas/destinos/List" value="Lista de destinos"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isOperator()}" outcome="/vistas/destinos/CriaDestino" value="Criar destinos"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/destinos/Edit" value="Atualizar destinos"/></a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pontuacao</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isOperator() or userBean.isClient()}" outcome="/vistas/pontuacao/List" value="Lista de pontuacao"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/pontuacao/Create" value="Criar pontuacoes"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isOperator()}" outcome="/vistas/pontuacao/Edit" value="Atualizar pontuacoes"/></a></li>
+                                    </ul>
+                                </li>
+                                                             
+                        
+                                    
+                                        <h:form>
+                                            <h:commandButton class="btn-primary"  rendered="#{userBean.isOperator() or userBean.isClient()}" value="Logout" action="#{loginBean.logout()}"></h:commandButton>
+                                        </h:form>
+                                    
+                                
+
+                            </ul>
+                        </div>
+
+
                     </div>
                 </nav>
             </div>
-            
-            
+
+
         </header>
 
         <p>

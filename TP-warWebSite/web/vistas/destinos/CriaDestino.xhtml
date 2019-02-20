@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateDestinosTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateDestinosLabel_cidadeDestino}" for="cidadeDestino" />
+                    <h:inputText id="cidadeDestino" value="#{destinosBean.cidade_destino}" title="#{bundle.CreateDestinosTitle_cidadeDestino}" required="true" requiredMessage="Obrigatorio"/>
+                    <h:outputLabel value="#{bundle.CreateDestinosLabel_pontuacaoMedia}" for="pontuacaoMedia" />
+                    <h:inputText id="pontuacaoMedia" value="#{destinosBean.pontuacao_media}" title="#{bundle.CreateDestinosTitle_pontuacaoMedia}"  required="true" requiredMessage="Obrigatorio"/>
+            
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{destinosBean.criaDestino()}" value="#{bundle.CreateDestinosSaveLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

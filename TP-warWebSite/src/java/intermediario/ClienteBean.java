@@ -82,6 +82,7 @@ public class ClienteBean implements Serializable{
         return id_cliente;
     }
     
+    
     public ClienteDTO obtemInfoCliente(){
         
         /*DEPOIS DE FAZER LOGIN, SEI QUAL É O UTILIZADOR, E ENCONTRA-SE DEFINIDO NA CLASSE SESSIONCONTEXT*/

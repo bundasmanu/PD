@@ -7,9 +7,11 @@ package intermediario;
 
 import java.io.Serializable;
 import javax.annotation.ManagedBean;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
+import tpdtos.CompanhiaDTO;
 
 /**
  *
@@ -18,14 +20,17 @@ import javax.enterprise.context.SessionScoped;
 @Named(value = "companhiaBean")
 @ManagedBean
 @SessionScoped
-public class CompanhiaBean implements Serializable{
+public class CompanhiaBean implements Serializable {
 
     /**
      * Creates a new instance of CompanhiaBean
      */
+    @EJB
+    intermedioLogicaLocal acessoLogica;
+
     public CompanhiaBean() {
     }
-    
+
     private int id_companhia;
     private String nome_companhia;
     private float pontuacao_media;
@@ -53,5 +58,22 @@ public class CompanhiaBean implements Serializable{
     public void setPontuacao_media(float pontuacao_media) {
         this.pontuacao_media = pontuacao_media;
     }
-    
+
+    public String criaCompanhia() {
+        try {
+            //if (this.pontuacao_media >= 0.0 && this.pontuacao_media <= 10.0) {
+                boolean retorno = this.acessoLogica.getSingletonLogica().insertCompanhia(new CompanhiaDTO(nome_companhia));
+                if (retorno == true) {
+                    return "/index.xhtml?faces-redirect=true?";
+                }
+            //}
+            return "/erro.xhtml?faces-redirect=true?";
+        } catch (Exception e) {
+            System.out.println("" + e.getMessage());
+            return null;
+        }
+    }
+  
 }
+
+
