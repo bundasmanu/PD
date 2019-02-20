@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Companhias a dar Pontuacao"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:outputText value="Ainda nao viajou" rendered="#{empty pontCompCli.companhiaPossoDarPontuacao}"/>
+            <h:form>
+                <h:dataTable value="#{pontCompCli.companhiaPossoDarPontuacao}" var="mor" rendered="#{not empty pontCompCli.companhiaPossoDarPontuacao}">
+                    <h:column>
+                        <f:facet name="header">Nome Companhia</f:facet>
+                        #{mor.nome}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Pontuacao Media</f:facet>
+                        #{mor.pontuacao_media}
+                    </h:column>
+                    <h:commandLink value="Inserir Pontuacao"/>
+                </h:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+    
+</html>

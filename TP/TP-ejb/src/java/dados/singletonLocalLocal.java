@@ -72,6 +72,7 @@ public interface singletonLocalLocal {
     public boolean apagaPontComp(int idPont);
     public boolean atualizaPontComp(int idPont, int novaPont);
     public boolean inserePontPartida(int valor, String emailCli, String nomePartida);
+    public boolean inserePontDestino(int valor, String emailCli, String nomeDestino);
     public boolean apagaPontPart(int idPont);
     public boolean utualizaPontPart(int idPont,int novaPont);
     public List<PontuacaoDTO> seleccionaAllClientPontComp(int idCli);

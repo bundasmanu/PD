@@ -778,7 +778,16 @@ public class singletonLocal implements singletonLocalLocal {
             } else {
                 comp.getPontuacaoCollection().add(pont_a_criar);
             }
-
+            
+            /*EDICAO DO CAMPO PONTUCAO MEDIA NA TABELA COMPANHIA*/
+            int valores_pontuacoes=0;
+            for(Pontuacao x : comp.getPontuacaoCollection()){
+                valores_pontuacoes+=x.getValor();
+            }
+            
+            float pontuacao_media=valores_pontuacoes/comp.getPontuacaoCollection().size();
+            comp.setPontuacaoMedia(pontuacao_media);
+            
             this.pontuacao.create(pont_a_criar);
 
         } catch (Exception e) {
@@ -870,7 +879,16 @@ public class singletonLocal implements singletonLocalLocal {
             } else {
                 part.getPontuacaoCollection().add(pont_insert);
             }
-
+            
+            /*EDICAO DO CAMPO PONTUCAO MEDIA NA TABELA PARTIDA*/
+            int valores_pontuacoes=0;
+            for(Pontuacao x : part.getPontuacaoCollection()){
+                valores_pontuacoes+=x.getValor();
+            }
+            
+            float pontuacao_media=valores_pontuacoes/part.getPontuacaoCollection().size();
+            part.setPontMedia(pontuacao_media);
+            
             this.pontuacao.create(pont_insert);
             return true;
         } catch (Exception e) {
@@ -878,6 +896,56 @@ public class singletonLocal implements singletonLocalLocal {
             return false;
         }
 
+    }
+    
+    @Override
+    public boolean inserePontDestino(int valor, String emailCli, String nomeDestino){
+        
+        try{
+            
+            /*VERIFICAR INICIALMENTE SE EXISTE O CLIENTE E A PARTIDA*/
+            Cliente c = this.cliente.findbyEmail(emailCli);
+            Destinos dest = this.destino.findbyName(nomeDestino);
+
+            if (c == null || dest == null) {
+                return false;
+            }
+            
+            Pontuacao pont_insert=new Pontuacao(valor);
+            pont_insert.setIdCliente(c);/*DEFINIR QUAL O CLIENTE*/
+
+            /*INSERCAO DA COLECCAO DE DESTINOS NA PONTUACAO*/
+            Collection<Destinos> colect_dest = new ArrayList<Destinos>();
+            colect_dest.add(dest);
+            pont_insert.setDestinosCollection(colect_dest);
+
+            /*AGORA E NECESSARIO COLOCAR A PONTUACAO NAS PARTIDAS*/
+            if (dest.getPontuacaoCollection() == null) {
+                Collection<Pontuacao> colect_pont = new ArrayList<Pontuacao>();
+                colect_pont.add(pont_insert);
+                dest.setPontuacaoCollection(colect_pont);
+            } else {
+                dest.getPontuacaoCollection().add(pont_insert);
+            }
+            
+            /*EDICAO DO CAMPO PONTUCAO MEDIA NA TABELA PARTIDA*/
+            int valores_pontuacoes=0;
+            for(Pontuacao x : dest.getPontuacaoCollection()){
+                valores_pontuacoes+=x.getValor();
+            }
+            
+            float pontuacao_media=valores_pontuacoes/dest.getPontuacaoCollection().size();
+            dest.setPontuacaoMedia(pontuacao_media);
+            
+            this.pontuacao.create(pont_insert);
+            return true;
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
     }
     
     @Override
