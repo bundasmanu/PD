@@ -900,7 +900,7 @@ public class singletonLocal implements singletonLocalLocal {
     
     @Override
     public boolean inserePontDestino(int valor, String emailCli, String nomeDestino){
-        
+         
         try{
             
             /*VERIFICAR INICIALMENTE SE EXISTE O CLIENTE E A PARTIDA*/
