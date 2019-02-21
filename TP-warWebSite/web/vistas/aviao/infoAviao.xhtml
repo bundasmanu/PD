@@ -13,24 +13,19 @@ and open the template in the editor.
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.InfoBagagem}"></h:outputText>
+            <h:outputText value="#{bundle.InfoAviao}"></h:outputText>
         </ui:define>
         <ui:define name="body">
             <h:form>
-                <h:dataTable value="#{bagagemBean.selecionaAllBagagens()}" var="bag">
+                <h:dataTable value="#{aviaoBean.listarAvioes()}" var="avi">
                     <h:column>
-                        <f:facet name="header">Id bagagem</f:facet>
-
-                        #{bag.id_bagagem}
+                        <f:facet name="header">Nome aviao</f:facet>
+                        #{avi.nomeAviao}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Peso Bagagem</f:facet>
-                            #{bag.peso_bagagem}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Id Viagem </f:facet>
-                       #{bag.viagem.id}     
-                    </h:column>
+                        <f:facet name="header">Numero Lugares</f:facet>
+                            #{avi.num_lugares}
+                    </h:column> 
                 </h:dataTable>
 
             </h:form>

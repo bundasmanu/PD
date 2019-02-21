@@ -1445,6 +1445,7 @@ public class singletonLocal implements singletonLocalLocal {
         }
         List<BagagemDTO> lista_bagagens= new ArrayList<BagagemDTO>();
         Cliente encontrado= this.cliente.findbyEmail(email_cliente);
+        
         if(encontrado==null){
             return null;
         }
@@ -1455,7 +1456,10 @@ public class singletonLocal implements singletonLocalLocal {
         
         for(Bagagens x: encontrado.getBagagensCollection()){
             BagagemDTO w= new BagagemDTO(x.getIdBagagens(),x.getPesoBagagens());
-            w.setViagem(new ViagemDTO(x.getIdViagens().getHoraPartida(),x.getIdViagens().getHoraChegada()));
+            //w.getViagem().setId(x.getIdViagens().getIdViagens());
+            ViagemDTO v= this.seleccionaViagem(x.getIdViagens().getIdViagens());
+            w.setViagem(v);
+            
             lista_bagagens.add(w);
         }
         return lista_bagagens;

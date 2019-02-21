@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateBagagensTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateBagagensLabel_pesoBagagens}" for="pesoBagagens" />
+                    <h:inputText id="pesoBagagens" value="#{bagagemBean.peso_bagagem}" title="#{bundle.CreateBagagensTitle_pesoBagagens}" required="true" requiredMessage="Obrigatorio"/>
+                    
+                    <h:outputLabel value="#{bundle.CreateBagagensLabel_idCliente}" for="idCliente" />
+                    <h:selectOneMenu id="idCliente" value="#{bagagemBean.id_cliente}"  title="#{bundle.CreateBagagensTitle_idCliente}" required="true" requiredMessage="#{bundle.CreateBagagensRequiredMessage_idCliente}">
+                        <f:selectItems value="#{bagagemBean.obtemListaClientes()}" var="v" itemValue="#{v.id}" itemLabel="Cliente: #{v.id}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateBagagensLabel_idViagens}" for="idViagens" />
+                    <h:selectOneMenu id="idViagens" value="#{bagagemBean.viagem.id}" title="#{bundle.CreateBagagensTitle_idViagens}" required="true" requiredMessage="#{bundle.CreateBagagensRequiredMessage_idViagens}">
+                        <f:selectItems value="#{bagagemBean.obtemListaViagens()}" var="lv" itemValue="#{lv.id}" itemLabel="Viagem:#{lv.id}" />
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{bagagemBean.insereBagagem()}" value="#{bundle.CreateBagagensSaveLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
