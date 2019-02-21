@@ -195,4 +195,22 @@ public class ViagensFacade extends AbstractFacade<Viagens> implements ViagensFac
         
     }
     
+    @Override
+    public List<Viagens> getViagensNormais(){
+        
+        try{
+            
+            String query_viagens_normais="select v from Viagens v where v.estadoViagem='Em Processo'";
+            Query qu=this.em.createQuery(query_viagens_normais);
+            List<Viagens> viagens_retorno=(List<Viagens>)qu.getResultList();
+            
+            return viagens_retorno;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+    }
+    
 }

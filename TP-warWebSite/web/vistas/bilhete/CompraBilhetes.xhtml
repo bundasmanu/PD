@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Compra Bilhetes"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form>
+                <h:outputLabel value="Viagens disponiveis para compra"></h:outputLabel>
+                <h:dataTable value="#{compraBilhete.viagensNormais}" var="mor">
+                    <h:column>
+                        <f:facet name="header">ID Viagem</f:facet>
+                        #{mor.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Cidade Destino</f:facet>
+                        #{mor.dest.cidade}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Cidade Partida</f:facet>
+                        #{mor.part.cidade}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Hora de Partida</f:facet>
+                        #{mor.hora_part}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Hora de Chegada</f:facet>
+                        #{mor.hora_cheg}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Preco</f:facet>
+                        #{mor.preco}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Numero de Vagas</f:facet>
+                        #{mor.numeroVagas}
+                    </h:column>
+                </h:dataTable>
+                <h:column>
+                    <h:form id="formRadioButton">
+                        <h:outputText value="Qual viagem quer comprar (seleccione apenas uma): "></h:outputText>
+                            <h:selectOneRadio id="rate" value="#{compraBilhete.id_viagem_comprar}" binding="#{idCheckbox}">
+                                <f:ajax render="ItemC"></f:ajax>
+                                <f:selectItems value="#{compraBilhete.viagensNormais}" var="varr" 
+                                               actionListener="" itemLabel="Comprar #{varr.id}" itemValue="#{varr.id}" id="ItemC"/>
+                        </h:selectOneRadio>
+                    </h:form>
+                </h:column>
+                <br />
+                <h:panelGrid id="pnlGroup" >
+                    <h:outputText value="Bichana"></h:outputText>
+                </h:panelGrid>
+                <br />
+                <br/>
+                <h:outputText value="Quantos bilhetes pretende comprar"></h:outputText>
+                <br />
+                <h:inputText id="txtNumeroBilhetes" value="#{compraBilhete.numeroBilhetesComprar}"></h:inputText>
+                <br/>
+                <br/>
+                <h:commandButton id="btnConfirmar" value="Confirmar Compra"></h:commandButton>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+    
+</html>
