@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateAviaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateAviaoLabel_nomeAviao}" for="nomeAviao" />
+                    <h:inputText id="nomeAviao" value="#{aviaoBean.nome_aviao}" title="#{bundle.CreateAviaoTitle_nomeAviao}" required="true" requiredMessage="Obrigatorio"/>
+                    <h:outputLabel value="#{bundle.CreateAviaoLabel_numLugares}" for="numLugares" />
+                    <h:inputText id="numLugares" value="#{aviaoBean.num_lugares}" title="#{bundle.CreateAviaoTitle_numLugares}" required="true" requiredMessage="Obrigatorio"/>
+                    
+     
+                    <h:outputLabel value="#{bundle.CreateAviaoLabel_idCompanhia}" for="idCompanhia" />
+                    <h:selectOneMenu id="idCompanhia" value="#{aviaoBean.companhia.nome}" title="#{bundle.CreateViagensTitle_idCompanhia}" required="true" requiredMessage="#{bundle.CreateAviaoRequiredMessage_idCompanhia}">
+                        <f:selectItems value="#{companhiaBean.nome_companhia}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{viagensBean.criaViagem()}" value="#{bundle.CreateViagensSaveLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -110,6 +110,8 @@ public class AviaoBean implements Serializable{
                
     }
     
+    
+    
     //listar os avioes
     public List<AviaoDTO> listarAvioes(){
         List<AviaoDTO> lista_avioes=this.acessoLogica.getSingletonLogica().selectionaAviao();
