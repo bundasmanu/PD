@@ -33,6 +33,8 @@ public class AviaoBean implements Serializable{
     /**
      * Creates a new instance of AviaoBean
      */
+    
+    
     @EJB
     intermedioLogicaLocal acessoLogica;
     
