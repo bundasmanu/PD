@@ -36,6 +36,8 @@ public interface ViagensFacadeLocal {
     
     List<Viagens> getViagemLeilao();
     
+    List<Viagens> getViagensNormais();
+    
     List<Viagens> findAll();
 
     List<Viagens> findRange(int[] range);

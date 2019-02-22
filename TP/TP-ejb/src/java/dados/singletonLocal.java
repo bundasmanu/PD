@@ -2161,4 +2161,31 @@ public class singletonLocal implements singletonLocalLocal {
         
     }
     
+    @Override
+    public List<ViagemDTO> getViagensNormais(){
+        
+        try{
+            
+            List<Viagens> retorno_viagens=this.viagens.getViagensNormais();
+            
+            if(retorno_viagens==null){
+                return null;
+            }
+            
+            List<ViagemDTO> viagens_retorno= new ArrayList<ViagemDTO>();
+            for(Viagens x : retorno_viagens){
+                ViagemDTO viagem_ret=this.seleccionaViagem(x.getIdViagens());
+                viagem_ret.setNumeroVagas(x.getIdAviao().getNumLugares()-x.getBilheteCollection().size());
+                viagens_retorno.add(viagem_ret);
+            }
+            
+            return viagens_retorno;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+    }
+    
 }

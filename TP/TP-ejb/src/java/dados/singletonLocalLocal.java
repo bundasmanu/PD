@@ -100,6 +100,7 @@ public interface singletonLocalLocal {
     public boolean lugaresVagosViagem(int idViagem, int numeroLugaresPretendidos);
     public List<ViagemDTO> getViagemBarataDestino();
     public List<ViagemDTO> getViagensEmLeilao();
+    public List<ViagemDTO> getViagensNormais();
     
     //parte dos bilhetes
     public boolean insereBilhete(int id_viagem, int id_cliente);
