@@ -128,6 +128,20 @@ public class BagabemBean implements Serializable {
         }
     }
     
+    public List<BagagemDTO> obtemListaTodasBagagens(){
+        try{
+            List<BagagemDTO> lista_todas_bagagens= this.acessoLogica.getSingletonLogica().selecionaAllBagagens();
+            if(lista_todas_bagagens==null){
+                return null;
+            }
+            return lista_todas_bagagens;
+        } catch(Exception e){
+            System.out.println(""+e.getMessage());
+            return null;
+        }
+    }
+    
+    
     
 
 

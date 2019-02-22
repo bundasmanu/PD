@@ -33,6 +33,8 @@ public class AviaoBean implements Serializable{
     /**
      * Creates a new instance of AviaoBean
      */
+    
+    
     @EJB
     intermedioLogicaLocal acessoLogica;
     
@@ -107,6 +109,8 @@ public class AviaoBean implements Serializable{
         }
                
     }
+    
+    
     
     //listar os avioes
     public List<AviaoDTO> listarAvioes(){
