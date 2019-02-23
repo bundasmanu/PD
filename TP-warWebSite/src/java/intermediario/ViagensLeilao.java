@@ -31,6 +31,8 @@ public class ViagensLeilao implements Serializable{
     
     @EJB
     private intermedioLogicaLocal acessoLogica;
+    private int id_viagem;
+    private double preco_viagem_leilao;
 
     public intermedioLogicaLocal getAcessoLogica() {
         return acessoLogica;
@@ -39,7 +41,23 @@ public class ViagensLeilao implements Serializable{
     public void setAcessoLogica(intermedioLogicaLocal acessoLogica) {
         this.acessoLogica = acessoLogica;
     }
-    
+
+    public int getId_viagem() {
+        return id_viagem;
+    }
+
+    public void setId_viagem(int id_viagem) {
+        this.id_viagem = id_viagem;
+    }
+
+    public double getPreco_viagem_leilao() {
+        return preco_viagem_leilao;
+    }
+
+    public void setPreco_viagem_leilao(double preco_viagem_leilao) {
+        this.preco_viagem_leilao = preco_viagem_leilao;
+    }
+
     public List<ViagemDTO> getViagensLeilao(){
         
         try{

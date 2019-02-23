@@ -37,9 +37,11 @@ public class CompraBilhete implements Serializable{
     @Inject
     ViagensBean viagens;
     
-    int numeroBilhetesComprar;
+    @Inject
+    LoginBean l;        
+    
+    int num_bil;
     int id_viagem_comprar;
-    boolean idCheckbox=true;
     
     public intermedioLogicaLocal getAcessoLogica() {
         return acessoLogica;
@@ -57,12 +59,12 @@ public class CompraBilhete implements Serializable{
         this.viagens = viagens;
     }
 
-    public int getNumeroBilhetesComprar() {
-        return numeroBilhetesComprar;
+    public int getNum_bil() {
+        return num_bil;
     }
 
-    public void setNumeroBilhetesComprar(int numeroBilhetesComprar) {
-        this.numeroBilhetesComprar = numeroBilhetesComprar;
+    public void setNum_bil(int num_bil) {
+        this.num_bil = num_bil;
     }
 
     public int getId_viagem_comprar() {
@@ -71,6 +73,14 @@ public class CompraBilhete implements Serializable{
 
     public void setId_viagem_comprar(int id_viagem_comprar) {
         this.id_viagem_comprar = id_viagem_comprar;
+    }
+
+    public LoginBean getL() {
+        return l;
+    }
+
+    public void setL(LoginBean l) {
+        this.l = l;
     }
 
     public List<ViagemDTO> getViagensNormais(){
@@ -87,13 +97,31 @@ public class CompraBilhete implements Serializable{
         }
         
     }
-
-    public boolean isIdCheckbox() {
-        return idCheckbox;
-    }
-
-    public void setIdCheckbox(boolean idCheckbox) {
-        this.idCheckbox = idCheckbox;
+    
+    public String compraViagens(){
+        
+        try{
+            
+            /*ACEDE AOS DADOS DOS DADOS, NUMERO DE BILHETES QUE O CLIENTE QUER COMPRAR E O ID DA VIAGEM QUE ESTE PRETENDE COMPRAR*/
+            boolean retorno_numero=this.acessoLogica.getSingletonLogica().lugaresVagosViagem(this.getId_viagem_comprar(), num_bil);
+            
+            if(retorno_numero==true){
+                for(int i=0;i<num_bil;++i){
+                   boolean x=this.acessoLogica.getSingletonLogica().insereBilhete(this.getId_viagem_comprar(), l.getId());
+                   if(x==false){
+                       return "/erro.xhtml?faces-redirect=true?";
+                   }
+                }
+                return "/index.xhtml?faces-redirect=true?";
+            }
+            
+            return "/erro.xhtml?faces-redirect=true?";
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return "/erro.xhtml?faces-redirect=true?";
+        }
+        
     }
     
     public ViagemDTO verificaViagemInversa(){

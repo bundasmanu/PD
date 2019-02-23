@@ -34,6 +34,17 @@ and open the template in the editor.
                     <h:commandLink value="Inserir"/>
                 </h:dataTable>
             </h:form>
+            <h:form rendered="#{not empty viagensLeilao.viagensLeilao}">
+                <h:outputText value="Quer leiloar alguma viagem(seleccione apenas uma): "></h:outputText>
+                <h:selectOneRadio id="rate" value="#{viagensLeilao.id_viagem}">
+                        <f:selectItems value="#{viagensLeilao.viagensLeilao}" var="varr" 
+                                       actionListener="" itemLabel="Comprar #{varr.id}" itemValue="#{varr.id}" id="ItemC"/>
+                </h:selectOneRadio>
+                <h:outputText value="Insira o seu preco"></h:outputText>
+                <h:inputText value="#{viagensLeilao.preco_viagem_leilao}" required="true" requiredMessage="Obrigatorio"></h:inputText>
+                <h:commandLink value="Voltar atrás" action="/index.xhtml?faces-redirect=true?"></h:commandLink>
+                <h:commandLink></h:commandLink>
+            </h:form>
         </ui:define>
     </ui:composition>
     

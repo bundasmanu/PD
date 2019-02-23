@@ -90,6 +90,10 @@ public class LoginBean implements Serializable{
         this.pwd="";
     }
     
+    public void resetValues2(){
+        this.pwd="";
+    }
+    
     /*VERIFICA SE É CLIENTE, A PESSOA QUE ESTA A TENTAR EFETUAR*/
     public boolean validarUser(String email,String pass){
         
@@ -167,7 +171,7 @@ public class LoginBean implements Serializable{
             return null;
         }
         
-        this.resetValues();
+        this.resetValues2();
         return "/vistas/cliente/infoCliente.xhtml?faces-redirect=true?";
     }
     

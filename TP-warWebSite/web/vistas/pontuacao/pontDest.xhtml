@@ -27,8 +27,21 @@ and open the template in the editor.
                         <f:facet name="header">Pontuacao Media</f:facet>
                         #{mor.pontuacao_media}
                     </h:column>
-                    <h:commandLink value="Inserir Pontuacao"/>
-                </h:dataTable>
+                </h:dataTable>           
+            </h:form>
+            <h:form rendered="#{not empty pontDestCli.destinosPossoDarPontuacao}">
+                <h:outputText value="Quer leiloar alguma viagem(seleccione apenas uma): "></h:outputText>
+                <h:selectOneRadio id="rate" value="#{pontDestCli.cidade_destino_pontua}">
+                    <f:selectItems value="#{pontDestCli.destinosPossoDarPontuacao}" var="varr" 
+                                   actionListener="" itemLabel="Comprar #{varr.cidade}" itemValue="#{varr.cidade}" id="ItemC"/>
+                </h:selectOneRadio>
+                <h:outputText value="Insira a pontuacao (Entre 0 e 10)"></h:outputText>
+                <h:inputText value="#{pontDestCli.pontuacao_destino}" required="true" requiredMessage="Obrigatorio" maxlength="2">
+                    <f:validateLongRange minimum="0" maximum="10" />
+                </h:inputText>
+                <h:commandLink value="Voltar atrás" action="/index.xhtml?faces-redirect=true?"></h:commandLink>
+                <h:commandLink value="Info" action="/exp.xhtml?faces-redirect=true?"></h:commandLink>
+                <h:commandLink value="Submeter Pontuacao" action="#{pontDestCli.enviaPontuacao()}"></h:commandLink>
             </h:form>
         </ui:define>
     </ui:composition>
