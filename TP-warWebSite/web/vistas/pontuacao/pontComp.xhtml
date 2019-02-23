@@ -28,7 +28,22 @@ and open the template in the editor.
                         #{mor.pontuacao_media}
                     </h:column>
                 </h:dataTable>
-                <h:commandLink value="Inserir Pontuacao"/>
+            </h:form>
+            <h:form rendered="#{not empty pontCompCli.companhiaPossoDarPontuacao}">
+                <h:outputText value="Quer pontuar alguma companhia (seleccione apenas uma): "></h:outputText>
+                <h:selectOneRadio id="rate" value="#{pontCompCli.nomeCompanhia}">
+                    <f:selectItems value="#{pontCompCli.companhiaPossoDarPontuacao}" var="varr" 
+                                   actionListener="" itemLabel="Avaliar #{varr.nome}" itemValue="#{varr.nome}" id="ItemC"/>
+                </h:selectOneRadio>
+                <h:outputText value="Insira a pontuacao (Entre 0 e 10)"></h:outputText>
+                <h:inputText value="#{pontCompCli.valor_pontuacao_comp}" required="true" requiredMessage="Obrigatorio" maxlength="2">
+                    <f:validateLongRange minimum="0" maximum="10" />
+                </h:inputText>
+                <br/>
+                <h:commandLink value="Voltar atrás" action="/index.xhtml?faces-redirect=true?"></h:commandLink>
+                <!-- <h:commandLink value="Info" action="/exp.xhtml?faces-redirect=true?"></h:commandLink>-->
+                <br/>
+                <h:commandLink value="Submeter Pontuacao" action="#{pontCompCli.enviaPontuacao()}"></h:commandLink>
             </h:form>
         </ui:define>
     </ui:composition>

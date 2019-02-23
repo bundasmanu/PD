@@ -32,7 +32,13 @@ public class PontCompCli implements Serializable{
     
     @EJB
     intermedioLogicaLocal acessoLogica;
+    
+    @Inject
+    LoginBean login;
 
+    private String nomeCompanhia;
+    private int valor_pontuacao_comp;
+    
     public intermedioLogicaLocal getAcessoLogica() {
         return acessoLogica;
     }
@@ -40,7 +46,23 @@ public class PontCompCli implements Serializable{
     public void setAcessoLogica(intermedioLogicaLocal acessoLogica) {
         this.acessoLogica = acessoLogica;
     }
-    
+
+    public String getNomeCompanhia() {
+        return nomeCompanhia;
+    }
+
+    public int getValor_pontuacao_comp() {
+        return valor_pontuacao_comp;
+    }
+
+    public void setNomeCompanhia(String nomeCompanhia) {
+        this.nomeCompanhia = nomeCompanhia;
+    }
+
+    public void setValor_pontuacao_comp(int valor_pontuacao_comp) {
+        this.valor_pontuacao_comp = valor_pontuacao_comp;
+    }
+ 
     public List<CompanhiaDTO> getCompanhiaPossoDarPontuacao(){
         
         try{
@@ -51,6 +73,24 @@ public class PontCompCli implements Serializable{
         catch(Exception e){
             System.out.println(e.getMessage());
             return null;
+        }
+        
+    }
+    
+    public String enviaPontuacao(){
+        
+        try{
+            
+            boolean retorno_pont_comp=this.acessoLogica.getSingletonLogica().inserePontComp(this.getValor_pontuacao_comp(), this.login.getMail(), this.getNomeCompanhia());
+            if(retorno_pont_comp==true){
+                return "/PontSucesso.xhtml?faces-redirect=true?";
+            }
+            
+            return "/erro.xhtml?faces-redirect=true?";       
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return "/erro.xhtml?faces-redirect=true?";
         }
         
     }
