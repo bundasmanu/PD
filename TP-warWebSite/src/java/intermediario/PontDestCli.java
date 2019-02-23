@@ -14,6 +14,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import tpdtos.DestinoDTO;
+import tpdtos.PontuacaoDTO;
 
 /**
  *
@@ -27,6 +28,10 @@ public class PontDestCli implements Serializable{
     /**
      * Creates a new instance of PontDestCli
      */
+      
+    private String cidade_destino_pontua;
+    private int pontuacao_destino;
+    
     public PontDestCli() {
     }
     
@@ -35,9 +40,7 @@ public class PontDestCli implements Serializable{
 
     @Inject
     LoginBean login;
-    
-    private String cidade_destino_pontua;
-    private int pontuacao_destino;
+  
     
     public intermedioLogicaLocal getAcessoLogica() {
         return acessoLogica;
@@ -93,6 +96,20 @@ public class PontDestCli implements Serializable{
             return null;
         }
         
+    }
+    
+    public List<PontuacaoDTO> selecionaTodasPontDest(){
+        try{
+            String email_cli=(String) SessionContext.getInstance().getAttribute("cli");
+            List<PontuacaoDTO> lista_pont_dest= this.acessoLogica.getSingletonLogica().selectAllPontuacoesDestino(email_cli);
+            if(lista_pont_dest==null){
+                return null;
+            }
+            return lista_pont_dest;
+        }catch(Exception e){
+            System.out.println(""+e.getMessage());
+            return null;
+        }
     }
     
 }

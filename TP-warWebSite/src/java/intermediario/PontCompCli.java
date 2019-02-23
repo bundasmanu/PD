@@ -14,6 +14,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import tpdtos.CompanhiaDTO;
+import tpdtos.PontuacaoDTO;
 
 /**
  *
@@ -22,14 +23,19 @@ import tpdtos.CompanhiaDTO;
 @Named(value = "pontCompCli")
 @ManagedBean
 @SessionScoped
-public class PontCompCli implements Serializable{
+public class PontCompCli implements Serializable {
 
     /**
      * Creates a new instance of PontCompCli
      */
+    
+    private String nome_companhia;
+    private int valor_atribuido;
+    
+    
     public PontCompCli() {
     }
-    
+
     @EJB
     intermedioLogicaLocal acessoLogica;
     
@@ -74,7 +80,7 @@ public class PontCompCli implements Serializable{
             System.out.println(e.getMessage());
             return null;
         }
-        
+
     }
     
     public String enviaPontuacao(){
