@@ -1119,6 +1119,9 @@ public class singletonLocal implements singletonLocalLocal {
         }
 
     }
+    
+    
+   
 
     @Override
     public boolean insereBilhete(int id_viagem, int id_cliente){

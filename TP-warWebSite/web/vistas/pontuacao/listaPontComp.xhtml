@@ -18,20 +18,25 @@ and open the template in the editor.
         <ui:define name="body">
             <h:form>      
                
-                <h:dataTable value="#{pontCompCli.selecionaTodasPontComp()}" var="pont">
+                <h:dataTable value="#{pontCompCli.obtemListaCompanhias()}" var="pont">
                     <h:column>
                         <f:facet name="header">Nome da companhia</f:facet>
-                       
-                        #{pontCompCli.nome_companhia}
-                    </h:column>
-                    <h:outputText value="#{pont.valor}" />
+                        #{pont.nome}                   
+                    </h:column> 
                     <h:column>
-                            <f:facet name="header">Pontuacao atribuida</f:facet>
-                            #{pontCompCli.valor_atribuido}
-                    </h:column>
+                        <f:facet name="header">Pontuacao </f:facet>
+                        
+                        <ui:repeat value="${pont.pontuacoes}" var="p">
+                            #{p.valor}
+                        </ui:repeat>
+                        
+                </h:column>
                     
-
+                   
+                    
+                    
                 </h:dataTable>
+                
 
             </h:form>
         </ui:define>

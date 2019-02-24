@@ -40,7 +40,7 @@
                         </div>
                     </div>
                 </section>
-                <ui:fragment rendered="#{userBean.isOperator() or userBean.isClient()}">
+                <ui:fragment rendered="#{userBean.isOperator()}">
                     Hello from Facelets
                     <br />
                     <h:link outcome="/vistas/aviao/List" value="Show All Aviao Items"/>

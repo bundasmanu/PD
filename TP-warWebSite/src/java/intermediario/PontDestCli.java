@@ -112,4 +112,17 @@ public class PontDestCli implements Serializable{
         }
     }
     
+    public List<DestinoDTO> obtemListaDestinos(){
+        try{
+           List<DestinoDTO> lista_destinos= this.acessoLogica.getSingletonLogica().selectAllDestinos();
+           if(lista_destinos==null){
+               return null;
+           }
+           return lista_destinos;
+        }catch(Exception e){
+            System.out.println(""+e.getMessage());
+            return null;
+        }
+    }
+    
 }

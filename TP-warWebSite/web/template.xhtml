@@ -107,8 +107,8 @@
                                 <li class="nav-item submenu dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pontuacao</a>
                                     <ul class="dropdown-menu">
-                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isClient()}" outcome="/vistas/pontuacao/listaPontComp" value="Lista de pontuacoes atribuidas às companhias"/></a></li>
-                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isClient()}" outcome="/vistas/pontuacao/listaPontDest" value="Lista de pontuacoes atribuidas aos destinos"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isOperator()}" outcome="/vistas/pontuacao/listaPontComp" value="Lista de pontuacoes atribuidas às companhias"/></a></li>
+                                        <li class="nav-item"><a class="nav-link"><h:link rendered="#{userBean.isOperator()}" outcome="/vistas/pontuacao/listaPontDest" value="Lista de pontuacoes atribuidas aos destinos"/></a></li>
 
                                         <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isClient()}" outcome="/vistas/pontuacao/pontComp" value="Criar pontuacão para as companhias"/></a></li>
                                         <li class="nav-item"><a class="nav-link"><h:link  rendered="#{userBean.isClient()}" outcome="/vistas/pontuacao/pontDest" value="Criar pontuacões para seus destinos"/></a></li>
