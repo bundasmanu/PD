@@ -42,7 +42,14 @@ public class LoginBean implements Serializable{
     private String pwd;
     private String msg;
     private String mail;
+    private ClienteDTO cliente;
     private int id;
+    private boolean alteraContaCli=false;
+    private boolean alteraPassCli=false;
+    private int novo_valor_conta;
+    private String novaPassword;
+    private int controla_render_c=0;
+    private int controla_render_p=0;
     
     @EJB
     intermedioLogicaLocal acessoLogica;
@@ -93,7 +100,7 @@ public class LoginBean implements Serializable{
     public void resetValues2(){
         this.pwd="";
     }
-    
+
     /*VERIFICA SE É CLIENTE, A PESSOA QUE ESTA A TENTAR EFETUAR*/
     public boolean validarUser(String email,String pass){
         
@@ -129,7 +136,66 @@ public class LoginBean implements Serializable{
     public Cliente buscaCli(){
         return this.c.getCliente(1); //-->PORQUE NAO FUNCIONA
     }
-    
+
+    public ClienteDTO getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteDTO cliente) {
+        this.cliente = cliente;
+    }
+
+    public boolean isAlteraContaCli() {
+        return alteraContaCli;
+    }
+
+    public void setAlteraContaCli(boolean alteraContaCli) {
+        this.alteraContaCli = alteraContaCli;
+        this.controla_render_c++;
+    }
+
+    public int getNovo_valor_conta() {
+        return novo_valor_conta;
+    }
+
+    public void setNovo_valor_conta(int novo_valor_conta) {
+        this.novo_valor_conta = novo_valor_conta;
+        this.controla_render_c=2;
+    }
+
+    public boolean isAlteraPassCli() {
+        return alteraPassCli;
+    }
+
+    public void setAlteraPassCli(boolean alteraPassCli) {
+        this.alteraPassCli = alteraPassCli;
+    }
+
+    public String getNovaPassword() {
+        return novaPassword;
+    }
+
+    public void setNovaPassword(String novaPassword) {
+        this.novaPassword = novaPassword;
+        this.controla_render_p=2;
+    }
+
+    public int getControla_render_c() {
+        return controla_render_c;
+    }
+
+    public int getControla_render_p() {
+        return controla_render_p;
+    }
+
+    public void setControla_render_c(int controla_render_c) {
+        this.controla_render_c = controla_render_c;
+    }
+
+    public void setControla_render_p(int controla_render_p) {
+        this.controla_render_p = controla_render_p;
+    }
+
     public String login() {
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -146,6 +212,7 @@ public class LoginBean implements Serializable{
             else if(logged_cliente==true && logged_operador==false){
             
                 context.addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sucesso", "Login validado!"));
+                this.cliente=this.acessoLogica.getSingletonLogica().seleccionaCliente(this.getMail());
                 SessionContext.getInstance().setAttribute("cli", this.mail);
                 //associar role á sessão
                 SessionContext.getInstance().setAttribute("Role", "Cliente");
@@ -181,8 +248,57 @@ public class LoginBean implements Serializable{
        return "/vistas/login/login.xhtml?faces-redirect=true?";
     }
 
-}
+    public String alteraConta(){
+        
+        try{
+            
+            boolean retorno_altera_conta=this.acessoLogica.getSingletonLogica().atualizaContaCliente(this.getMail(), this.getNovo_valor_conta());
+            if(retorno_altera_conta==true){
+                this.verificaConta();
+                return "/camposAtualizados.xhtml?faces-redirect=true?";
+            }
+            
+            return "/erro.xhtml?faces-redirect=true?";
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return "/erro.xhtml?faces-redirect=true?";
+        }
+        
+    }
     
-
-
+    public void verificaConta(){
+        
+        try{
+            
+            ClienteDTO ret_cli=this.acessoLogica.getSingletonLogica().seleccionaCliente(this.getMail());
+            if(ret_cli!=null){
+                this.cliente.setConta(ret_cli.getConta());
+            }
+            
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+    }
     
+    public String alteraPassword(){
+        
+        try{
+            
+            boolean retorno_altera_password=this.acessoLogica.getSingletonLogica().atualizaCliente(this.getMail(), this.getNovaPassword());
+            if(retorno_altera_password==true){
+                return "/camposAtualizados.xhtml?faces-redirect=true?";
+            }
+            
+            return "/erro.xhtml?faces-redirect=true?";
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return "/erro.xhtml?faces-redirect=true?";
+        }
+        
+    }
+    
+}  

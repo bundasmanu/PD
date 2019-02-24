@@ -13,17 +13,49 @@ and open the template in the editor.
     
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.EntradaLogin}"></h:outputText>
+            <h:outputText value="Info Cliente"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:form>
-                <h:outputLabel for="email" value="Bem Vindo Entrada no Site\n" />
-                <h:outputLabel id="fdd"  value="#{cli}"/>
-                <h:outputLabel id="fddd"  value="#{loginBean.myNameLogin()}"/>
-                <h:outputLabel id="idCli" value="#{loginBean.id}"></h:outputLabel>
-                <h:outputLabel id="fdddd" value="#{loginBean.buscaCli().nomeCliente}"></h:outputLabel>
-                <h:commandLink id="voltarAtras" value="Logout" action="#{loginBean.logout()}"></h:commandLink>
+            <h:form >
+                    <h:column>
+                        <f:facet name="header">Nome</f:facet>
+                        #{loginBean.cliente.nome}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Mail</f:facet>
+                        #{loginBean.mail}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Conta</f:facet>
+                        #{loginBean.cliente.conta}
+                    </h:column>
             </h:form>
+            <h:form>
+                <h:commandLink value="alteraConta" action="#{loginBean.setAlteraContaCli(true)}"></h:commandLink>
+                    <h:form rendered="#{loginBean.alteraContaCli==true}">
+                        <br/>
+                        <h:outputLabel value="Insira novo valor conta:"></h:outputLabel>
+                        <br/>
+                        <h:inputText value="#{loginBean.novo_valor_conta}" required="true" requiredMessage="Obrigatorio"></h:inputText>
+                        <br/>
+                        <h:commandButton value="Confirmar" action="#{loginBean.alteraConta()}"></h:commandButton>
+                    </h:form>
+            </h:form>
+            <h:form>
+            <h:commandLink value="alteraPassword" action="#{loginBean.setAlteraPassCli(true)}"></h:commandLink>
+                <h:form rendered="#{loginBean.alteraPassCli==true}">
+                <br/>
+                    <h:form>
+                            <br/>
+                            <h:outputLabel value="Insira a sua nova password:" ></h:outputLabel>
+                            <br/>
+                            <h:inputSecret value="#{loginBean.novaPassword}" requiredMessage="Obrigatorio"></h:inputSecret>
+                            <br/>
+                            <h:commandButton value="Confirmar" action="#{loginBean.alteraPassword()}"></h:commandButton>
+                    </h:form>
+                </h:form>
+                <h:commandLink value="Info" action="/exp.xhtml?faces-redirect=true?"></h:commandLink>
+                </h:form>
         </ui:define>
     </ui:composition>
     

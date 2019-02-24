@@ -39,7 +39,13 @@ public class PontCompCli implements Serializable {
 
     @EJB
     intermedioLogicaLocal acessoLogica;
+    
+    @Inject
+    LoginBean login;
 
+    private String nomeCompanhia;
+    private int valor_pontuacao_comp;
+    
     public intermedioLogicaLocal getAcessoLogica() {
         return acessoLogica;
     }
@@ -48,56 +54,52 @@ public class PontCompCli implements Serializable {
         this.acessoLogica = acessoLogica;
     }
 
-    public String getNome_companhia() {
-        return nome_companhia;
+    public String getNomeCompanhia() {
+        return nomeCompanhia;
     }
 
-    public void setNome_companhia(String nome_companhia) {
-        this.nome_companhia = nome_companhia;
+    public int getValor_pontuacao_comp() {
+        return valor_pontuacao_comp;
     }
 
-    public int getValor_atribuido() {
-        return valor_atribuido;
+    public void setNomeCompanhia(String nomeCompanhia) {
+        this.nomeCompanhia = nomeCompanhia;
     }
 
-    public void setValor_atribuido(int valor_atribuido) {
-        this.valor_atribuido = valor_atribuido;
+    public void setValor_pontuacao_comp(int valor_pontuacao_comp) {
+        this.valor_pontuacao_comp = valor_pontuacao_comp;
     }
-
-    public List<CompanhiaDTO> getComp() {
-        return comp;
-    }
-
-    public void setComp(List<CompanhiaDTO> comp) {
-        this.comp = comp;
-    }
-
-    public List<CompanhiaDTO> getCompanhiaPossoDarPontuacao() {
-
-        try {
-
-            return this.getAcessoLogica().getSingletonLogica().selectAllCompaniesFromClient((int) SessionContext.getInstance().getAttribute("id"));
-
-        } catch (Exception e) {
+ 
+    public List<CompanhiaDTO> getCompanhiaPossoDarPontuacao(){
+        
+        try{
+            
+            return this.getAcessoLogica().getSingletonLogica().selectAllCompaniesFromClient((int)SessionContext.getInstance().getAttribute("id"));
+            
+        }
+        catch(Exception e){
             System.out.println(e.getMessage());
             return null;
         }
 
     }
     
-    //seleciona todas as pont atribuidas a uma comp pelo cliente de uma sessao
-    public List<PontuacaoDTO> selecionaTodasPontComp() {
-        try {
-            int id_cli = (int) SessionContext.getInstance().getAttribute("id");
-            List<PontuacaoDTO> lista_pont_comp = this.acessoLogica.getSingletonLogica().seleccionaAllClientPontComp(id_cli);
-            if (lista_pont_comp == null) {
-                return null;
+    public String enviaPontuacao(){
+        
+        try{
+            
+            boolean retorno_pont_comp=this.acessoLogica.getSingletonLogica().inserePontComp(this.getValor_pontuacao_comp(), this.login.getMail(), this.getNomeCompanhia());
+            if(retorno_pont_comp==true){
+                return "/PontSucesso.xhtml?faces-redirect=true?";
             }
-            return lista_pont_comp;
-        } catch (Exception e) {
-            System.out.println("" + e.getMessage());
-            return null;
+            
+            return "/erro.xhtml?faces-redirect=true?";       
         }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return "/erro.xhtml?faces-redirect=true?";
+        }
+        
     }
     
      
