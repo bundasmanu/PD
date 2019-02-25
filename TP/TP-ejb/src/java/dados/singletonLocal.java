@@ -1165,7 +1165,7 @@ public class singletonLocal implements singletonLocalLocal {
   
            
            /*DEPOIS DE EFETUAR A INSERCAO DOS BILHETES, VERIFICAR SE A VIAGEM, JA ATINGIU O LIMITE, E PASSA DPS A LEILAO*/
-           if(viag_ret.getBilheteCollection().size()>=(viag_ret.getIdAviao().getNumLugares()*0.1)){
+           if(viag_ret.getBilheteCollection().size()>=(viag_ret.getIdAviao().getNumLugares()*0.9)){
                viag_ret.setPreco(0);
                viag_ret.setEstadoViagem("Em leilao");
            }

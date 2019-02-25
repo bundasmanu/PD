@@ -12,6 +12,7 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import tpdtos.ViagemDTO;
 
 /**
@@ -31,6 +32,8 @@ public class ViagensLeilao implements Serializable{
     
     @EJB
     private intermedioLogicaLocal acessoLogica;
+    @Inject
+    LoginBean login;
     private int id_viagem;
     private double preco_viagem_leilao;
 
@@ -70,6 +73,24 @@ public class ViagensLeilao implements Serializable{
         catch(Exception e){
             System.out.println(e.getMessage());
             return null;
+        }
+        
+    }
+    
+    public String insereBilheteLeilao(){
+        
+        try{
+            
+            boolean retorno=this.acessoLogica.getSingletonLogica().insereBilheteLeilao(id_viagem, login.getId() , (int)this.getPreco_viagem_leilao());
+            if(retorno==true){
+                return "/index.xhtml?faces-redirect=true?";
+            }
+            
+            return "/erro.xhtml?faces-redirect=true?";
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return "/erro.xhtml?faces-redirect=true?";
         }
         
     }
