@@ -43,7 +43,8 @@ and open the template in the editor.
                 <h:outputText value="Insira o seu preco"></h:outputText>
                 <h:inputText value="#{viagensLeilao.preco_viagem_leilao}" required="true" requiredMessage="Obrigatorio"></h:inputText>
                 <h:commandLink value="Voltar atrás" action="/index.xhtml?faces-redirect=true?"></h:commandLink>
-                <h:commandLink></h:commandLink>
+                <br/>
+                <h:commandLink value="Confirmar" action="#{viagensLeilao.insereBilheteLeilao()}"></h:commandLink>
             </h:form>
         </ui:define>
     </ui:composition>
