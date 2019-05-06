@@ -99,5 +99,6 @@ public class ClienteBean implements Serializable{
         return cli_ret;
         
     }
+
     
 }

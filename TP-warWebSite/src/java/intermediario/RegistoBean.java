@@ -73,6 +73,14 @@ public class RegistoBean implements Serializable{
     public void setPassConfirmar(String passConfirmar) {
         this.passConfirmar = passConfirmar;
     }
+    
+        
+    public void resetValues(){
+        this.email="";
+        this.nome="";
+        this.pass="";
+        this.passConfirmar="";
+    }
 
     public String aplicaRegistoCli(){
         
@@ -84,17 +92,19 @@ public class RegistoBean implements Serializable{
                 boolean retorno_insere_cliente = this.acessoLogica.getSingletonLogica().insereCliente(c, this.getPass());
 
                 if (retorno_insere_cliente == true) {
+                    resetValues();
                     return "/index.xhtml?faces-redirect=true?"; //-->DEPOIS DEFINIR NOVA PAGINA APOS REGISTO EFETUADO COM SUCESSO
                 } else {
+                    resetValues();
                     return null;
                 }
             }
-            
+            resetValues();
             return null;
         }
         catch(Exception e){
             System.out.println(e.getMessage());
-            return null;
+            return "/erro.xhtml?faces-redirect=true?";
         }
         
     }

@@ -32,11 +32,10 @@ public class ViagensLeilao implements Serializable{
     
     @EJB
     private intermedioLogicaLocal acessoLogica;
-    private int id_viagem;
-    private double preco_viagem_leilao;
-
     @Inject
     LoginBean login;
+    private int id_viagem;
+    private double preco_viagem_leilao;
     
     public intermedioLogicaLocal getAcessoLogica() {
         return acessoLogica;

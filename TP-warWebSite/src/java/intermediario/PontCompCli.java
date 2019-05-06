@@ -31,6 +31,7 @@ public class PontCompCli implements Serializable {
     
     private String nome_companhia;
     private int valor_atribuido;
+    private List<CompanhiaDTO> comp;
     
     
     public PontCompCli() {
@@ -101,4 +102,24 @@ public class PontCompCli implements Serializable {
         
     }
     
+     
+    public List<CompanhiaDTO> obtemListaCompanhias(){
+        try{
+           this.comp= this.acessoLogica.getSingletonLogica().selectAll();
+           if(comp==null){
+               return null;
+           }
+           return comp;
+        }catch(Exception e){
+            System.out.println(""+e.getMessage());
+            return null;
+        }
+    }
+    
+   
+    
+   
+           
+
 }
+

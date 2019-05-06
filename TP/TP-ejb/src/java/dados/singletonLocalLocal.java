@@ -77,6 +77,7 @@ public interface singletonLocalLocal {
     public boolean utualizaPontPart(int idPont,int novaPont);
     public List<PontuacaoDTO> seleccionaAllClientPontComp(int idCli);
     public List<PontuacaoDTO> seleccionaAllClientPont(int idCli); //TAMBEM DAVA PELO EMAIL, MAS POR AGORA FIZ ASSIM
+
     /*FALTA FAZER O SELECT DAS PARTIDAS E DOS DESTINOS*/
     
     //parte das pontuacoes->relativa ao Destino

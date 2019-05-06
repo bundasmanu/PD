@@ -16,21 +16,28 @@ and open the template in the editor.
             <h:outputText value="Lista de pontuacões atribuidas a destinos"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:form>                
-                <h:dataTable value="#{pontDestCli.selecionaTodasPontDest}" var="p" >
+            <h:form>      
+               
+                <h:dataTable value="#{pontDestCli.obtemListaDestinos()}" var="b">
                     <h:column>
                         <f:facet name="header">Nome do destino</f:facet>
-                       
-                        #{pontDestCli.cidade_destino_pontua}
-                        
-                    </h:column>
+                        #{b.cidade}                   
+                    </h:column> 
                     <h:column>
-                            <f:facet name="header">Pontuacao atribuida</f:facet>
-                            #{pontDestCli.pontuacao_destino}
-                    </h:column>
+                        <f:facet name="header">Pontuacao</f:facet>
+                        
+                        <ui:repeat value="${b.pontuacoes}" var="p">
+                            
+                            <h:outputText value="#{p.valor}" />
+                        </ui:repeat>
+                        
+                </h:column>
                     
-
+                   
+                    
+                    
                 </h:dataTable>
+                
 
             </h:form>
         </ui:define>

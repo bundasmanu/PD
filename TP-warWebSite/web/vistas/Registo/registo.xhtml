@@ -19,19 +19,20 @@ and open the template in the editor.
             <h:form id="formRegisto">
                 <h:outputLabel id="lblEmail" value="Insira o seu email:"></h:outputLabel>
                 <h:inputText id="txtEmail" value="#{registoBean.email}" required="true" requiredMessage="Obrigatorio"></h:inputText>
+                <br/>
                 <h:outputLabel id="lblNome" value="Insira o seu nome:"></h:outputLabel>
                 <h:inputText id="txtNome" value="#{registoBean.nome}" required="true" requiredMessage="Obrigatorio"></h:inputText>
+                <br/>
                 <h:outputLabel id="lblPass" value="Insira a sua password:"></h:outputLabel>
                 <h:inputSecret id="txtPass" value="#{registoBean.pass}" required="true" requiredMessage="Obrigatorio">
                         <f:ajax event="blur" execute="txtPass txtNovoPass" render="m_password"/>
                 </h:inputSecret>
+                <br/>
                 <h:message id="m_password" for="txtPass" />
                 <h:outputLabel id="lblNovoPass" value="Confirme a sua password:"></h:outputLabel>
                 <h:inputSecret id="txtNovoPass" value="#{registoBean.passConfirmar}" required="true" requiredMessage="Obrigatorio" >
-                        <f:validator validatorId="confirmPasswordValidator"/>
-                        <f:attribute name="confirm" value="#{confirmPassword.submittedValue}"/>
-                        <f:ajax event="blur" execute="txtPass txtNovoPass" render="m_password_confirm"/>
                 </h:inputSecret>
+                <br/>
                 <h:commandButton id="btnConfirmar" value="Confirmar" action="#{registoBean.aplicaRegistoCli()}">
                 </h:commandButton>
             </h:form>

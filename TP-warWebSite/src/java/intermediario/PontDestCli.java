@@ -89,11 +89,11 @@ public class PontDestCli implements Serializable{
                 return "/PontSucesso.xhtml?faces-redirect=true?";
             }
             
-            return null;
+            return "/erro.xhtml?faces-redirect=true?";
         }
         catch(Exception e){
             System.out.println(e.getMessage());
-            return null;
+            return "/erro.xhtml?faces-redirect=true?";
         }
         
     }
@@ -106,6 +106,19 @@ public class PontDestCli implements Serializable{
                 return null;
             }
             return lista_pont_dest;
+        }catch(Exception e){
+            System.out.println(""+e.getMessage());
+            return null;
+        }
+    }
+    
+    public List<DestinoDTO> obtemListaDestinos(){
+        try{
+           List<DestinoDTO> lista_destinos= this.acessoLogica.getSingletonLogica().selectAllDestinos();
+           if(lista_destinos==null){
+               return null;
+           }
+           return lista_destinos;
         }catch(Exception e){
             System.out.println(""+e.getMessage());
             return null;

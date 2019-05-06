@@ -102,6 +102,10 @@ public class CompraBilhete implements Serializable{
         
         try{
             
+            if(this.num_bil<=0){
+                return "/erro.xhtml?faces-redirect=true?";
+            }
+            
             /*ACEDE AOS DADOS DOS DADOS, NUMERO DE BILHETES QUE O CLIENTE QUER COMPRAR E O ID DA VIAGEM QUE ESTE PRETENDE COMPRAR*/
             boolean retorno_numero=this.acessoLogica.getSingletonLogica().lugaresVagosViagem(this.getId_viagem_comprar(), num_bil);
             
