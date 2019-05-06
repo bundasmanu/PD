@@ -49,7 +49,7 @@ public class TempoBean implements TempoBeanLocal {
     LogsSendQueueBeanLocal logs;
     
     @EJB
-    leilaoLocal leilao;        
+    leilaoLocal leilao;         
     
     String timer_name="Tempo"; /*VARIAVEL QUE CONTROLA O TIMER ESPECIFICO*/
     private Tempo time;
