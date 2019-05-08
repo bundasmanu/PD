@@ -28,7 +28,7 @@ and open the template in the editor.
                         <f:selectItems value="#{bagagemBean.obtemListaClientes()}" var="v" itemValue="#{v.id}" itemLabel="Cliente: #{v.id}"/>
                     </h:selectOneMenu>
                     <h:outputLabel value="#{bundle.CreateBagagensLabel_idViagens}" for="idViagens" />
-                    <h:selectOneMenu id="idViagens" value="#{bagagemBean.viagem.id}" title="#{bundle.CreateBagagensTitle_idViagens}" required="true" requiredMessage="#{bundle.CreateBagagensRequiredMessage_idViagens}">
+                    <h:selectOneMenu id="idViagens" value="#{bagagemBean.viagem}" title="#{bundle.CreateBagagensTitle_idViagens}" required="true" requiredMessage="#{bundle.CreateBagagensRequiredMessage_idViagens}">
                         <f:selectItems value="#{bagagemBean.obtemListaViagens()}" var="lv" itemValue="#{lv.id}" itemLabel="Viagem:#{lv.id}" />
                     </h:selectOneMenu>
                 </h:panelGrid>

@@ -28,7 +28,7 @@ public class BagabemBean implements Serializable {
 
     private int id_bagagem;
     private int peso_bagagem;
-    private ViagemDTO viagem;
+    private int idViagem;
     private int id_cliente;
 
     @EJB
@@ -67,12 +67,12 @@ public class BagabemBean implements Serializable {
         this.peso_bagagem = peso_bagagem;
     }
 
-    public ViagemDTO getViagem() {
-        return viagem;
+    public int getViagem() {
+        return idViagem;
     }
 
-    public void setViagem(ViagemDTO viagem) {
-        this.viagem = viagem;
+    public void setViagem(int viagem) {
+        this.idViagem = viagem;
     }
 
     public List<BagagemDTO> selecionaAllBagagens() {
@@ -90,15 +90,19 @@ public class BagabemBean implements Serializable {
 
     public String insereBagagem() {
         try {
-            int id_cliente = (int) SessionContext.getInstance().getAttribute("id");
-            boolean estado_criacao_bagagem = this.acessoLogica.getSingletonLogica().insertBagagem(peso_bagagem, viagem.getId(), id_cliente);
+            
+            if(this.peso_bagagem<=0){
+                return "/erro.xhtml?faces-redirect=true?";
+            }
+            
+            boolean estado_criacao_bagagem = this.acessoLogica.getSingletonLogica().insertBagagem(peso_bagagem, idViagem, id_cliente);
             if (estado_criacao_bagagem == true) {
-                return "/index.xhtml?faces-redirect=true?";
+                return "/vistas/bagagens/infoTodasBagagens.xhtml?faces-redirect=true?";
             }
             return "/erro.xhtml?faces-redirect=true?";
         } catch (Exception e) {
             System.out.println("" + e.getMessage());
-            return null;
+            return "/erro.xhtml?faces-redirect=true?";
         }
     }
     
