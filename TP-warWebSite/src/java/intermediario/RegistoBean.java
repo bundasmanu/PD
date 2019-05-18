@@ -96,7 +96,7 @@ public class RegistoBean implements Serializable{
                     return "/index.xhtml?faces-redirect=true?"; //-->DEPOIS DEFINIR NOVA PAGINA APOS REGISTO EFETUADO COM SUCESSO
                 } else {
                     resetValues();
-                    return null;
+                    return "/erro.xhtml?faces-redirect=true?";
                 }
             }
             resetValues();
