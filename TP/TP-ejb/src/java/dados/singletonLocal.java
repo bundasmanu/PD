@@ -66,21 +66,21 @@ public class singletonLocal implements singletonLocalLocal {
 
     @EJB
     BilheteFacadeLocal bilhete;
-    
-    private static final Logger LOGGER = Logger.getLogger( singletonLocal.class.getName() );
-    
+
+    private static final Logger LOGGER = Logger.getLogger(singletonLocal.class.getName());
+
     @EJB
     LogsSendQueueBeanLocal logs;
 
     @EJB
     BagagensFacadeLocal bagagem;
-    
+
     @EJB
     leilaoLocal leilao;
-    
+
     @EJB
     LogsFacadeLocal logsTab;
-    
+
     @Override
     public String showOla() {
         return "Ola";
@@ -90,13 +90,13 @@ public class singletonLocal implements singletonLocalLocal {
     public boolean insertCompanhia(CompanhiaDTO d) {
 
         try {
-            
-            Companhia ret=this.companhia.findbyName(d.getNome());
-            
-            if(ret!=null){
+
+            Companhia ret = this.companhia.findbyName(d.getNome());
+
+            if (ret != null) {
                 return false;
             }
-            
+
             Companhia novaCompanhia = new Companhia(d.getNome());
             //novaCompanhia.setIdAgencia();
             this.companhia.create(novaCompanhia);
@@ -142,7 +142,7 @@ public class singletonLocal implements singletonLocalLocal {
 
             /*SENAO APAGA A COMPANHIA*/
             this.companhia.remove(c);
-            
+
         } catch (Exception e) {
             return false;
         }
@@ -343,16 +343,15 @@ public class singletonLocal implements singletonLocalLocal {
             if (p != null) {
                 return false;
             }
-            
+
             /*VERIFICA SE EXISTE UM DESTINO COM A MSM CIDADE, SE EXISTIR COPIA A SUA PONTUACAO*/
-            Destinos contratrio=this.destino.findbyName(part.getCidade());
-            
-            if(contratrio==null){
+            Destinos contratrio = this.destino.findbyName(part.getCidade());
+
+            if (contratrio == null) {
                 /*CASO AINDA NAO EXISTA, INSERE NA BD, COM A PONTUACAO A 0*/
                 p = new Partidas(part.getCidade(), 0);/*VARIAVEL P SE CHEGAR AQUI ESTA A NULL, POSSO UTILIZA-LA*/
-            }
-            else{
-                p=new Partidas(part.getCidade(), contratrio.getPontuacaoMedia());
+            } else {
+                p = new Partidas(part.getCidade(), contratrio.getPontuacaoMedia());
             }
 
             this.partidas.create(p);
@@ -441,7 +440,7 @@ public class singletonLocal implements singletonLocalLocal {
             }
 
             return partSeleccionada;
-            
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
@@ -457,12 +456,15 @@ public class singletonLocal implements singletonLocalLocal {
             return false;
         }
         try {
-            Aviao v = new Aviao(av.getNomeAviao(), av.getNum_lugares());
-            v.setIdCompanhia(encontrou);
-            encontrou.getAviaoCollection().add(v);
-            this.companhia.edit(encontrou);
-            this.aviao.create(v);
-            
+            if (av.getNum_lugares() > 0) {
+                Aviao v = new Aviao(av.getNomeAviao(), av.getNum_lugares());
+                v.setIdCompanhia(encontrou);
+                encontrou.getAviaoCollection().add(v);
+                this.companhia.edit(encontrou);
+                this.aviao.create(v);
+            } else {
+                return false;
+            }
         } catch (Exception e) {
             return false;
         }
@@ -476,12 +478,12 @@ public class singletonLocal implements singletonLocalLocal {
         if (encontrado == null) {
             return false;
         }
-        
+
         /*EDITAR A COMPANHIA*/
-        Companhia encontrada=encontrado.getIdCompanhia();
+        Companhia encontrada = encontrado.getIdCompanhia();
         encontrada.getAviaoCollection().remove(encontrado);
         this.companhia.edit(encontrada);
-        
+
         aviao.remove(encontrado);
 
         return true;
@@ -592,28 +594,27 @@ public class singletonLocal implements singletonLocalLocal {
 
         return true;
     }
-    
+
     @Override
-    public boolean atualizaContaCliente(String email, int valor){
-        
-        try{
-            
+    public boolean atualizaContaCliente(String email, int valor) {
+
+        try {
+
             /*VERIFICA SE O CLIENTE EXISTE*/
-            Cliente c=this.cliente.findbyEmail(email);
-            
-            if(c==null){
+            Cliente c = this.cliente.findbyEmail(email);
+
+            if (c == null) {
                 return false;
             }
-            
+
             c.setConta(valor);
             this.cliente.edit(c);
-            
-        }
-        catch(Exception e){
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        
+
         return true;
     }
 
@@ -640,41 +641,40 @@ public class singletonLocal implements singletonLocalLocal {
             return null;
         }
     }
-    
+
     @Override
-    public List<BilheteDTO> selectAllBilhetesFromACliente(int id_cliente){
-        try{
-            
-            List<Bilhete> lista= this.bilhete.findAll();
-            
-            if(lista.isEmpty()==true){
+    public List<BilheteDTO> selectAllBilhetesFromACliente(int id_cliente) {
+        try {
+
+            List<Bilhete> lista = this.bilhete.findAll();
+
+            if (lista.isEmpty() == true) {
                 return null;
             }
-            List<BilheteDTO> lista_bilhetes= new ArrayList<BilheteDTO>();
-            Cliente encontrado= this.cliente.find(id_cliente);
-            if(encontrado==null){
+            List<BilheteDTO> lista_bilhetes = new ArrayList<BilheteDTO>();
+            Cliente encontrado = this.cliente.find(id_cliente);
+            if (encontrado == null) {
                 return null;
             }
-            
-            if(encontrado.getBilheteCollection().isEmpty()==true){
+
+            if (encontrado.getBilheteCollection().isEmpty() == true) {
                 return null;
             }
-            
-            for(Bilhete x: encontrado.getBilheteCollection()){
-                BilheteDTO w=new BilheteDTO(x.getPrecoBilhete());
+
+            for (Bilhete x : encontrado.getBilheteCollection()) {
+                BilheteDTO w = new BilheteDTO(x.getPrecoBilhete());
                 w.setViagem(new ViagemDTO(x.getIdViagens().getIdViagens()));
                 w.setLugar(x.getLugar());
                 lista_bilhetes.add(w);
-                
+
             }
             return lista_bilhetes;
-            
-        }
-        catch(Exception e){
-            System.out.println(""+e.getMessage());
+
+        } catch (Exception e) {
+            System.out.println("" + e.getMessage());
             return null;
         }
-        
+
     }
 
     @Override
@@ -714,7 +714,7 @@ public class singletonLocal implements singletonLocalLocal {
             ClienteDTO cli = new ClienteDTO(retorno_cliente.getNomeCliente(), retorno_cliente.getEmailCliente());
             cli.setId(retorno_cliente.getIdCliente());
             cli.setConta(retorno_cliente.getConta());
-            
+
             /*TRANSFORMAR OS BILHETES, BAGAGENS E PONTUACOES E ADICIONAR AO CLIENTE DTO*/
             if (retorno_cliente.getBagagensCollection().isEmpty() == false) {
                 for (Bagagens x : retorno_cliente.getBagagensCollection()) {
@@ -778,16 +778,16 @@ public class singletonLocal implements singletonLocalLocal {
             } else {
                 comp.getPontuacaoCollection().add(pont_a_criar);
             }
-            
+
             /*EDICAO DO CAMPO PONTUCAO MEDIA NA TABELA COMPANHIA*/
-            int valores_pontuacoes=0;
-            for(Pontuacao x : comp.getPontuacaoCollection()){
-                valores_pontuacoes+=x.getValor();
+            int valores_pontuacoes = 0;
+            for (Pontuacao x : comp.getPontuacaoCollection()) {
+                valores_pontuacoes += x.getValor();
             }
-            
-            float pontuacao_media=valores_pontuacoes/comp.getPontuacaoCollection().size();
+
+            float pontuacao_media = valores_pontuacoes / comp.getPontuacaoCollection().size();
             comp.setPontuacaoMedia(pontuacao_media);
-            
+
             this.pontuacao.create(pont_a_criar);
 
         } catch (Exception e) {
@@ -809,14 +809,14 @@ public class singletonLocal implements singletonLocalLocal {
             if (pont == null) {
                 return false;
             }
-            
-            for(Companhia x : pont.getCompanhiaCollection()){
-                boolean ac=x.getPontuacaoCollection().remove(pont);
-                if(ac==true){
+
+            for (Companhia x : pont.getCompanhiaCollection()) {
+                boolean ac = x.getPontuacaoCollection().remove(pont);
+                if (ac == true) {
                     this.companhia.edit(x);
                 }
             }
-            
+
             this.pontuacao.remove(pont);/*ELIMINA DA TABELA PONTUACAO E DA PONT_COMP, PORQUE ESTAO RELACIONADAS*/
 
         } catch (Exception e) {
@@ -862,11 +862,11 @@ public class singletonLocal implements singletonLocalLocal {
             if (c == null || part == null) {
                 return false;
             }
-            
-            Pontuacao pont_insert=new Pontuacao(valor);
+
+            Pontuacao pont_insert = new Pontuacao(valor);
             pont_insert.setIdCliente(c);/*DEFINIR QUAL O CLIENTE*/
 
-            /*INSERCAO DA COLECCAO NAS PARTIDAS*/
+ /*INSERCAO DA COLECCAO NAS PARTIDAS*/
             Collection<Partidas> colect_part = new ArrayList<Partidas>();
             colect_part.add(part);
             pont_insert.setPartidasCollection(colect_part);
@@ -879,16 +879,16 @@ public class singletonLocal implements singletonLocalLocal {
             } else {
                 part.getPontuacaoCollection().add(pont_insert);
             }
-            
+
             /*EDICAO DO CAMPO PONTUCAO MEDIA NA TABELA PARTIDA*/
-            int valores_pontuacoes=0;
-            for(Pontuacao x : part.getPontuacaoCollection()){
-                valores_pontuacoes+=x.getValor();
+            int valores_pontuacoes = 0;
+            for (Pontuacao x : part.getPontuacaoCollection()) {
+                valores_pontuacoes += x.getValor();
             }
-            
-            float pontuacao_media=valores_pontuacoes/part.getPontuacaoCollection().size();
+
+            float pontuacao_media = valores_pontuacoes / part.getPontuacaoCollection().size();
             part.setPontMedia(pontuacao_media);
-            
+
             this.pontuacao.create(pont_insert);
             return true;
         } catch (Exception e) {
@@ -897,12 +897,12 @@ public class singletonLocal implements singletonLocalLocal {
         }
 
     }
-    
+
     @Override
-    public boolean inserePontDestino(int valor, String emailCli, String nomeDestino){
-         
-        try{
-            
+    public boolean inserePontDestino(int valor, String emailCli, String nomeDestino) {
+
+        try {
+
             /*VERIFICAR INICIALMENTE SE EXISTE O CLIENTE E A PARTIDA*/
             Cliente c = this.cliente.findbyEmail(emailCli);
             Destinos dest = this.destino.findbyName(nomeDestino);
@@ -910,11 +910,11 @@ public class singletonLocal implements singletonLocalLocal {
             if (c == null || dest == null) {
                 return false;
             }
-            
-            Pontuacao pont_insert=new Pontuacao(valor);
+
+            Pontuacao pont_insert = new Pontuacao(valor);
             pont_insert.setIdCliente(c);/*DEFINIR QUAL O CLIENTE*/
 
-            /*INSERCAO DA COLECCAO DE DESTINOS NA PONTUACAO*/
+ /*INSERCAO DA COLECCAO DE DESTINOS NA PONTUACAO*/
             Collection<Destinos> colect_dest = new ArrayList<Destinos>();
             colect_dest.add(dest);
             pont_insert.setDestinosCollection(colect_dest);
@@ -927,63 +927,61 @@ public class singletonLocal implements singletonLocalLocal {
             } else {
                 dest.getPontuacaoCollection().add(pont_insert);
             }
-            
+
             /*EDICAO DO CAMPO PONTUCAO MEDIA NA TABELA PARTIDA*/
-            int valores_pontuacoes=0;
-            for(Pontuacao x : dest.getPontuacaoCollection()){
-                valores_pontuacoes+=x.getValor();
+            int valores_pontuacoes = 0;
+            for (Pontuacao x : dest.getPontuacaoCollection()) {
+                valores_pontuacoes += x.getValor();
             }
-            
-            float pontuacao_media=valores_pontuacoes/dest.getPontuacaoCollection().size();
+
+            float pontuacao_media = valores_pontuacoes / dest.getPontuacaoCollection().size();
             dest.setPontuacaoMedia(pontuacao_media);
-            
+
             this.pontuacao.create(pont_insert);
             return true;
-            
-        }
-        catch(Exception e){
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        
+
     }
-    
+
     @Override
-    public boolean apagaPontPart(int idPont){
-        
-        try{
-          
+    public boolean apagaPontPart(int idPont) {
+
+        try {
+
             /*VERIFICAR SE EXISTE A PONTUACAO A ELIMINAR*/
             Pontuacao pont = this.pontuacao.find(idPont);
 
             if (pont == null) {
                 return false;
             }
-            
-            for(Partidas x : pont.getPartidasCollection()){
-                boolean ac=x.getPontuacaoCollection().remove(pont);
-                if(ac==true){
+
+            for (Partidas x : pont.getPartidasCollection()) {
+                boolean ac = x.getPontuacaoCollection().remove(pont);
+                if (ac == true) {
                     this.partidas.edit(x);
                 }
             }
-            
+
             this.pontuacao.remove(pont);/*ELIMINA DA TABELA PONTUACAO E DA PONT_COMP, PORQUE ESTAO RELACIONADAS*/
-            
-            
-        }
-        catch(Exception e){
+
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        
+
         return true;
     }
-    
+
     @Override
-    public boolean utualizaPontPart(int idPont,int novaPont){
-        
-        try{
-            
+    public boolean utualizaPontPart(int idPont, int novaPont) {
+
+        try {
+
             /*VERIFICA INICIALMENTE SE EXISTE A PONTUACAO*/
             Pontuacao pont = this.pontuacao.find(idPont);
 
@@ -993,13 +991,12 @@ public class singletonLocal implements singletonLocalLocal {
 
             pont.setValor(novaPont);
             this.pontuacao.edit(pont);
-            
-        }
-        catch(Exception e){
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        
+
         return true;
     }
 
@@ -1119,145 +1116,137 @@ public class singletonLocal implements singletonLocalLocal {
         }
 
     }
-    
-    
-   
 
     @Override
-    public boolean insereBilhete(int id_viagem, int id_cliente){
-        
-        try{
-            
-           /*VERIFICAR INICIALMENTE SE EXISTE O CLIENTE E A VIAGEM, SO SE EXISTIREM AMBAS É QUE É POSSIVEL A INSERCAO DO BILHETE*/
-           Viagens viag_ret=this.viagens.find(id_viagem);
-           Cliente cli_ret=this.cliente.find(id_cliente);
-            
-           if(viag_ret==null || cli_ret==null){
-               return false;
-           }
-           
-            /*VERIFICAR SE A LOTACAO AINDA NAO FOI ESGOTADA*/
-            if(viag_ret.getIdAviao().getNumLugares()==this.viagens.count()){/*SE JA ATINGIU A LOTACAO MAXIMA, NAO DEIXA INSERIR MAIS*/
-                    return false;
-            }
-            
-            /*O INSERE BILHETE SO FUNCIONA PARA VIAGENS QUE ESTAO EM PROCESSAMENTO*/
-            if(viag_ret.getEstadoViagem().equals("Em Processo")==false){
+    public boolean insereBilhete(int id_viagem, int id_cliente) {
+
+        try {
+
+            /*VERIFICAR INICIALMENTE SE EXISTE O CLIENTE E A VIAGEM, SO SE EXISTIREM AMBAS É QUE É POSSIVEL A INSERCAO DO BILHETE*/
+            Viagens viag_ret = this.viagens.find(id_viagem);
+            Cliente cli_ret = this.cliente.find(id_cliente);
+
+            if (viag_ret == null || cli_ret == null) {
                 return false;
             }
-            
-            /*VERIFICAR SE O CLIENTE POSSUI DINHEIRO, PARA EFETUAR A COMPRA DO BILHETE*/
-            if(cli_ret.getConta()<viag_ret.getPreco()){/*CASO NAO TENHA DINHEIRO, NAO PODE EFETUAR A COMPRA DO BILHETE*/
-               return false;
+
+            /*VERIFICAR SE A LOTACAO AINDA NAO FOI ESGOTADA*/
+            if (viag_ret.getIdAviao().getNumLugares() == this.viagens.count()) {/*SE JA ATINGIU A LOTACAO MAXIMA, NAO DEIXA INSERIR MAIS*/
+                return false;
             }
-           
-           /*CASO TENHA DINHEIRO FAZ A INSERCAO DO BILHETE*/
-           Bilhete bil_insert=new Bilhete(viag_ret.getPreco());
-           bil_insert.setLugar(this.bilhete.count()+1);
-           bil_insert.setIdCliente(cli_ret);
-           bil_insert.setIdViagens(viag_ret);
-                                        
-           /*CRIA BILHETE*/
-           this.bilhete.create(bil_insert);
-           
-           /*ADICAO DO BILHETE NA VIAGEM*/
+
+            /*O INSERE BILHETE SO FUNCIONA PARA VIAGENS QUE ESTAO EM PROCESSAMENTO*/
+            if (viag_ret.getEstadoViagem().equals("Em Processo") == false) {
+                return false;
+            }
+
+            /*VERIFICAR SE O CLIENTE POSSUI DINHEIRO, PARA EFETUAR A COMPRA DO BILHETE*/
+            if (cli_ret.getConta() < viag_ret.getPreco()) {/*CASO NAO TENHA DINHEIRO, NAO PODE EFETUAR A COMPRA DO BILHETE*/
+                return false;
+            }
+
+            /*CASO TENHA DINHEIRO FAZ A INSERCAO DO BILHETE*/
+            Bilhete bil_insert = new Bilhete(viag_ret.getPreco());
+            bil_insert.setLugar(this.bilhete.count() + 1);
+            bil_insert.setIdCliente(cli_ret);
+            bil_insert.setIdViagens(viag_ret);
+
+            /*CRIA BILHETE*/
+            this.bilhete.create(bil_insert);
+
+            /*ADICAO DO BILHETE NA VIAGEM*/
             viag_ret.getBilheteCollection().add(bil_insert);
-  
-           
-           /*DEPOIS DE EFETUAR A INSERCAO DOS BILHETES, VERIFICAR SE A VIAGEM, JA ATINGIU O LIMITE, E PASSA DPS A LEILAO*/
-           if(viag_ret.getBilheteCollection().size()>=(viag_ret.getIdAviao().getNumLugares()*0.9)){
-               viag_ret.setPreco(0);
-               viag_ret.setEstadoViagem("Em leilao");
-           }
-           
-           /*EDIT DA VIAGEM*/
-           this.viagens.edit(viag_ret);
-           
-           /*RETIRA DINHEIRO DA CONTA DO UTILIZADOR, E ATUALIZA O PARAMETRO NA BD*/
-           cli_ret.setConta(cli_ret.getConta()-viag_ret.getPreco());
-           cli_ret.getBilheteCollection().add(bil_insert);
-           this.cliente.edit(cli_ret);
-           
-        }
-        catch(Exception e){
+
+            /*DEPOIS DE EFETUAR A INSERCAO DOS BILHETES, VERIFICAR SE A VIAGEM, JA ATINGIU O LIMITE, E PASSA DPS A LEILAO*/
+            if (viag_ret.getBilheteCollection().size() >= (viag_ret.getIdAviao().getNumLugares() * 0.9)) {
+                viag_ret.setPreco(0);
+                viag_ret.setEstadoViagem("Em leilao");
+            }
+
+            /*EDIT DA VIAGEM*/
+            this.viagens.edit(viag_ret);
+
+            /*RETIRA DINHEIRO DA CONTA DO UTILIZADOR, E ATUALIZA O PARAMETRO NA BD*/
+            cli_ret.setConta(cli_ret.getConta() - viag_ret.getPreco());
+            cli_ret.getBilheteCollection().add(bil_insert);
+            this.cliente.edit(cli_ret);
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        
-        try{
-            Future<Boolean> ret=this.logs.sendToQueue("Compra Bilhete");
-        }
-        catch(Exception e){
+
+        try {
+            Future<Boolean> ret = this.logs.sendToQueue("Compra Bilhete");
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        
+
         return true;
     }
-    
+
     @Override
-    public boolean insereBilheteLeilao(int id_viagem, int id_cliente, int preco_leiloado){
-        
-        try{
-            
-           /*VERIFICAR INICIALMENTE SE EXISTE O CLIENTE E A VIAGEM, SO SE EXISTIREM AMBAS É QUE É POSSIVEL A INSERCAO DO BILHETE*/
-           Viagens viag_ret=this.viagens.find(id_viagem);
-           Cliente cli_ret=this.cliente.find(id_cliente);
-            
-           if(viag_ret==null || cli_ret==null){
-               return false;
-           }
-           
-            /*VERIFICAR SE A LOTACAO AINDA NAO FOI ESGOTADA*/
-            if(viag_ret.getIdAviao().getNumLugares()==viag_ret.getBilheteCollection().size()){/*SE JA ATINGIU A LOTACAO MAXIMA, NAO DEIXA INSERIR MAIS*/
-                    return false;
-            }
-            
-            /*O INSERE BILHETE SO FUNCIONA PARA VIAGENS QUE ESTAO EM LEILAO*/
-            if(viag_ret.getEstadoViagem().equals("Em leilao")==false){
+    public boolean insereBilheteLeilao(int id_viagem, int id_cliente, int preco_leiloado) {
+
+        try {
+
+            /*VERIFICAR INICIALMENTE SE EXISTE O CLIENTE E A VIAGEM, SO SE EXISTIREM AMBAS É QUE É POSSIVEL A INSERCAO DO BILHETE*/
+            Viagens viag_ret = this.viagens.find(id_viagem);
+            Cliente cli_ret = this.cliente.find(id_cliente);
+
+            if (viag_ret == null || cli_ret == null) {
                 return false;
             }
-            
+
+            /*VERIFICAR SE A LOTACAO AINDA NAO FOI ESGOTADA*/
+            if (viag_ret.getIdAviao().getNumLugares() == viag_ret.getBilheteCollection().size()) {/*SE JA ATINGIU A LOTACAO MAXIMA, NAO DEIXA INSERIR MAIS*/
+                return false;
+            }
+
+            /*O INSERE BILHETE SO FUNCIONA PARA VIAGENS QUE ESTAO EM LEILAO*/
+            if (viag_ret.getEstadoViagem().equals("Em leilao") == false) {
+                return false;
+            }
+
             /*CRIA BILHETE E PASSA AO LEILAO*/
-            BilheteDTO passar_leilao= new BilheteDTO(preco_leiloado);
-            ClienteDTO cliente_leilao=new ClienteDTO(cli_ret.getNomeCliente(), cli_ret.getEmailCliente());
+            BilheteDTO passar_leilao = new BilheteDTO(preco_leiloado);
+            ClienteDTO cliente_leilao = new ClienteDTO(cli_ret.getNomeCliente(), cli_ret.getEmailCliente());
             cliente_leilao.setId(cli_ret.getIdCliente());
             cliente_leilao.setConta(cli_ret.getConta());
-            ViagemDTO viagem_leilao=new ViagemDTO(viag_ret.getHoraPartida(), viag_ret.getHoraChegada());
+            ViagemDTO viagem_leilao = new ViagemDTO(viag_ret.getHoraPartida(), viag_ret.getHoraChegada());
             viagem_leilao.setId(viag_ret.getIdViagens());
             passar_leilao.setCli(cliente_leilao);
             passar_leilao.setViagem(viagem_leilao);
-            
+
             return this.leilao.adicionaBilheteLeilao(passar_leilao);
-            
-        }
-        catch(Exception e){
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        
+
     }
-    
+
     @Override
-    public String verificaEstadoViagem(int vi){
-        
-        try{
-            
+    public String verificaEstadoViagem(int vi) {
+
+        try {
+
             /*VERIFICA ESTADO DA VIAGEM*/
-            Viagens todas_viagens=this.viagens.find(vi);
-            
-            if(todas_viagens==null){
+            Viagens todas_viagens = this.viagens.find(vi);
+
+            if (todas_viagens == null) {
                 return "";
             }
-            
+
             return todas_viagens.getEstadoViagem();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return "";
         }
-        
+
     }
-    
+
     @Override
     public boolean apagaBilhete(int id) {
 
@@ -1269,17 +1258,17 @@ public class singletonLocal implements singletonLocalLocal {
             if (b == null) {
                 return false;
             }
-            
+
             /*Viagens x=b.getIdViagens();
             for(Bilhete w : x.getBilheteCollection()){
                 if(w==b){
                     x.getBilheteCollection().remove(w);
                 }
             }*/
-            Viagens editar_viagem=b.getIdViagens();
+            Viagens editar_viagem = b.getIdViagens();
             editar_viagem.getBilheteCollection().remove(b);
             this.viagens.edit(editar_viagem);
-            
+
             this.bilhete.remove(b);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -1360,36 +1349,36 @@ public class singletonLocal implements singletonLocalLocal {
                 Bagagens bagagem_a_criar = new Bagagens(peso_bagagem);
                 bagagem_a_criar.setIdViagens(viagem);
                 bagagem_a_criar.setIdCliente(cli);
-                
+
                 /*EDIT DO CLIENTE*/
                 cli.getBagagensCollection().add(bagagem_a_criar);
                 //this.cliente.edit(cli);
-                
+
                 this.bagagem.create(bagagem_a_criar);
-                
+
             }
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-      
+
     }
 
     @Override
     public boolean deleteBagagem(int id_bagagem) {
-        
+
         try {
             Bagagens encontrado = bagagem.find(id_bagagem);
             if (encontrado == null) {
                 return false;
             }
-            
+
             /*EDITAR O CLIENTE*/
-            Cliente es=encontrado.getIdCliente();
+            Cliente es = encontrado.getIdCliente();
             es.getBagagensCollection().remove(encontrado);
             this.cliente.edit(es);
-            
+
             this.bagagem.remove(encontrado);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -1427,8 +1416,8 @@ public class singletonLocal implements singletonLocalLocal {
 
             List<BagagemDTO> part = new ArrayList<BagagemDTO>();
             for (Bagagens x : bagagens) {
-                BagagemDTO bag=new BagagemDTO(x.getIdBagagens(), x.getPesoBagagens());
-                bag.setViagem(new ViagemDTO(x.getIdViagens().getHoraPartida(),x.getIdViagens().getHoraChegada()));
+                BagagemDTO bag = new BagagemDTO(x.getIdBagagens(), x.getPesoBagagens());
+                bag.setViagem(new ViagemDTO(x.getIdViagens().getHoraPartida(), x.getIdViagens().getHoraChegada()));
                 part.add(bag);
             }
 
@@ -1440,44 +1429,44 @@ public class singletonLocal implements singletonLocalLocal {
     }
 
     @Override
-    public List<BagagemDTO> SelecionaBagagens(String email_cliente){
-        try{
-        List<Bagagens> lista = this.bagagem.findAll();
-        if(lista.isEmpty()==true){
+    public List<BagagemDTO> SelecionaBagagens(String email_cliente) {
+        try {
+            List<Bagagens> lista = this.bagagem.findAll();
+            if (lista.isEmpty() == true) {
+                return null;
+            }
+            List<BagagemDTO> lista_bagagens = new ArrayList<BagagemDTO>();
+            Cliente encontrado = this.cliente.findbyEmail(email_cliente);
+
+            if (encontrado == null) {
+                return null;
+            }
+
+            if (encontrado.getBagagensCollection().isEmpty() == true) {
+                return null;
+            }
+
+            for (Bagagens x : encontrado.getBagagensCollection()) {
+                BagagemDTO w = new BagagemDTO(x.getIdBagagens(), x.getPesoBagagens());
+                //w.getViagem().setId(x.getIdViagens().getIdViagens());
+                ViagemDTO v = this.seleccionaViagem(x.getIdViagens().getIdViagens());
+                w.setViagem(v);
+
+                lista_bagagens.add(w);
+            }
+            return lista_bagagens;
+        } catch (Exception e) {
+            System.out.println("" + e.getMessage());
             return null;
         }
-        List<BagagemDTO> lista_bagagens= new ArrayList<BagagemDTO>();
-        Cliente encontrado= this.cliente.findbyEmail(email_cliente);
-        
-        if(encontrado==null){
-            return null;
-        }
-        
-        if(encontrado.getBagagensCollection().isEmpty()==true){
-            return null;
-        }
-        
-        for(Bagagens x: encontrado.getBagagensCollection()){
-            BagagemDTO w= new BagagemDTO(x.getIdBagagens(),x.getPesoBagagens());
-            //w.getViagem().setId(x.getIdViagens().getIdViagens());
-            ViagemDTO v= this.seleccionaViagem(x.getIdViagens().getIdViagens());
-            w.setViagem(v);
-            
-            lista_bagagens.add(w);
-        }
-        return lista_bagagens;
-        }catch(Exception e){
-            System.out.println(""+e.getMessage());
-            return null;
-        }
-        
+
     }
 
     @Override
     public boolean insereDestino(DestinoDTO part) {
-        
+
         try {
-            
+
             Destinos p = this.destino.findbyName(part.getCidade());
 
             if (p != null) {
@@ -1485,35 +1474,34 @@ public class singletonLocal implements singletonLocalLocal {
             }
 
             /*VERIFICAR SE JA EXISTE ALGUMA PARTIDA COM A MSM CIDADE, CASO HAJA A PONTUACAO_MEDIA SERA IGUAL*/
-            Partidas contrario=this.partidas.findbyName(part.getCidade());
-            
-            if(contrario==null){
+            Partidas contrario = this.partidas.findbyName(part.getCidade());
+
+            if (contrario == null) {
                 /*AINDA NAO EXISTE CIDADE, FICA COM O VALOR 0*/
                 p = new Destinos(part.getCidade(), 0);
+            } else {
+                p = new Destinos(part.getCidade(), contrario.getPontMedia());
             }
-            else{
-                p=new Destinos(part.getCidade(), contrario.getPontMedia());
-            }
-            
+
             this.destino.create(p);
-            
+
         } catch (Exception e) {
             return false;
         }
-        
+
         return true;
     }
 
     @Override
     public boolean deleteDestino(String cidade) {
-        
+
         try {
             Destinos dest = this.destino.findbyName(cidade);
 
             if (dest == null) {
                 return false;
             }
-            
+
             this.destino.remove(dest);
         } catch (Exception e) {
             return false;
@@ -1581,44 +1569,42 @@ public class singletonLocal implements singletonLocalLocal {
 
     @Override
     public boolean insertPontDestino(int valor_pont, String emailCli, String nomeDest) {
-      try{
-          //verifica se o cliente foi encontrado pelo email
-          Cliente cliente_encontrado= cliente.findbyEmail(emailCli);
-          Destinos dest= this.destino.findbyName(nomeDest);
-          if(cliente_encontrado==null || dest==null){
-              System.out.println("\nAlgum erro ocorreu");
-              return false;
-          }
-          
-          //inserir pontuacao
-          Pontuacao pont_a_inserir= new Pontuacao(valor_pont);
-          pont_a_inserir.setIdCliente(cliente_encontrado);
-          if(pont_a_inserir.getDestinosCollection()==null){
-              Collection<Destinos> novoDestino= new ArrayList<Destinos>();
-              novoDestino.add(dest);
-              pont_a_inserir.setDestinosCollection(novoDestino);
-          }
-          else{
-              pont_a_inserir.getDestinosCollection().add(dest);
-          }
-          
-          //adicao da pontuacao na colecao de pontuacoes do destino, para que esta seja inserida na tablea pont_dest
-          if(dest.getPontuacaoCollection()==null){
-              Collection<Pontuacao> novaColeccao= new ArrayList<Pontuacao>();
-              novaColeccao.add(pont_a_inserir);
-              dest.setPontuacaoCollection(novaColeccao);
-          }
-          else{
-              dest.getPontuacaoCollection().add(pont_a_inserir);
-          }
-          
-          this.pontuacao.create(pont_a_inserir);
-          
-      }catch(Exception e){
-          System.out.println(e.getMessage());
-          return false;      
-      }
-      return true;
+        try {
+            //verifica se o cliente foi encontrado pelo email
+            Cliente cliente_encontrado = cliente.findbyEmail(emailCli);
+            Destinos dest = this.destino.findbyName(nomeDest);
+            if (cliente_encontrado == null || dest == null) {
+                System.out.println("\nAlgum erro ocorreu");
+                return false;
+            }
+
+            //inserir pontuacao
+            Pontuacao pont_a_inserir = new Pontuacao(valor_pont);
+            pont_a_inserir.setIdCliente(cliente_encontrado);
+            if (pont_a_inserir.getDestinosCollection() == null) {
+                Collection<Destinos> novoDestino = new ArrayList<Destinos>();
+                novoDestino.add(dest);
+                pont_a_inserir.setDestinosCollection(novoDestino);
+            } else {
+                pont_a_inserir.getDestinosCollection().add(dest);
+            }
+
+            //adicao da pontuacao na colecao de pontuacoes do destino, para que esta seja inserida na tablea pont_dest
+            if (dest.getPontuacaoCollection() == null) {
+                Collection<Pontuacao> novaColeccao = new ArrayList<Pontuacao>();
+                novaColeccao.add(pont_a_inserir);
+                dest.setPontuacaoCollection(novaColeccao);
+            } else {
+                dest.getPontuacaoCollection().add(pont_a_inserir);
+            }
+
+            this.pontuacao.create(pont_a_inserir);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -1631,13 +1617,13 @@ public class singletonLocal implements singletonLocalLocal {
                 return false;
             }
 
-            for(Destinos x : pont.getDestinosCollection()){
-                boolean ac=x.getPontuacaoCollection().remove(pont);
-                if(ac==true){
+            for (Destinos x : pont.getDestinosCollection()) {
+                boolean ac = x.getPontuacaoCollection().remove(pont);
+                if (ac == true) {
                     this.destino.edit(x);
                 }
             }
-            
+
             //elimina a pontuacao com esse id
             this.pontuacao.remove(pont);
         } catch (Exception e) {
@@ -1666,40 +1652,44 @@ public class singletonLocal implements singletonLocalLocal {
     }
 
     @Override
-    public boolean insereViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada, int preco){
-        
-        try{
-            
+    public boolean insereViagem(int hora_part, int hora_cheg, int id_aviao, int id_partida, int id_chegada, int preco) {
+
+        try {
+
             /*VERIFICAR SE EXISTE O AVIAO, A PARTIDA E O DESTINO*/
-            Aviao av_ret=this.aviao.find(id_aviao);
-            Partidas part_ret=this.partidas.find(id_partida);
-            Destinos dest_ret=this.destino.find(id_chegada);
-            
-            if(av_ret==null || part_ret==null || dest_ret==null){
+            Aviao av_ret = this.aviao.find(id_aviao);
+            Partidas part_ret = this.partidas.find(id_partida);
+            Destinos dest_ret = this.destino.find(id_chegada);
+
+            if (av_ret == null || part_ret == null || dest_ret == null) {
                 return false;
             }
-            
-            Viagens viag=new Viagens();
-            viag.setPreco(preco);
-            viag.setHoraPartida(hora_part);
-            viag.setHoraChegada(hora_cheg);
-            viag.setIdAviao(av_ret);
-            viag.setIdPartida(part_ret);
-            viag.setIdDestino(dest_ret);
-            /*ATRIBUTO ESTADO DA VIAGEM*/
-            viag.setEstadoViagem("Em Processo");
-            
-            this.viagens.create(viag);
-        }
-        catch(Exception e){
+
+            Viagens viag = new Viagens();
+            if (preco >= 0) {
+                viag.setPreco(preco);
+                viag.setHoraPartida(hora_part);
+                viag.setHoraChegada(hora_cheg);
+                viag.setIdAviao(av_ret);
+                viag.setIdPartida(part_ret);
+                viag.setIdDestino(dest_ret);
+                /*ATRIBUTO ESTADO DA VIAGEM*/
+                viag.setEstadoViagem("Em Processo");
+
+                this.viagens.create(viag);
+            } else {
+                return false;
+            }
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        
+
         /*CHAMAR METODO ASSINCRONO NUM SINGLETON-->QUE VAI ENVIAR UMA MENSAGEM PARA UMA QUEUE, QUE DPS O MDB VAI LER ASSINCRONO ENVIAR PARA OS LOGS E ESCREVER NUM FICHEIRO*/
-        Future<Boolean> async=logs.sendToQueue("Criada Viagem");
+        Future<Boolean> async = logs.sendToQueue("Criada Viagem");
         try {
-            Boolean k= async.get();
+            Boolean k = async.get();
             //LOGGER.info(""+k);
         } catch (InterruptedException ex) {
             Logger.getLogger(singletonLocal.class.getName()).log(Level.SEVERE, null, ex);
@@ -1708,277 +1698,268 @@ public class singletonLocal implements singletonLocalLocal {
         }
         return true;
     }
-    
+
     @Override
-    public boolean apagaViagem(int idViagem){
-        
-        try{
-           
+    public boolean apagaViagem(int idViagem) {
+
+        try {
+
             /*VERIFICAR SE A VIAGEM EXISTE*/
-            Viagens v_ret=this.viagens.find(idViagem);
-            
-            if(v_ret==null){
+            Viagens v_ret = this.viagens.find(idViagem);
+
+            if (v_ret == null) {
                 return false;
             }
-            
+
             /*ATUALIZAR OS DESTINOS E PARTIDAS*/
-            Destinos dest=v_ret.getIdDestino();
+            Destinos dest = v_ret.getIdDestino();
             dest.getViagensCollection().remove(v_ret);
             this.destino.edit(dest);
-            
-            Partidas pt=v_ret.getIdPartida();
+
+            Partidas pt = v_ret.getIdPartida();
             pt.getViagensCollection().remove(v_ret);
             this.partidas.edit(pt);
-            
+
             this.viagens.remove(v_ret);
-            
-        }
-        catch(Exception e){
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        
+
         return true;
     }
-    
+
     @Override
-    public boolean atualizaViagembyAviao(int id_viagem, int id_novo_aviao){
-        
-        try{
-            
+    public boolean atualizaViagembyAviao(int id_viagem, int id_novo_aviao) {
+
+        try {
+
             /*VERIFICA SE EXISTE A VIAGEM A ATUALIZAR E O NOVO AVIAO*/
-            Viagens viag_existe=this.viagens.find(id_viagem);
-            Aviao av_existe=this.aviao.find(id_novo_aviao);
-            
-            if(viag_existe==null || av_existe==null){
+            Viagens viag_existe = this.viagens.find(id_viagem);
+            Aviao av_existe = this.aviao.find(id_novo_aviao);
+
+            if (viag_existe == null || av_existe == null) {
                 return false;
             }
- 
+
             viag_existe.setIdAviao(av_existe);
             this.viagens.edit(viag_existe);
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        
-        
+
         return true;
     }
-    
+
     @Override
-    public ViagemDTO seleccionaViagem(int idViagem){
-        
-        try{
-           
+    public ViagemDTO seleccionaViagem(int idViagem) {
+
+        try {
+
             /*VERIFICAR INICIALMENTE SE EXISTE A VIAGEM*/
-            Viagens viag_ret=this.viagens.find(idViagem);
-            
-            if(viag_ret==null){
+            Viagens viag_ret = this.viagens.find(idViagem);
+
+            if (viag_ret == null) {
                 return null;
             }
-            
-            LOGGER.info(""+viag_ret.getBilheteCollection().size());
-            
-            ViagemDTO vi=new ViagemDTO(viag_ret.getHoraPartida(), viag_ret.getHoraChegada());
+
+            LOGGER.info("" + viag_ret.getBilheteCollection().size());
+
+            ViagemDTO vi = new ViagemDTO(viag_ret.getHoraPartida(), viag_ret.getHoraChegada());
             vi.setId(viag_ret.getIdViagens());
             vi.setPreco(viag_ret.getPreco());
             vi.setEstado_viagem(viag_ret.getEstadoViagem());
             vi.setPart(new PartidaDTO(viag_ret.getIdPartida().getCidadePartida(), viag_ret.getIdPartida().getPontMedia()));
-            vi.setDest(new DestinoDTO(viag_ret.getIdDestino().getCidadeDestino(),viag_ret.getIdDestino().getPontuacaoMedia()));
-            List<BilheteDTO> novos_bilhete=new ArrayList<BilheteDTO>();
-            for(Bilhete x : viag_ret.getBilheteCollection()){
+            vi.setDest(new DestinoDTO(viag_ret.getIdDestino().getCidadeDestino(), viag_ret.getIdDestino().getPontuacaoMedia()));
+            List<BilheteDTO> novos_bilhete = new ArrayList<BilheteDTO>();
+            for (Bilhete x : viag_ret.getBilheteCollection()) {
                 LOGGER.info("Entrei");
-                BilheteDTO novo=this.seleccionaBilhete(x.getIdBilhete());
+                BilheteDTO novo = this.seleccionaBilhete(x.getIdBilhete());
                 vi.getBilhetes().add(novo);
             }
-            
+
             //vi.setBilhetes(novos_bilhete);
             return vi;
-            
-        }
-        catch(Exception e){
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
 
     }
-    
+
     @Override
-    public ViagemDTO seleccionaViagemInversa(int idViagem){
-        
-        try{
-            
+    public ViagemDTO seleccionaViagemInversa(int idViagem) {
+
+        try {
+
             /*VERIFICAR SE A VIAGEM EXISTE*/
-            Viagens retorno_viagem=this.viagens.find(idViagem);
-            
-            if(retorno_viagem==null){
+            Viagens retorno_viagem = this.viagens.find(idViagem);
+
+            if (retorno_viagem == null) {
                 return null;
             }
-            
+
             /*CIDADES DE PARTIDA E CHEGADA DA VIAGEM, A VERIFICAR SE EXISTE ALGUMA INVERSA*/
-            String cidade_partida=retorno_viagem.getIdPartida().getCidadePartida();
-            String cidade_chegada=retorno_viagem.getIdDestino().getCidadeDestino();
-            
+            String cidade_partida = retorno_viagem.getIdPartida().getCidadePartida();
+            String cidade_chegada = retorno_viagem.getIdDestino().getCidadeDestino();
+
             /*PASSAR AGORA PARA INVERSA, VERIFICANDO SE EXISTE*/
-            Partidas part_inverse=partidas.findbyName(cidade_chegada);
-            Destinos dest_inverse=destino.findbyName(cidade_partida);
-            if(part_inverse==null || dest_inverse==null){
-                return null;
-            }         
-            
-            Viagens inversa=this.viagens.findInverse(part_inverse.getIdPartida(),dest_inverse.getIdDestino());
-            
-            if(inversa==null){
+            Partidas part_inverse = partidas.findbyName(cidade_chegada);
+            Destinos dest_inverse = destino.findbyName(cidade_partida);
+            if (part_inverse == null || dest_inverse == null) {
                 return null;
             }
-            
-            ViagemDTO transforma_inversa=new ViagemDTO(inversa.getHoraPartida(), inversa.getHoraChegada());
+
+            Viagens inversa = this.viagens.findInverse(part_inverse.getIdPartida(), dest_inverse.getIdDestino());
+
+            if (inversa == null) {
+                return null;
+            }
+
+            ViagemDTO transforma_inversa = new ViagemDTO(inversa.getHoraPartida(), inversa.getHoraChegada());
             transforma_inversa.setId(inversa.getIdViagens());
             transforma_inversa.setPart(new PartidaDTO(inversa.getIdPartida().getCidadePartida(), inversa.getIdPartida().getPontMedia()));
             transforma_inversa.setDest(new DestinoDTO(inversa.getIdDestino().getCidadeDestino(), inversa.getIdDestino().getPontuacaoMedia()));
-            
+
             return transforma_inversa;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
-        
+
     }
-    
+
     @Override
-    public List<ViagemDTO> seleccionaViagensPorPreco(int preco){
-        
-        try{
+    public List<ViagemDTO> seleccionaViagensPorPreco(int preco) {
+
+        try {
             /*VERIFICAR QUAIS AS VIAGENS QUE APRESENTAM PRECO INFERIOR AO PASSADO POR PARAMETRO*/
-            List<Viagens> allViagens=this.viagens.findAll();
-        
-            if(allViagens.isEmpty()==true){
+            List<Viagens> allViagens = this.viagens.findAll();
+
+            if (allViagens.isEmpty() == true) {
                 return null;
             }
-        
-            List<ViagemDTO> viagens=new ArrayList<ViagemDTO>();
-            for(Viagens x : allViagens){
-                if(x.getPreco()<preco){
-                    ViagemDTO inserir_viagem=new ViagemDTO(x.getHoraPartida(),x.getHoraChegada());
+
+            List<ViagemDTO> viagens = new ArrayList<ViagemDTO>();
+            for (Viagens x : allViagens) {
+                if (x.getPreco() < preco) {
+                    ViagemDTO inserir_viagem = new ViagemDTO(x.getHoraPartida(), x.getHoraChegada());
                     inserir_viagem.setId(x.getIdViagens());
                     inserir_viagem.setPart(new PartidaDTO(x.getIdPartida().getCidadePartida(), x.getIdPartida().getPontMedia()));
-                    inserir_viagem.setDest(new DestinoDTO(x.getIdDestino().getCidadeDestino(),x.getIdDestino().getPontuacaoMedia()));
+                    inserir_viagem.setDest(new DestinoDTO(x.getIdDestino().getCidadeDestino(), x.getIdDestino().getPontuacaoMedia()));
                     viagens.add(inserir_viagem);
                 }
             }
-            
+
             return viagens;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
-        
+
     }
-    
+
     @Override
-    public boolean lugaresVagosViagem(int idViagem, int numeroLugaresPretendidos){
-        
-        try{
-            
+    public boolean lugaresVagosViagem(int idViagem, int numeroLugaresPretendidos) {
+
+        try {
+
             /*CHAMADA DA QUERY QUE ESTA NA ENTIDADE VIAGENS*/
             return this.viagens.viagemLugaresVagos(idViagem, numeroLugaresPretendidos);
-            
-        }
-        catch(Exception e){
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
-        
+
     }
-    
+
     @Override
-    public List<ViagemDTO> getViagemBarataDestino(){
-        
-        try{
-            
-            List<ViagemDTO> retorno_viagens=this.viagens.viagensMaisBaratasDestinos();
-            if(retorno_viagens!=null){
-                
-                List<ViagemDTO> viagens_finais=new ArrayList<ViagemDTO>();
-                for(ViagemDTO x : retorno_viagens){
-                    ViagemDTO viag=this.seleccionaViagem(x.getId());
-                    if(viag!=null){
+    public List<ViagemDTO> getViagemBarataDestino() {
+
+        try {
+
+            List<ViagemDTO> retorno_viagens = this.viagens.viagensMaisBaratasDestinos();
+            if (retorno_viagens != null) {
+
+                List<ViagemDTO> viagens_finais = new ArrayList<ViagemDTO>();
+                for (ViagemDTO x : retorno_viagens) {
+                    ViagemDTO viag = this.seleccionaViagem(x.getId());
+                    if (viag != null) {
                         viag.setNumeroVagas(x.getNumeroVagas());
                         viagens_finais.add(viag);
                     }
                 }
-                
+
                 return retorno_viagens;
             }
-            
-        }
-        catch(Exception e){
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
-        
+
         return null;
     }
-    
+
     @Override
-    public List<ViagemDTO> seleccionaViagensPorDestino(String dest){
-        
-        try{
-            
+    public List<ViagemDTO> seleccionaViagensPorDestino(String dest) {
+
+        try {
+
             /*VERIFICAR INICIALMENTE SE O DESTINO EXISTE*/
-            Destinos dest_ret=this.destino.findbyName(dest);
-            
-            if(dest_ret==null){
+            Destinos dest_ret = this.destino.findbyName(dest);
+
+            if (dest_ret == null) {
                 return null;
             }
-            
+
             /*BUSCAR VIAGENS TODAS E VERIFICAR SE O DESTINO É O MESMO DO PASSADO POR PARAMETRO*/
-            List<Viagens> retorno_viagens=this.viagens.findAll();
-            
-            if(retorno_viagens.isEmpty()==true){
+            List<Viagens> retorno_viagens = this.viagens.findAll();
+
+            if (retorno_viagens.isEmpty() == true) {
                 return null;
             }
-            
-            List<ViagemDTO> viagens_destino= new ArrayList<ViagemDTO>();
-            for(Viagens x : retorno_viagens){
-                if(x.getIdDestino().getCidadeDestino().equals(dest)==true){
+
+            List<ViagemDTO> viagens_destino = new ArrayList<ViagemDTO>();
+            for (Viagens x : retorno_viagens) {
+                if (x.getIdDestino().getCidadeDestino().equals(dest) == true) {
                     viagens_destino.add(this.seleccionaViagem(x.getIdViagens()));
                 }
             }
-            
+
             return viagens_destino;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
     }
-    
+
     @Override
-    public List<PontuacaoDTO> selectAllPontuacoesDestino(String emailCli){
-        try{
+    public List<PontuacaoDTO> selectAllPontuacoesDestino(String emailCli) {
+        try {
             //encontra o cliente
-            Cliente cli= this.cliente.findbyEmail(emailCli);
-            if(cli==null){
+            Cliente cli = this.cliente.findbyEmail(emailCli);
+            if (cli == null) {
                 System.out.println("O cliente nao foi encontrado");
                 return null;
             }
-            
-            if(cli.getPontuacaoCollection().isEmpty()==true){
+
+            if (cli.getPontuacaoCollection().isEmpty() == true) {
                 return null;
             }
-            List<PontuacaoDTO> ponts= new ArrayList<PontuacaoDTO>();
-            
-            for(Pontuacao x: cli.getPontuacaoCollection()){
+            List<PontuacaoDTO> ponts = new ArrayList<PontuacaoDTO>();
+
+            for (Pontuacao x : cli.getPontuacaoCollection()) {
                 PontuacaoDTO p = new PontuacaoDTO(x.getValor());
-                if(x.getDestinosCollection().isEmpty()==false){
-                    List<DestinoDTO> dest= new ArrayList<DestinoDTO>();
-                    for(Destinos d: x.getDestinosCollection()){
-                        DestinoDTO codto= this.selectDestino(d.getCidadeDestino());
+                if (x.getDestinosCollection().isEmpty() == false) {
+                    List<DestinoDTO> dest = new ArrayList<DestinoDTO>();
+                    for (Destinos d : x.getDestinosCollection()) {
+                        DestinoDTO codto = this.selectDestino(d.getCidadeDestino());
                         dest.add(codto);
                     }
                     p.setDestinos(dest);
@@ -1986,14 +1967,14 @@ public class singletonLocal implements singletonLocalLocal {
                 ponts.add(p);
             }
             return ponts;
-        }catch(Exception e){
-            System.out.println(""+e.getMessage());
+        } catch (Exception e) {
+            System.out.println("" + e.getMessage());
             return null;
-        }    
-        
+        }
+
     }
-    
-        @Override
+
+    @Override
     public List<ViagemDTO> seleccionaAllViagens() {
 
         try {
@@ -2019,176 +2000,168 @@ public class singletonLocal implements singletonLocalLocal {
 
     @Override
     public List<CompanhiaDTO> selectAllCompaniesFromClient(int id_cliente) {
-        
-        try{
-            List<Companhia> lista_companhias= this.cliente.findAllCompaniesFromClient(id_cliente);
-            
-            if(lista_companhias==null){
+
+        try {
+            List<Companhia> lista_companhias = this.cliente.findAllCompaniesFromClient(id_cliente);
+
+            if (lista_companhias == null) {
                 return null;
             }
-            
-            List<CompanhiaDTO> lista= new ArrayList<CompanhiaDTO>();
-        
-            for(Companhia x: lista_companhias){
-                CompanhiaDTO comp=this.selectCompanhia(x.getNomeCompanhia());
-                if(comp!=null){
+
+            List<CompanhiaDTO> lista = new ArrayList<CompanhiaDTO>();
+
+            for (Companhia x : lista_companhias) {
+                CompanhiaDTO comp = this.selectCompanhia(x.getNomeCompanhia());
+                if (comp != null) {
                     lista.add(comp);
                 }
             }
-        
+
             return lista;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
-        
+
     }
 
     @Override
     public List<DestinoDTO> selectAllDestiniesFromClient(int id_cliente) {
-        try{
-            List<Destinos> lista_destinos= this.cliente.findAllDestiniesFromCliente(id_cliente);
-            
-            if(lista_destinos==null){
+        try {
+            List<Destinos> lista_destinos = this.cliente.findAllDestiniesFromCliente(id_cliente);
+
+            if (lista_destinos == null) {
                 LOGGER.info("retornou null sem dados");
                 return null;
             }
-            
+
             LOGGER.info("para aqui");
-            List<DestinoDTO> lista= new ArrayList<DestinoDTO>();
-        
-            for(Destinos d: lista_destinos){
-                DestinoDTO destino=this.selectDestino(d.getCidadeDestino());
-                    if(destino!=null){
-                        lista.add(destino);
+            List<DestinoDTO> lista = new ArrayList<DestinoDTO>();
+
+            for (Destinos d : lista_destinos) {
+                DestinoDTO destino = this.selectDestino(d.getCidadeDestino());
+                if (destino != null) {
+                    lista.add(destino);
                 }
             }
-            
-            return lista; 
-        }
-        catch(Exception e){
+
+            return lista;
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
     }
-    
+
     @Override
-    public List<ViagemDTO> queryViagemParametrizalWebS(String dest, int minP, int maxP, int maxVagas){
-        
-        try{
-            
+    public List<ViagemDTO> queryViagemParametrizalWebS(String dest, int minP, int maxP, int maxVagas) {
+
+        try {
+
             /*OBTER O ID DO DESTINO*/
-            Destinos destt=null;
-            if(dest.equals("")==false ){
-                destt=this.destino.findbyName(dest);
+            Destinos destt = null;
+            if (dest.equals("") == false) {
+                destt = this.destino.findbyName(dest);
             }
-            
-            List<Viagens> ret=null;
-            if(destt!=null){/*SE EXISTE O DESTINO*/
-                ret=this.viagens.findViagensParametrizaveis(destt.getIdDestino(), minP, maxP, maxVagas);
-            }
-            else if(dest.equals("")==true && destt==null){/*SENAO PASSEI O DESTINO*/
-                ret=this.viagens.findViagensParametrizaveis(0, minP, maxP, maxVagas);
-            }
-            else{/*SE PASSEI O DESTINO E ESTE NAO EXISTE*/
+
+            List<Viagens> ret = null;
+            if (destt != null) {/*SE EXISTE O DESTINO*/
+                ret = this.viagens.findViagensParametrizaveis(destt.getIdDestino(), minP, maxP, maxVagas);
+            } else if (dest.equals("") == true && destt == null) {/*SENAO PASSEI O DESTINO*/
+                ret = this.viagens.findViagensParametrizaveis(0, minP, maxP, maxVagas);
+            } else {/*SE PASSEI O DESTINO E ESTE NAO EXISTE*/
                 return null;
             }
-            
-            if(ret==null){
+
+            if (ret == null) {
                 return null;
             }
-            
-            List<ViagemDTO> retorno_viagens=new ArrayList<ViagemDTO>();
-            for(Viagens x : ret){
-                 retorno_viagens.add(this.seleccionaViagem(x.getIdViagens()));
-            }
-            
-            return retorno_viagens;
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-            return null;
-        }
-        
-    }
-    
-    @Override
-    public List<LogDTO> obtemLogs(){
-        
-        try{
-            
-            List<Logs> logsRet=logsTab.findAll();
-            
-            if(logsRet==null){
-                return null;
-            }
-            
-            List<LogDTO> retorno_logs=new ArrayList<LogDTO>();
-            for(Logs x : logsRet){
-                retorno_logs.add(new LogDTO(x.getInfoLog(),x.getDataLog()));
-            }
-            
-            return retorno_logs;
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-            return null;
-        }
-        
-    }
-    
-    @Override
-    public List<ViagemDTO> getViagensEmLeilao(){
-        
-        try{
-            
-            /*OBTENCAO DAS VIAGENS QUE ESTAO EM LEILAO*/
-            List<Viagens> retorno_viagens_em_leilao=this.viagens.getViagemLeilao();
-            
-            if(retorno_viagens_em_leilao==null){
-                return null;
-            }
-            
-            List<ViagemDTO> retorno_viagens=new ArrayList<ViagemDTO>();
-            for(Viagens x : retorno_viagens_em_leilao){
+
+            List<ViagemDTO> retorno_viagens = new ArrayList<ViagemDTO>();
+            for (Viagens x : ret) {
                 retorno_viagens.add(this.seleccionaViagem(x.getIdViagens()));
             }
-            
+
             return retorno_viagens;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
-        
+
     }
-    
+
     @Override
-    public List<ViagemDTO> getViagensNormais(){
-        
-        try{
-            
-            List<Viagens> retorno_viagens=this.viagens.getViagensNormais();
-            
-            if(retorno_viagens==null){
+    public List<LogDTO> obtemLogs() {
+
+        try {
+
+            List<Logs> logsRet = logsTab.findAll();
+
+            if (logsRet == null) {
                 return null;
             }
-            
-            List<ViagemDTO> viagens_retorno= new ArrayList<ViagemDTO>();
-            for(Viagens x : retorno_viagens){
-                ViagemDTO viagem_ret=this.seleccionaViagem(x.getIdViagens());
-                viagem_ret.setNumeroVagas(x.getIdAviao().getNumLugares()-x.getBilheteCollection().size());
-                viagens_retorno.add(viagem_ret);
+
+            List<LogDTO> retorno_logs = new ArrayList<LogDTO>();
+            for (Logs x : logsRet) {
+                retorno_logs.add(new LogDTO(x.getInfoLog(), x.getDataLog()));
             }
-            
-            return viagens_retorno;
-        }
-        catch(Exception e){
+
+            return retorno_logs;
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
-        
+
     }
-    
+
+    @Override
+    public List<ViagemDTO> getViagensEmLeilao() {
+
+        try {
+
+            /*OBTENCAO DAS VIAGENS QUE ESTAO EM LEILAO*/
+            List<Viagens> retorno_viagens_em_leilao = this.viagens.getViagemLeilao();
+
+            if (retorno_viagens_em_leilao == null) {
+                return null;
+            }
+
+            List<ViagemDTO> retorno_viagens = new ArrayList<ViagemDTO>();
+            for (Viagens x : retorno_viagens_em_leilao) {
+                retorno_viagens.add(this.seleccionaViagem(x.getIdViagens()));
+            }
+
+            return retorno_viagens;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+    }
+
+    @Override
+    public List<ViagemDTO> getViagensNormais() {
+
+        try {
+
+            List<Viagens> retorno_viagens = this.viagens.getViagensNormais();
+
+            if (retorno_viagens == null) {
+                return null;
+            }
+
+            List<ViagemDTO> viagens_retorno = new ArrayList<ViagemDTO>();
+            for (Viagens x : retorno_viagens) {
+                ViagemDTO viagem_ret = this.seleccionaViagem(x.getIdViagens());
+                viagem_ret.setNumeroVagas(x.getIdAviao().getNumLugares() - x.getBilheteCollection().size());
+                viagens_retorno.add(viagem_ret);
+            }
+
+            return viagens_retorno;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+    }
+
 }
