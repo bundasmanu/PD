@@ -134,6 +134,7 @@ public class singletonLocal implements singletonLocalLocal {
     @Override
     public boolean apagaCompanhia(CompanhiaDTO d) {
 
+        
         /*PROCURA INICIALMENTE A COMPANHIA*/
         try {
             Companhia c = this.companhia.findbyName(d.getNome());
