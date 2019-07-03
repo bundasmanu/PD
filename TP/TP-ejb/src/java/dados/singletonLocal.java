@@ -128,6 +128,8 @@ public class singletonLocal implements singletonLocalLocal {
 
         return true;
     }
+    
+    
 
     @Override
     public boolean apagaCompanhia(CompanhiaDTO d) {
@@ -677,6 +679,8 @@ public class singletonLocal implements singletonLocalLocal {
 
     }
 
+   
+    
     @Override
     public boolean validaLogin(String email, String pass) {
 
@@ -684,9 +688,9 @@ public class singletonLocal implements singletonLocalLocal {
 
             /*VERIFICA SE EXISTE ALGUM USER COM O EMAIL INDICADO, SE EXISTIR É SO UM, SO PODE EXISTIR UM UTILIZADOR LOGADO COM O MSM EMAIL*/
             Cliente retorno_cliente = this.cliente.findbyEmail(email);
-
+            Gestao_Password gp= new Gestao_Password();
             /*SENAO EXISTE CLIENTE*/
-            if (retorno_cliente == null || (retorno_cliente != null && retorno_cliente.getPassCliente().equals(pass) == false)) {
+            if (retorno_cliente == null || (retorno_cliente != null &&  gp.comparePassword(pass,retorno_cliente.getPassCliente()) == false)) {
                 return false;
             }
 
