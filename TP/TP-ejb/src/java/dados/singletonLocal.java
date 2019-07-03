@@ -129,7 +129,9 @@ public class singletonLocal implements singletonLocalLocal {
         return true;
     }
     
-    
+    public void ola(){
+        int ola;
+    }
 
     @Override
     public boolean apagaCompanhia(CompanhiaDTO d) {
